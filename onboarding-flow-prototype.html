@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Editing — Onboarding Flow</title>
+<style>
+:root {
+  --bg: #f1f1f1;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-sub: #616161;
+  --border: #e3e3e3;
+  --dark: #303030;
+  --font: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font); font-size:13px; color:var(--text); background:var(--bg); overflow:hidden; height:100vh; }
+
+/* ===== TOPBAR ===== */
+.topbar {
+  position:fixed; top:0; left:0; right:0; height:52px; z-index:100;
+  background:var(--dark); display:flex; align-items:center; padding:0 12px 0 16px;
+}
+.topbar-logo { display:flex; align-items:center; gap:8px; width:220px; }
+.topbar-logo svg { width:28px; height:28px; }
+.topbar-logo span { color:#fff; font-weight:600; font-size:16px; letter-spacing:-.3px; }
+.topbar-search {
+  flex:1; max-width:540px; margin:0 auto;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16);
+  border-radius:8px; padding:7px 14px; color:rgba(255,255,255,.5);
+  font-size:13px; display:flex; align-items:center; gap:8px;
+}
+.topbar-search svg { flex-shrink:0; }
+.topbar-search kbd { margin-left:auto; background:rgba(255,255,255,.12); padding:2px 6px; border-radius:4px; font-size:11px; font-family:var(--font); }
+.topbar-right { display:flex; align-items:center; gap:12px; margin-left:auto; }
+.topbar-right .icon-btn { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.7); }
+.topbar-right .store { color:rgba(255,255,255,.9); font-size:13px; font-weight:500; }
+.topbar-right .avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#7cb342,#558b2f); }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position:fixed; left:0; top:52px; bottom:0; width:220px;
+  background:var(--bg); border-right:1px solid var(--border);
+  overflow-y:auto; padding:8px 8px 24px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:8px; padding:6px 8px;
+  border-radius:8px; font-size:13px; color:var(--text); cursor:default;
+  text-decoration:none; line-height:1.3;
+}
+.nav-item:hover { background:rgba(0,0,0,.04); }
+.nav-item.active { background:rgba(0,0,0,.06); font-weight:600; }
+.nav-item svg { width:20px; height:20px; color:var(--text-sub); flex-shrink:0; }
+.nav-item .count { margin-left:auto; background:rgba(0,0,0,.07); padding:0 6px; border-radius:10px; font-size:11px; color:var(--text-sub); font-weight:500; line-height:20px; }
+.nav-section-label { font-size:12px; font-weight:600; color:var(--text-sub); padding:14px 8px 6px; }
+.nav-sub { padding-left:28px; }
+.nav-sub .nav-item { font-size:12.5px; padding:4px 8px; color:var(--text-sub); }
+.nav-sub .nav-item.active { color:var(--text); background:rgba(0,0,0,.06); }
+.nav-item .lock-icon { margin-left:auto; color:var(--text-sub); opacity:.5; display:flex; }
+.nav-divider { height:1px; background:var(--border); margin:6px 8px; }
+
+/* ===== MAIN ===== */
+.main {
+  position:fixed; left:220px; top:52px; right:0; bottom:0;
+  overflow-y:auto; background:var(--bg);
+}
+.main-inner { padding:16px 20px 40px; max-width:1000px; margin:0 auto; }
+
+/* ===== SCREEN SYSTEM ===== */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ===== PAGE 1: LANDING ===== */
+.hero {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  display:flex; overflow:hidden; margin-bottom:16px; min-height:280px;
+}
+.hero-left { flex:1; padding:40px 32px; display:flex; flex-direction:column; justify-content:center; }
+.hero-left h1 { font-size:24px; font-weight:600; line-height:1.3; margin-bottom:16px; max-width:440px; }
+.hero-left p { font-size:14px; color:var(--text-sub); line-height:1.6; margin-bottom:24px; max-width:440px; }
+.hero-right { width:380px; background:#ededed; position:relative; }
+.hero-dots { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:6px; }
+.hero-dots span { width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,.2); }
+.hero-dots span:first-child { background:rgba(0,0,0,.6); }
+
+.btn-dark {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--dark); color:#fff; border:none; padding:9px 16px;
+  border-radius:8px; font-size:13px; font-weight:600; cursor:pointer;
+  font-family:var(--font); transition:background .15s;
+}
+.btn-dark:hover { background:#1a1a1a; }
+.btn-dark svg { width:16px; height:16px; }
+.btn-outline {
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--surface); color:var(--text); border:1px solid var(--border);
+  padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500;
+  cursor:pointer; font-family:var(--font); transition:background .15s;
+}
+.btn-outline:hover { background:#f5f5f5; }
+
+.features { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+.feature-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.feature-card-img { height:180px; background:#ededed; }
+.feature-card-body { padding:16px; }
+.feature-card-body h3 { font-size:14px; font-weight:600; margin-bottom:8px; }
+.feature-card-body p { font-size:13px; color:var(--text-sub); line-height:1.5; }
+
+.about { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; }
+.about h2 { font-size:16px; font-weight:600; margin-bottom:6px; }
+.about p { font-size:13px; color:var(--text-sub); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.45);
+  display:none; justify-content:center; align-items:center;
+}
+.modal-overlay.show { display:flex; }
+.modal-box {
+  background:var(--surface); border-radius:14px; width:480px; max-width:90vw;
+  box-shadow:0 12px 40px rgba(0,0,0,.2); overflow:hidden;
+}
+.modal-header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 20px; border-bottom:1px solid var(--border);
+}
+.modal-header h2 { font-size:16px; font-weight:600; }
+.modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-sub); padding:4px; line-height:1; }
+.modal-body { padding:20px; }
+.modal-footer {
+  display:flex; justify-content:flex-end; gap:8px;
+  padding:16px 20px; border-top:1px solid var(--border);
+}
+
+/* Paywall modal removed */
+
+/* ===== PAGE 2: CONFIG — Polaris s-* component polyfills ===== */
+.config-app-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin:-16px -20px 20px; padding:12px 20px;
+  background:var(--surface); border-bottom:1px solid var(--border);
+}
+.config-app-header h1 { font-size:14px; font-weight:600; }
+.config-app-header .dots-menu { font-size:20px; color:var(--text-sub); cursor:default; letter-spacing:2px; }
+
+.config-welcome h2 { font-size:22px; font-weight:600; margin-bottom:6px; }
+.config-welcome .subtitle { font-size:14px; font-weight:600; margin-bottom:4px; }
+.config-welcome .desc { font-size:13px; color:var(--text-sub); margin-bottom:28px; }
+
+#page-config { position:relative; }
+#page-config .main-inner { max-width:none; padding:0; display:flex; min-height:100%; }
+.config-left-wrap { width:520px; flex-shrink:0; padding:32px 32px 40px 28px; }
+.config-layout { }
+.config-left { }
+.config-right { flex:1; min-width:0; background:#e5e5e5; padding:32px 28px 40px; }
+
+/* s-section polyfill */
+s-section {
+  display:block; background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:20px; margin-bottom:20px;
+}
+/* s-stack polyfill */
+s-stack { display:flex; flex-direction:column; gap:16px; }
+s-stack[gap="small"] { gap:8px; }
+s-stack[gap="extra-small"] { gap:4px; }
+s-stack[direction="inline"] { flex-direction:row; align-items:center; }
+/* s-text polyfill */
+s-text { display:inline; font-size:13px; }
+s-text[variant="headingMd"] { display:block; font-size:14px; font-weight:600; }
+s-text[variant="bodySm"] { display:block; font-size:12px; color:var(--text-sub); }
+s-text[variant="bodyMd"] { display:block; font-size:13px; }
+s-text[tone="subdued"] { color:var(--text-sub); }
+/* s-heading polyfill */
+s-heading { display:block; font-size:14px; font-weight:600; }
+/* s-button polyfill */
+s-button {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:7px 16px; border-radius:8px; font-size:13px; font-weight:600;
+  font-family:var(--font); cursor:pointer; border:1px solid var(--border);
+  background:var(--surface); color:var(--text); text-decoration:none;
+  line-height:1.4; transition:background .15s;
+}
+s-button:hover { background:#f5f5f5; }
+s-button[variant="primary"] {
+  background:var(--dark); color:#fff; border-color:var(--dark);
+}
+s-button[variant="primary"]:hover { background:#1a1a1a; }
+s-button[variant="tertiary"] {
+  background:none; border:none; color:var(--text); padding:7px 12px;
+}
+s-button[variant="tertiary"]:hover { background:rgba(0,0,0,.05); }
+s-button[tone="critical"] { color:#d72c0d; border-color:#d72c0d; }
+s-button[tone="critical"][variant="primary"] { background:#d72c0d; color:#fff; }
+s-button[disabled] { opacity:.5; cursor:not-allowed; }
+/* s-badge polyfill */
+s-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:2px 8px; border-radius:10px; font-size:11px; font-weight:500;
+  background:#e4e5e7; color:var(--text);
+}
+s-badge[tone="info"] { background:#e0f0ff; color:#1f5199; }
+s-badge[tone="success"] { background:#d4edda; color:#1d6a3a; }
+s-badge[tone="warning"] { background:#fef3cd; color:#856404; }
+s-badge[tone="critical"] { background:#fce4e4; color:#c41e1e; }
+/* s-tabs polyfill */
+s-tabs {
+  display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px;
+}
+s-tab {
+  padding:8px 16px; font-size:13px; font-weight:500; cursor:pointer;
+  border-bottom:2px solid transparent; color:var(--text-sub);
+  background:none; display:inline-flex; align-items:center;
+}
+s-tab[selected] { color:var(--text); border-bottom-color:var(--text); }
+s-tab:hover { color:var(--text); }
+/* s-icon polyfill */
+s-icon { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; color:var(--text-sub); flex-shrink:0; }
+s-icon svg { width:20px; height:20px; fill:currentColor; }
+/* s-switch polyfill */
+s-switch { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid #f0f0f0; cursor:grab; transition:background .15s; }
+s-switch:last-child { border-bottom:none; }
+s-switch:hover { background:rgba(0,0,0,.02); border-radius:8px; }
+s-switch.dragging { opacity:.4; }
+s-switch.drag-over { border-top:2px solid #2c6ecb; padding-top:8px; }
+s-switch .switch-left { display:flex; align-items:center; gap:10px; flex:1; }
+s-switch .switch-label { font-size:13px; flex:1; }
+s-switch .switch-right { display:flex; align-items:center; gap:8px; }
+/* Drag handle — shown on hover, replaces icon */
+s-switch .drag-handle {
+  display:none; width:20px; height:20px; flex-shrink:0;
+  color:#999; cursor:grab;
+}
+s-switch:hover .drag-handle { display:flex; align-items:center; justify-content:center; }
+s-switch:hover s-icon { display:none; }
+/* Toggle track — only this is clickable for on/off */
+s-switch .track {
+  position:relative; width:36px; height:20px; flex-shrink:0; cursor:pointer;
+}
+s-switch .track-bg {
+  position:absolute; inset:0; border-radius:12px;
+  background:#babec3; transition:background .2s;
+}
+s-switch .track-knob {
+  position:absolute; width:16px; height:16px; border-radius:50%;
+  background:#fff; left:2px; top:2px; transition:transform .2s;
+  box-shadow:0 1px 2px rgba(0,0,0,.15);
+}
+s-switch[checked] .track-bg { background:var(--dark); }
+s-switch[checked] .track-knob { transform:translateX(16px); }
+/* Disabled switch (dot style) */
+s-switch[disabled] .switch-label { color:var(--text-sub); }
+s-switch .disabled-dot {
+  width:36px; height:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+s-switch .disabled-dot::after { content:''; width:8px; height:8px; border-radius:50%; background:#c0c0c0; }
+
+/* Time window */
+.time-row { display:flex; gap:8px; }
+s-number-field input, .time-input {
+  width:80px; padding:8px 12px; border:1px solid var(--border); border-radius:8px;
+  font-size:14px; font-family:var(--font); text-align:center;
+}
+s-select select, .time-select {
+  padding:8px 32px 8px 12px; border:1px solid var(--border); border-radius:8px;
+  font-size:13px; font-family:var(--font); background:var(--surface);
+  appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' fill='none' stroke='%23666' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+
+/* Preview card — overrides handled above */
+.preview-container { position:sticky; top:0; max-width:80%; }
+.preview-toggle-bar { display:flex; justify-content:flex-end; gap:4px; margin-bottom:8px; }
+.preview-toggle-btn {
+  width:32px; height:32px; border:1px solid var(--border); border-radius:6px;
+  background:var(--surface); cursor:pointer; display:flex; align-items:center; justify-content:center;
+  color:var(--text-sub); font-size:16px;
+}
+.preview-toggle-btn.active { background:var(--dark); color:#fff; border-color:var(--dark); }
+
+.preview-frame {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  overflow:hidden;
+}
+.preview-mac-bar {
+  display:flex; align-items:center; gap:6px; padding:10px 14px;
+  background:#f8f8f8; border-bottom:1px solid var(--border);
+}
+.mac-dot { width:10px; height:10px; border-radius:50%; }
+.mac-dot.r { background:#ff5f57; }
+.mac-dot.y { background:#febc2e; }
+.mac-dot.g { background:#28c840; }
+.preview-inner { padding:16px; }
+.preview-inner h4 { font-size:13px; font-weight:600; margin-bottom:3px; }
+.preview-inner .timer { font-size:11px; color:var(--text-sub); margin-bottom:12px; }
+
+.preview-upsell { margin-top:14px; }
+.preview-upsell h5 { font-size:11px; font-weight:600; margin-bottom:8px; }
+.preview-upsell-grid { display:flex; gap:8px; }
+.preview-upsell-item {
+  flex:1; min-width:0; border:1px solid var(--border); border-radius:8px; overflow:hidden;
+}
+.preview-upsell-item .img { height:70px; background-size:cover; background-position:center; }
+.preview-upsell-item .info { padding:6px 8px; }
+.preview-upsell-item .name { font-size:10px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.preview-upsell-item .meta { font-size:9px; color:var(--text-sub); }
+.preview-upsell-item .add-link { display:block; padding:4px 8px; font-size:10px; color:#2c6ecb; font-weight:500; border-top:1px solid #f0f0f0; }
+
+.config-footer { text-align:right; margin-top:16px; }
+
+/* ===== PAGE 3: HOMEPAGE ===== */
+.hp-title { font-size:20px; font-weight:600; margin-bottom:16px; }
+.hp-tabs {
+  display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px;
+}
+.hp-tab {
+  padding:8px 16px; font-size:13px; font-weight:500; cursor:pointer;
+  border-bottom:2px solid transparent; color:var(--text-sub);
+  background:none; border-top:none; border-left:none; border-right:none;
+  font-family:var(--font);
+}
+.hp-tab.active { color:var(--text); border-bottom-color:var(--text); }
+
+/* Preview cards container — single white card with both desktop + mobile */
+.hp-preview-section {
+  display:flex; gap:20px; align-items:flex-start;
+  justify-content:center; padding:24px 32px;
+  background:#f6f6f7;
+}
+.hp-block-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  overflow:hidden; margin-bottom:16px;
+}
+.hp-block-info {
+  padding:16px 20px;
+}
+/* Desktop browser frame */
+.desktop-frame {
+  flex:1; min-width:0; max-width:480px; background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.desktop-frame .mac-bar {
+  display:flex; align-items:center; gap:5px; padding:8px 12px;
+  background:#f8f8f8; border-bottom:1px solid #eee;
+}
+.desktop-frame .mac-dot { width:8px; height:8px; border-radius:50%; }
+.desktop-frame .mac-dot.r { background:#ff5f57; }
+.desktop-frame .mac-dot.y { background:#febc2e; }
+.desktop-frame .mac-dot.g { background:#28c840; }
+.desktop-frame .frame-body { padding:12px 16px; }
+.desktop-frame .frame-body h4 { font-size:11px; font-weight:600; margin-bottom:1px; }
+.desktop-frame .frame-body .timer-text { font-size:9px; color:#6d6d6d; margin-bottom:8px; }
+.desktop-frame .action-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:10px; color:#303030;
+}
+.desktop-frame .action-row:last-of-type { border-bottom:none; }
+.desktop-frame .action-row .chevron { color:#c0c0c0; font-size:10px; }
+.desktop-frame .upsell-title { font-size:10px; font-weight:600; margin:10px 0 8px; }
+.desktop-frame .upsell-grid { display:flex; gap:8px; overflow:hidden; }
+.desktop-frame .upsell-item {
+  width:80px; flex-shrink:0; border:1px solid #ebebeb; border-radius:6px; overflow:hidden;
+}
+.desktop-frame .upsell-item .ui-img {
+  height:56px; background-size:cover; background-position:center;
+}
+.desktop-frame .upsell-item .ui-name { font-size:8px; font-weight:500; padding:4px 6px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.desktop-frame .upsell-item .ui-meta { font-size:7px; color:#6d6d6d; padding:2px 6px 5px; }
+
+/* Mobile phone frame */
+.mobile-frame-wrap { width:160px; flex-shrink:0; }
+.mobile-phone {
+  background:#fff; border:1px solid #ddd; border-radius:12px; overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.mobile-statusbar {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 12px; color:#1a1a1a; font-size:9px; font-weight:600;
+  border-bottom:1px solid #f0f0f0;
+}
+.mobile-statusbar .icons { display:flex; gap:4px; align-items:center; }
+.mobile-statusbar .icons svg { width:auto; height:8px; fill:#1a1a1a; }
+.mobile-screen {
+  background:#fff; padding:10px 12px 14px;
+}
+.mobile-screen h4 { font-size:10px; font-weight:600; margin-bottom:2px; }
+.mobile-screen .timer-text { font-size:8px; color:#6d6d6d; margin-bottom:8px; }
+.mobile-screen .m-action {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:9px; color:#303030;
+}
+.mobile-screen .m-action .chevron { color:#c0c0c0; font-size:9px; }
+.mobile-screen .m-upsell-title { font-size:9px; font-weight:600; margin:10px 0 8px; }
+.mobile-screen .m-upsell-grid { display:flex; gap:8px; }
+.mobile-screen .m-upsell-item {
+  flex:1; min-width:0; border:1px solid #ebebeb; border-radius:6px; overflow:hidden;
+}
+.mobile-screen .m-upsell-item .mi-img {
+  height:50px; background-size:cover; background-position:center;
+}
+.mobile-screen .m-upsell-item .mi-name { font-size:8px; font-weight:500; padding:4px 5px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mobile-screen .m-upsell-item .mi-meta { font-size:7px; color:#6d6d6d; padding:2px 5px 4px; }
+
+/* Preview card — overrides handled above */
+.hp-block-info-override {
+  display:none; /* unused placeholder */
+}
+.hp-block-title { font-size:14px; font-weight:600; margin-bottom:4px; }
+.hp-block-desc { font-size:13px; color:var(--text-sub); margin-bottom:12px; }
+.hp-status-row { display:flex; align-items:center; gap:16px; margin-bottom:16px; font-size:12px; }
+.hp-status-item { display:flex; align-items:center; gap:6px; }
+.hp-status-dot { width:8px; height:8px; border-radius:50%; }
+.hp-status-dot.gray { background:#8a8a8a; }
+.hp-status-dot.green { background:#29845a; }
+.hp-block-actions { display:flex; gap:8px; }
+
+.hp-advanced {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:20px;
+}
+.hp-advanced h3 { font-size:14px; font-weight:600; margin-bottom:4px; }
+.hp-advanced p { font-size:13px; color:var(--text-sub); margin-bottom:12px; }
+.hp-advanced-actions { display:flex; align-items:center; gap:12px; }
+.hp-advanced-actions .learn-link { font-size:13px; color:#2c6ecb; font-weight:500; text-decoration:none; }
+
+/* Onboarding overlay */
+.onboarding-overlay {
+  position:fixed; inset:0; z-index:400; background:rgba(0,0,0,.55);
+  display:flex; justify-content:center; align-items:flex-start;
+  cursor:pointer;
+}
+.onboarding-overlay.hidden { display:none; }
+.onboarding-highlight {
+  position:absolute; background:var(--surface); border-radius:12px;
+  box-shadow:0 0 0 4px rgba(255,255,255,.8); pointer-events:none;
+}
+.onboarding-tooltip {
+  position:absolute; background:var(--surface); border-radius:12px;
+  padding:16px 20px; width:320px; box-shadow:0 8px 24px rgba(0,0,0,.2);
+  pointer-events:auto; cursor:default;
+}
+.onboarding-tooltip h4 { font-size:14px; font-weight:600; margin-bottom:6px; }
+.onboarding-tooltip p { font-size:13px; color:var(--text-sub); line-height:1.5; margin-bottom:12px; }
+.onboarding-tooltip .got-it {
+  background:none; border:1px solid var(--border); border-radius:8px;
+  padding:6px 16px; font-size:13px; font-weight:500; cursor:pointer;
+  font-family:var(--font);
+}
+.onboarding-tooltip .got-it:hover { background:#f5f5f5; }
+
+/* ===== INSTALL MODAL ===== */
+.install-modal-overlay {
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.5); align-items:center; justify-content:center;
+}
+.install-modal-overlay.open { display:flex; }
+.install-modal {
+  background:#fff; border-radius:16px;
+  width:480px; max-height:85vh; overflow-y:auto;
+  box-shadow:0 26px 80px rgba(0,0,0,.2), 0 0 1px rgba(0,0,0,.2);
+}
+.install-modal-header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:20px 20px 16px;
+}
+.install-modal-header h2 {
+  font-size:16px; font-weight:600; color:#303030; margin:0;
+}
+.install-modal-close {
+  width:32px; height:32px; border:none; background:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:8px; color:#5c5f62;
+}
+.install-modal-close svg { width:20px; height:20px; }
+.install-modal-close:hover { background:rgba(0,0,0,.05); }
+.install-modal-body { padding:0 20px 20px; }
+
+/* Setup steps container */
+.setup-steps-list { list-style:none; margin:0; padding:0; }
+.setup-step { border-bottom:1px solid #e1e3e5; }
+.setup-step:last-child { border-bottom:none; }
+.setup-step-header {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 0; cursor:pointer; user-select:none;
+}
+.setup-step-circle {
+  width:20px; height:20px; border-radius:50%; border:2px solid #c9cccf;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  transition:all .15s;
+}
+.setup-step.actionable .setup-step-circle { border-color:#8c9196; }
+.setup-step.completed .setup-step-circle,
+.setup-step.skipped .setup-step-circle {
+  border-color:#303030; background:#303030;
+}
+.setup-step.completed .setup-step-circle::after,
+.setup-step.skipped .setup-step-circle::after {
+  content:''; display:block; width:6px; height:10px;
+  border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); margin-top:-2px;
+}
+.setup-step-title {
+  font-size:13px; font-weight:600; color:#303030; flex:1;
+}
+.setup-step.completed .setup-step-title { color:#303030; }
+.setup-step-body {
+  padding:0 0 14px 32px; display:none;
+}
+.setup-step.expanded .setup-step-body { display:block; }
+.setup-step-desc {
+  font-size:13px; color:#6d7175; line-height:1.5; margin-bottom:12px;
+}
+.setup-step-desc a { color:#005bd3; text-decoration:underline; }
+.setup-step-gif {
+  width:100%; height:180px; background:#e8e8e8; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px;
+  overflow:hidden;
+}
+.setup-step-gif img { width:100%; height:100%; object-fit:cover; }
+.setup-step-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.setup-step-btn {
+  display:inline-flex; align-items:center; padding:7px 16px;
+  background:#303030; color:#fff; border:none; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
+}
+.setup-step-btn:hover { background:#1a1a1a; }
+.setup-step-btn-secondary {
+  display:inline-flex; align-items:center; padding:7px 16px;
+  background:#fff; color:#303030; border:1px solid #c9cccf; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
+}
+.setup-step-btn-secondary:hover { background:#f6f6f7; }
+/* Success banner */
+.setup-step-banner {
+  background:#e4f6ee; border-radius:10px; padding:14px 16px;
+  margin-bottom:12px; display:none; font-size:13px; line-height:1.7; color:#303030;
+}
+.setup-step-banner.show { display:block; }
+.setup-step-banner .banner-title {
+  font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:4px;
+}
+.setup-step-banner .banner-title svg { flex-shrink:0; }
+.setup-step-banner .banner-links { margin-top:6px; }
+.setup-step-banner .banner-links a {
+  color:#005bd3; text-decoration:underline; margin-right:12px; font-size:13px;
+}
+/* Skip badge */
+.setup-step-skip-badge {
+  display:none; background:#e4e5e7; color:#6d7175; font-size:11px;
+  padding:2px 8px; border-radius:4px; font-weight:500; margin-left:8px;
+}
+.setup-step.skipped .setup-step-skip-badge { display:inline-block; }
+.setup-step.skipped .setup-step-title { text-decoration:none; color:#303030; }
+/* Install status badges */
+.install-badge {
+  display:inline-block; margin-left:6px; font-size:11px; font-weight:500;
+  padding:2px 8px; border-radius:4px; background:#e4e5e7; color:#6d7175;
+}
+.install-badge.installed { background:#aee9d1; color:#0c5132; }
+
+/* ===== FULL-SCREEN CHECKOUT EDITOR PAGE ===== */
+#page-editor { background:#fff; }
+#page-editor .editor-topbar {
+  display:flex; align-items:center; background:#fff; border-bottom:1px solid #e1e3e5;
+  padding:8px 16px; gap:10px; font-size:13px; height:48px;
+}
+#page-editor .editor-topbar .editor-back { cursor:pointer; color:#5c5f62; display:flex; align-items:center; }
+#page-editor .editor-topbar .live-badge {
+  background:#aee9d1; color:#0c5132; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px;
+}
+#page-editor .editor-topbar .save-btn {
+  background:#e1e1e1; color:#6d7175; font-size:13px; font-weight:500; padding:6px 16px; border-radius:8px;
+  border:none; cursor:pointer; margin-left:auto; transition:all .2s;
+}
+#page-editor .editor-topbar .save-btn.active { background:#303030; color:#fff; opacity:1; }
+#page-editor .editor-body { display:flex; height:calc(100vh - 52px - 48px); }
+#page-editor .editor-sidebar {
+  width:300px; background:#fff; border-right:1px solid #e1e3e5; overflow-y:auto; font-size:13px;
+}
+#page-editor .editor-main {
+  flex:1; background:#f6f6f7; padding:24px; overflow-y:auto;
+}
+/* Sidebar states */
+.editor-sidebar .sidebar-apps { padding:12px; }
+.editor-sidebar .sidebar-tree { padding:12px; display:none; }
+.editor-sidebar .section-label { font-size:12px; font-weight:600; color:#6d7175; margin:12px 0 6px; }
+.editor-sidebar .block-row {
+  display:flex; align-items:center; gap:8px; padding:6px 8px; font-size:13px; border-radius:8px; cursor:pointer;
+  margin-bottom:2px; transition:background .1s;
+}
+.editor-sidebar .block-row:hover { background:#f6f6f7; }
+.editor-sidebar .block-row .block-icon { width:18px; height:18px; border-radius:4px; flex-shrink:0; }
+.editor-sidebar .block-row .add-btn { margin-left:auto; color:#008060; font-size:16px; cursor:pointer; }
+.editor-sidebar .block-row.highlight { background:#ebf3ff; }
+/* Dropdown menu */
+.editor-dropdown {
+  display:none; position:absolute; background:#fff; border-radius:12px;
+  box-shadow:0 4px 24px rgba(0,0,0,.15); padding:8px 0; width:160px; z-index:10; font-size:13px;
+}
+.editor-dropdown.open { display:block; }
+.editor-dropdown .dd-label { font-size:12px; color:#6d7175; font-weight:500; padding:6px 16px; }
+.editor-dropdown .dd-item {
+  display:flex; align-items:center; gap:8px; padding:8px 16px; cursor:pointer; transition:background .1s;
+}
+.editor-dropdown .dd-item:hover { background:#f6f6f7; }
+/* Tree view */
+.editor-sidebar .tree-item {
+  display:flex; align-items:center; gap:8px; padding:6px 8px 6px 16px; font-size:13px;
+  border-radius:8px; margin-bottom:1px; cursor:pointer;
+}
+.editor-sidebar .tree-item:hover { background:#f6f6f7; }
+.editor-sidebar .tree-item.selected { background:#005bd3; color:#fff; border-radius:8px; font-weight:500; }
+.editor-sidebar .tree-item .tree-icon { width:16px; height:16px; flex-shrink:0; }
+/* Block info panel */
+.editor-sidebar .block-info { border-top:1px solid #e1e3e5; padding:12px; }
+.editor-sidebar .block-info .not-live {
+  background:#e4e5e7; color:#6d7175; font-size:11px; padding:2px 8px; border-radius:4px;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.editor-sidebar .block-info .not-live::before {
+  content:''; width:6px; height:6px; background:#6d7175; border-radius:50%;
+}
+.editor-sidebar .block-info .back-btn {
+  display:inline-block; border:1px solid #e1e3e5; border-radius:8px; padding:6px 14px;
+  font-size:12px; font-weight:500; cursor:pointer; background:#fff; margin-top:10px;
+}
+.editor-sidebar .block-info .back-btn:hover { background:#f6f6f7; }
+
+/* ===== PREVIEW ACCORDION ===== */
+.preview-action {
+  border-bottom:1px solid #ebebeb;
+}
+.preview-action:last-of-type { border-bottom:none; }
+.preview-action-header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; cursor:pointer; font-size:12px; font-weight:500;
+  user-select:none;
+}
+.preview-action-header:hover { color:#333; }
+.preview-action-header .chevron {
+  transition:transform .2s; font-size:16px; color:#999; line-height:1;
+}
+.preview-action.open .preview-action-header .chevron { transform:rotate(180deg); }
+.preview-action-panel {
+  max-height:0; overflow:hidden; transition:max-height .3s ease;
+}
+.preview-action.open .preview-action-panel {
+  max-height:600px;
+}
+.preview-action-panel-inner {
+  padding:0 0 12px;
+  font-size:11px; color:var(--text-sub);
+}
+/* Address form mini */
+.mini-form-group { margin-bottom:8px; }
+.mini-form-group label { display:block; font-size:10px; color:#888; margin-bottom:2px; }
+.mini-input {
+  width:100%; padding:6px 8px; border:1px solid var(--border); border-radius:6px;
+  font-size:11px; font-family:var(--font); background:#fff;
+}
+.mini-row { display:flex; gap:6px; }
+.mini-row .mini-form-group { flex:1; }
+.mini-btn-row { display:flex; gap:6px; justify-content:flex-end; margin-top:8px; }
+.mini-btn {
+  padding:4px 12px; border-radius:6px; font-size:10px; font-weight:600;
+  font-family:var(--font); cursor:pointer; border:1px solid var(--border); background:#fff; color:var(--text);
+}
+.mini-btn.primary { background:var(--dark); color:#fff; border-color:var(--dark); }
+.mini-btn.link { background:none; border:none; color:#2c6ecb; padding:4px 8px; }
+.mini-btn.danger { background:#d72c0d; color:#fff; border-color:#d72c0d; }
+/* Product row mini */
+.mini-product { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #f3f3f3; }
+.mini-product:last-child { border-bottom:none; }
+.mini-product-img { width:36px; height:36px; border-radius:6px; background:#ededed; flex-shrink:0; background-size:cover; background-position:center; }
+.mini-product-info { flex:1; min-width:0; }
+.mini-product-name { font-size:11px; font-weight:500; color:var(--text); }
+.mini-product-variant { font-size:10px; color:#888; }
+.mini-product-qty { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--text-sub); }
+.mini-product-price { font-size:11px; font-weight:500; color:var(--text); white-space:nowrap; }
+/* Payment summary */
+.mini-summary { font-size:10px; margin-top:8px; border-top:1px solid #f0f0f0; padding-top:6px; }
+.mini-summary-row { display:flex; justify-content:space-between; padding:2px 0; color:var(--text-sub); }
+.mini-summary-row.total { font-weight:600; color:var(--text); border-top:1px solid var(--border); margin-top:4px; padding-top:4px; }
+/* Cancel form */
+.mini-select {
+  width:100%; padding:6px 8px; border:1px solid var(--border); border-radius:6px;
+  font-size:11px; font-family:var(--font); background:#fff; color:var(--text-sub);
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3l3 4 3-4' fill='none' stroke='%23666' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 8px center;
+}
+/* Address book link */
+.mini-link { color:#2c6ecb; font-size:10px; font-weight:500; text-decoration:none; cursor:pointer; }
+.mini-link:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg viewBox="0 0 36 36" fill="none"><path d="M24.6 8.1c-.1-.1-.2-.1-.3-.1l-1.1-.2s-.9-1-.9-1c-.1-.1-.2-.1-.3-.1l-.5.1L20.3 4c-.4-.8-1-1.2-1.7-1.2h-.1c-.2-.2-.5-.3-.7-.3-1.7 0-3.4 2.2-4.2 5.3l-2 .6c-.6.2-.6.2-.7.8L9.5 18.5l8.7 1.6 4.7-1.2-1.6-6.8c0 .1.1.1.1.1L24.6 8.1z" fill="#95BF47"/><path d="M23.7 7.8c0 0-.4-.1-.9-.1-.3-1-.9-2-1.8-2.1h-.1c-.2-.2-.4-.3-.6-.3-1.5 0-2.2 1.9-2.5 3.1l-1.5.5c0 0 .4-2.1-.1-3.2-.5-1-1.3-1-1.3-1s-.3 1.7-.6 3.6l-1.1.3.7 9.3 8.7 1.6 4.7-1.2s-3.2-10-3.6-10.5z" fill="#5E8E3E"/><path d="M19.6 12.1l-.7 2.5s-.7-.3-1.5-.2c-1.2.1-1.2.8-1.2.9 0 1.1 2.8 1.5 2.8 4 0 2-1.3 3.3-3 3.3-2.1 0-3.1-1.3-3.1-1.3l.5-1.8s1.1.9 2 .9c.6 0 .8-.5.8-.8 0-1.4-2.3-1.5-2.3-3.8 0-2 1.4-3.8 4.2-3.8.9 0 1.5.1 1.5.1z" fill="#fff"/></svg>
+    <span>shopify</span>
+  </div>
+  <div class="topbar-search">
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="9" r="6"/><line x1="14" y1="14" x2="18" y2="18"/></svg>
+    Search
+    <kbd>⌘K</kbd>
+  </div>
+  <div class="topbar-right">
+    <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 12v1" stroke="currentColor" stroke-width="1.5"/></svg></div>
+    <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3a4 4 0 014 4v2l2 3H4l2-3V7a4 4 0 014-4zM8 15a2 2 0 004 0"/></svg></div>
+    <span class="store">Yvette shop</span>
+    <div class="avatar"></div>
+  </div>
+</div>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar">
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2.5l7 5.5v8.5a1.5 1.5 0 01-1.5 1.5H12v-5a1 1 0 00-1-1H9a1 1 0 00-1 1v5H4.5A1.5 1.5 0 013 16.5V8l7-5.5z"/></svg>Home</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 5.5A1.5 1.5 0 013.5 4h13A1.5 1.5 0 0118 5.5V7H2V5.5zM2 9h16v7.5a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5V9z"/></svg>Orders<span class="count">15</span></a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M7 2h6a2 2 0 012 2v1h1.5A1.5 1.5 0 0118 6.5v10a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-10A1.5 1.5 0 013.5 5H5V4a2 2 0 012-2z"/></svg>Products</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM3 17.5a7 7 0 0114 0"/></svg>Customers</a>
+  <a class="nav-item" href="#">Content</a>
+  <a class="nav-item" href="#">Finances</a>
+  <a class="nav-item" href="#">Analytics</a>
+  <a class="nav-item" href="#">Marketing</a>
+  <a class="nav-item" href="#">Discounts</a>
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">Sales channels</div>
+  <a class="nav-item" href="#">Online Store</a>
+  <a class="nav-item" href="#">Point of Sale</a>
+  <a class="nav-item" href="#">Shop</a>
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">Apps</div>
+  <a class="nav-item" href="#" style="font-weight:600; color:var(--text);">AfterShip Tracking</a>
+  <div class="nav-sub">
+    <a class="nav-item" href="#">Tracking dashboard</a>
+    <a class="nav-item" href="#">Protection</a>
+    <a class="nav-item" href="#">Tracking page</a>
+    <a class="nav-item" href="#">Notifications</a>
+    <a class="nav-item active" href="#" id="nav-order-edits">Order edits</a>
+    <a class="nav-item" href="#">Analytics</a>
+    <a class="nav-item" href="#">Estimated delivery dates</a>
+    <a class="nav-item" href="#">View more</a>
+  </div>
+  <div class="nav-divider"></div>
+  <a class="nav-item" href="#" onclick="resetToLanding(); return false;" style="font-size:12px; color:#9a6700;">
+    <svg viewBox="0 0 20 20" fill="currentColor" style="width:16px; height:16px;"><path d="M7.707 4.293a1 1 0 0 1 0 1.414L5.414 8H13a5 5 0 0 1 0 10H8a1 1 0 1 1 0-2h5a3 3 0 1 0 0-6H5.414l2.293 2.293a1 1 0 1 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0z"/></svg>
+    Back to not enabled
+  </a>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+  <!-- ==================== PAGE 1: LANDING ==================== -->
+  <div class="screen active" id="page-landing">
+    <div class="main-inner">
+      <div class="hero">
+        <div class="hero-left">
+          <h1>Empower shoppers with self-service order editing</h1>
+          <p>Allow customers to update addresses, swap products, or add items directly from their order status page—reducing manual errors and logistics costs</p>
+          <div>
+            <s-button variant="primary" onclick="goTo('config')">
+              Enable Order Editing
+            </s-button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feature-card"><div class="feature-card-img"></div><div class="feature-card-body"><h3>Optimize Support Efficiency</h3><p>Allow users to resolve common inquiries independently to balance team workload and improve satisfaction.</p></div></div>
+        <div class="feature-card"><div class="feature-card-img"></div><div class="feature-card-body"><h3>Drive Strategic Growth</h3><p>Leverage built-in opportunities to increase value during key interaction points throughout the user journey.</p></div></div>
+        <div class="feature-card"><div class="feature-card-img"></div><div class="feature-card-body"><h3>Streamline Operations</h3><p>Focus your resources on high-impact tasks by automating routine operational requirements.</p></div></div>
+      </div>
+      <div class="about"><h2>About this plugin</h2><p>Description</p></div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: CONFIG / SETUP ==================== -->
+  <div class="screen" id="page-config">
+    <div class="main-inner">
+
+      <!-- LEFT: Settings -->
+      <div class="config-left-wrap">
+        <div class="config-welcome">
+          <h2>Welcome to AfterShip Order Edits</h2>
+          <p class="subtitle">Let's tailor the experience for your shoppers.</p>
+          <p class="desc">Preview on the right panel. You can change later before go live.</p>
+        </div>
+
+        <div class="config-left">
+          <!-- Editing time window -->
+          <s-section>
+            <s-stack gap="small">
+              <s-text variant="headingMd">Editing time window</s-text>
+              <s-text variant="bodySm" tone="subdued">Many sellers start with 30 minutes. It depends on your fulfillment speed and when downstream systems pick up orders.</s-text>
+              <div class="time-row">
+                <input type="number" class="time-input" id="timeValue" value="30">
+                <select class="time-select" id="timeUnit"><option value="minutes" selected>minutes</option><option value="hours">hours</option><option value="days">days</option></select>
+              </div>
+            </s-stack>
+          </s-section>
+
+          <!-- Shopper actions -->
+          <s-section>
+            <s-stack gap="small">
+              <s-text variant="headingMd">Shopper actions</s-text>
+              <s-text variant="bodySm" tone="subdued">Select which actions shoppers can perform.</s-text>
+            </s-stack>
+            <div id="actionsList" style="margin-top:12px;">
+              <!-- Edit shipping address -->
+              <s-switch checked data-action="address" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm0-1.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Zm1.173-11.75c-2.35 0-4 1.646-4 3.977 0 1.846 1.049 3.618 2.2 4.99a15.919 15.919 0 0 0 1.8 1.816 15.92 15.92 0 0 0 1.8-1.817c1.151-1.371 2.2-3.143 2.2-4.99 0-2.33-1.65-3.976-4-3.976Z"/></svg></s-icon>
+                  <span class="switch-label">Edit shipping address</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Edit Products -->
+              <s-switch checked data-action="editProduct" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Zm-4.409 2.72-5.88 5.88a1.25 1.25 0 0 0-.366.884v1.172h1.172c.331 0 .65-.132.883-.366l5.88-5.88-1.689-1.69Zm2.75.629.599-.599a1.195 1.195 0 1 0-1.69-1.689l-.598.599 1.69 1.689Z"/></svg></s-icon>
+                  <span class="switch-label">Edit Products</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Add Product -->
+              <s-switch checked data-action="addProduct" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M11.276 3.5a3.75 3.75 0 0 0-2.701 1.149l-4.254 4.417a2.75 2.75 0 0 0 .036 3.852l2.898 2.898a2.5 2.5 0 0 0 3.502.033l.45-.434a.75.75 0 1 0-1.04-1.08l-.45.434a1 1 0 0 1-1.401-.014l-2.898-2.898a1.25 1.25 0 0 1-.016-1.75l4.253-4.418a2.25 2.25 0 0 1 1.62-.689h1.975c.966 0 1.75.784 1.75 1.75v2.371c0 .358-.146.7-.403.948a.75.75 0 1 0 1.04 1.08 2.81 2.81 0 0 0 .863-2.028v-2.371a3.25 3.25 0 0 0-3.25-3.25h-1.974Z"/><path d="M13 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M14.75 12a.75.75 0 0 1 .75.75v1.25h1.25a.75.75 0 0 1 0 1.5h-1.25v1.25a.75.75 0 0 1-1.5 0v-1.25h-1.25a.75.75 0 0 1 0-1.5h1.25v-1.25a.75.75 0 0 1 .75-.75Z"/></svg></s-icon>
+                  <span class="switch-label">Add Product</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Edit contact info (off) -->
+              <s-switch data-action="contact" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 3a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-2 3.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Z"/><path fill-rule="evenodd" d="M15.484 14.227a6.274 6.274 0 0 0-10.968 0l-.437.786a1.338 1.338 0 0 0 1.17 1.987h9.502a1.338 1.338 0 0 0 1.17-1.987l-.437-.786Zm-9.657.728a4.773 4.773 0 0 1 8.346 0l.302.545h-8.95l.302-.545Z"/></svg></s-icon>
+                  <span class="switch-label">Edit contact info</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Add discount code (off) -->
+              <s-switch data-action="discount" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M12.78 8.28a.75.75 0 0 0-1.06-1.06l-4.5 4.5a.75.75 0 1 0 1.06 1.06l4.5-4.5Z"/><path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Zm-2.825.626a.804.804 0 0 1 1.462 0 2.304 2.304 0 0 0 2.896 1.2.804.804 0 0 1 1.034 1.034 2.304 2.304 0 0 0 1.199 2.895.804.804 0 0 1 0 1.462 2.304 2.304 0 0 0-1.2 2.896.805.805 0 0 1-1.034 1.034 2.304 2.304 0 0 0-2.895 1.199.804.804 0 0 1-1.462 0 2.304 2.304 0 0 0-2.896-1.2.804.804 0 0 1-1.033-1.034 2.305 2.305 0 0 0-1.2-2.895.804.804 0 0 1 0-1.462 2.304 2.304 0 0 0 1.2-2.896.804.804 0 0 1 1.033-1.033 2.304 2.304 0 0 0 2.896-1.2Z"/></svg></s-icon>
+                  <span class="switch-label">Add discount code</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Cancel order -->
+              <s-switch data-action="cancel" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M13.03 6.97a.75.75 0 0 1 0 1.06l-1.97 1.97 1.97 1.97a.75.75 0 1 1-1.06 1.06l-1.97-1.97-1.97 1.97a.75.75 0 0 1-1.06-1.06l1.97-1.97-1.97-1.97a.75.75 0 0 1 1.06-1.06l1.97 1.97 1.97-1.97a.75.75 0 0 1 1.06 0Z"/><path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg></s-icon>
+                  <span class="switch-label">Cancel order</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Upsell -->
+              <s-switch checked data-action="upsell" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M3.25 3a.75.75 0 0 0 0 1.5h1.612a.25.25 0 0 1 .248.22l1.04 8.737a1.75 1.75 0 0 0 1.738 1.543h6.362a.75.75 0 0 0 0-1.5h-6.362a.25.25 0 0 1-.248-.22l-.093-.78h6.35a2.75 2.75 0 0 0 2.743-2.54l.358-4.652a.75.75 0 0 0-1.496-.116l-.358 4.654a1.25 1.25 0 0 1-1.246 1.154h-6.53l-.768-6.457a1.75 1.75 0 0 0-1.738-1.543h-1.612Z"/><path d="M12 9.25a.75.75 0 0 1-1.5 0v-3.69l-1.22 1.22a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0l2.5 2.5a.75.75 0 0 1-1.06 1.06l-1.22-1.22v3.69Z"/><path d="M10 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M15 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg></s-icon>
+                  <span class="switch-label">Upsell</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+            </div>
+          </s-section>
+
+          <div style="text-align:right; margin-top:24px;">
+            <s-button variant="primary" onclick="goTo('homepage')">Confirm</s-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Live Preview -->
+        <div class="config-right">
+          <div class="preview-container">
+            <div class="preview-toggle-bar">
+              <button class="preview-toggle-btn active" title="Desktop"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 6.25a2.75 2.75 0 0 1 2.75-2.75h7.5a2.75 2.75 0 0 1 2.75 2.75v4.5a2.75 2.75 0 0 1-2.75 2.75h-1.25v1.5h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.5h-1.25a2.75 2.75 0 0 1-2.75-2.75v-4.5Zm5.5 7.25h2v1.5h-2v-1.5Zm-2.75-8.5c-.69 0-1.25.56-1.25 1.25v3.25h10v-3.25c0-.69-.56-1.25-1.25-1.25h-7.5Zm8.725 6c-.116.57-.62 1-1.225 1h-7.5a1.25 1.25 0 0 1-1.225-1h9.95Z"/></svg></button>
+              <button class="preview-toggle-btn" title="Mobile"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M7.75 13.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/><path fill-rule="evenodd" d="M4.75 5.75a2.75 2.75 0 0 1 2.75-2.75h5a2.75 2.75 0 0 1 2.75 2.75v8.5a2.75 2.75 0 0 1-2.75 2.75h-5a2.75 2.75 0 0 1-2.75-2.75v-8.5Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v8.5c0 .69.56 1.25 1.25 1.25h5c.69 0 1.25-.56 1.25-1.25v-8.5c0-.69-.56-1.25-1.25-1.25h-.531a1 1 0 0 1-.969.75h-2a1 1 0 0 1-.969-.75h-.531Z"/></svg></button>
+            </div>
+            <div class="preview-frame">
+              <div class="preview-mac-bar">
+                <span class="mac-dot r"></span>
+                <span class="mac-dot y"></span>
+                <span class="mac-dot g"></span>
+              </div>
+              <div class="preview-inner">
+                <h4>Need to make a change?</h4>
+                <div class="timer">There is still time to make updates <span id="countdown" style="font-weight:600; color:var(--text);">29:59</span></div>
+
+                <div id="previewActions">
+                  <!-- Edit shipping address -->
+                  <div class="preview-action" data-preview="address">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit shipping address</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                          <span style="font-size:11px; font-weight:600; color:var(--text);">Address details</span>
+                          <span class="mini-link">Select from address book ›</span>
+                        </div>
+                        <div class="mini-form-group"><label>Country</label><input class="mini-input" value="United States"></div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>First name</label><input class="mini-input" value="Yuka"></div>
+                          <div class="mini-form-group"><label>Last name</label><input class="mini-input" value="Kara"></div>
+                        </div>
+                        <div class="mini-form-group"><label>Phone</label><input class="mini-input" value="+1 (555) 000-0000"></div>
+                        <div class="mini-form-group"><label>Address</label><input class="mini-input" value="123 Main Street"></div>
+                        <div class="mini-form-group"><label>Apartment, suite, etc. (optional)</label><input class="mini-input" value="Apt 4B"></div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>State</label><input class="mini-input" value="California"></div>
+                        </div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>City</label><input class="mini-input" value="San Francisco"></div>
+                          <div class="mini-form-group"><label>ZIP code</label><input class="mini-input" value="94102"></div>
+                        </div>
+                        <div class="mini-btn-row">
+                          <button class="mini-btn link">Clear</button>
+                          <button class="mini-btn">Discard</button>
+                          <button class="mini-btn primary">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Edit Products -->
+                  <div class="preview-action" data-preview="editProduct">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit Products</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Cedar &amp; Moss Candle</div>
+                            <div class="mini-product-variant">Large ›</div>
+                          </div>
+                          <div class="mini-product-qty">🗑 1 +</div>
+                          <div class="mini-product-price">$12.00</div>
+                        </div>
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Leather Care Kit</div>
+                            <div class="mini-product-variant">Classic / Standard Size ›</div>
+                          </div>
+                          <div class="mini-product-qty">‹ 2 ›</div>
+                          <div class="mini-product-price">$12.00</div>
+                        </div>
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1586105251261-72a756497a31?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Artisan Stoneware Vase</div>
+                            <div class="mini-product-variant">Small ›</div>
+                          </div>
+                          <div class="mini-product-qty">🗑 1 +</div>
+                          <div class="mini-product-price">$37.00</div>
+                        </div>
+                        <div class="mini-summary">
+                          <div style="display:flex; justify-content:space-between; font-weight:500; color:var(--text); margin-bottom:4px;">
+                            <span>Payment details</span><span>Remaining $50.00</span>
+                          </div>
+                          <div class="mini-summary-row"><span>Subtotal · 4 items</span><span>$61.00</span></div>
+                          <div class="mini-summary-row"><span>Shipping</span><span>$10.00</span></div>
+                          <div class="mini-summary-row"><span>Tax</span><span>$10.00</span></div>
+                          <div class="mini-summary-row"><span>Order total</span><span>$200.00</span></div>
+                          <div class="mini-summary-row"><span>Paid</span><span>-$200.00</span></div>
+                          <div class="mini-summary-row total"><span>Remaining</span><span>USD $50.00</span></div>
+                        </div>
+                        <div class="mini-btn-row" style="margin-top:10px;">
+                          <button class="mini-btn link">Reset</button>
+                          <button class="mini-btn">Discard</button>
+                          <button class="mini-btn primary">Continue to pay</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Add Product -->
+                  <div class="preview-action" data-preview="addProduct">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Add Product</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div style="text-align:center; padding:16px 0; color:#888; font-size:11px;">
+                          Browse and add products to this order.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Edit contact info -->
+                  <div class="preview-action" data-preview="contact" style="display:none;">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit contact info</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div class="mini-form-group"><label>Name</label><input class="mini-input" value="Katherine"></div>
+                        <div class="mini-form-group"><label>Email</label><input class="mini-input" value="342342342@gmail.com"></div>
+                        <div class="mini-btn-row">
+                          <button class="mini-btn link">Clear</button>
+                          <button class="mini-btn">Discard</button>
+                          <button class="mini-btn primary">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Add discount code -->
+                  <div class="preview-action" data-preview="discount" style="display:none;">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Add discount code</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <p style="margin-bottom:8px; color:var(--text-sub); font-size:11px;">Enter a valid discount code to apply to your order.</p>
+                        <div class="mini-form-group"><input class="mini-input" placeholder="Discount code"></div>
+                        <div class="mini-btn-row">
+                          <button class="mini-btn">Discard</button>
+                          <button class="mini-btn primary">Apply</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Cancel order -->
+                  <div class="preview-action" data-preview="cancel">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Cancel order</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <p style="margin-bottom:8px; color:var(--text); font-size:11px;">Wait, before you cancel, could you choose the reason for cancellation (optional)</p>
+                        <select class="mini-select"><option>Select reason</option><option>Changed my mind</option><option>Found a better price</option><option>Ordered by mistake</option></select>
+                        <div class="mini-btn-row" style="margin-top:10px;">
+                          <button class="mini-btn">Keep order</button>
+                          <button class="mini-btn danger">Cancel order</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Upsell section -->
+                <div class="preview-upsell" data-preview-upsell>
+                  <h5>Grab one to this order</h5>
+                  <div class="preview-upsell-grid">
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Cedar &amp; Moss</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £56</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Brew Brew Kit</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £56</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Concrete Valet</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £48</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1543512214-318c7553f230?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Amber Glass</div><div class="meta">3 colors · 2 sizes</div></div>
+                      <div class="add-link">+ Add £32</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- ==================== PAGE 3: HOMEPAGE ==================== -->
+  <div class="screen" id="page-homepage">
+    <div class="main-inner" style="max-width:1100px;">
+      <!-- App header bar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="font-size:13px; color:var(--text-sub);">AfterShip Tracking</div>
+        <div style="font-size:18px; color:var(--text-sub); cursor:default; letter-spacing:2px;">···</div>
+      </div>
+      <div class="hp-title">Order Edits</div>
+
+      <!-- Tabs: App block / Analytics / Rules -->
+      <div style="display:flex; gap:4px; margin-bottom:20px;">
+        <div style="padding:7px 14px; font-size:13px; font-weight:600; background:#303030; color:#fff; border-radius:8px; cursor:pointer;">App block</div>
+        <div style="padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer;">Analytics</div>
+        <div style="padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer;">Rules</div>
+      </div>
+
+      <!-- Combined block card: preview + info -->
+      <div class="hp-block-card">
+      <div class="hp-preview-section">
+        <!-- Desktop browser frame -->
+        <div class="desktop-frame">
+          <div class="mac-bar">
+            <span class="mac-dot r"></span><span class="mac-dot y"></span><span class="mac-dot g"></span>
+          </div>
+          <div class="frame-body">
+            <h4>Need to make a change?</h4>
+            <div class="timer-text">There is still time to make updates 29:59</div>
+            <div class="action-row"><span>Edit shipping address</span><span class="chevron">&#8250;</span></div>
+            <div class="action-row"><span>Edit contact info</span><span class="chevron">&#8250;</span></div>
+            <div class="action-row"><span>Edit Products</span><span class="chevron">&#8250;</span></div>
+            <div class="action-row"><span>Add Product</span><span class="chevron">&#8250;</span></div>
+            <div class="action-row"><span>Add discount code</span><span class="chevron">&#8250;</span></div>
+            <div class="action-row"><span>Cancel order</span><span class="chevron">&#8250;</span></div>
+            <div class="upsell-title">Grab one to this order</div>
+            <div class="upsell-grid">
+              <div class="upsell-item">
+                <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=200&h=200&fit=crop') center/cover;"></div>
+                <div class="ui-name">Cedar &amp; Moss Candle</div>
+                <div class="ui-meta">6 colors · 4 sizes</div>
+              </div>
+              <div class="upsell-item">
+                <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop') center/cover;"></div>
+                <div class="ui-name">Brew Brew Kit</div>
+                <div class="ui-meta">6 colors · 4 sizes</div>
+              </div>
+              <div class="upsell-item">
+                <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=200&h=200&fit=crop') center/cover;"></div>
+                <div class="ui-name">Concrete Valet Tray</div>
+                <div class="ui-meta">6 colors · 4 sizes</div>
+              </div>
+              <div class="upsell-item">
+                <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1543512214-318c7553f230?w=200&h=200&fit=crop') center/cover;"></div>
+                <div class="ui-name">Amber Glass</div>
+                <div class="ui-meta">3 colors · 2 sizes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile phone frame -->
+        <div class="mobile-frame-wrap">
+          <div class="mobile-phone">
+            <div class="mobile-statusbar">
+              <span>9:41</span>
+              <span class="icons">
+                <svg width="16" height="11" viewBox="0 0 16 11" fill="white"><rect x="0" y="4" width="3" height="7" rx="0.5"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="11" rx="0.5" fill-opacity="0.3"/></svg>
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="white"><path d="M7 3.5c1.6 0 3 .6 4.1 1.6l1.2-1.2C10.8 2.4 9 1.5 7 1.5S3.2 2.4 1.7 3.9l1.2 1.2C4 4.1 5.4 3.5 7 3.5zm0 3c.8 0 1.6.3 2.1.9l-2.1 2.6-2.1-2.6c.5-.6 1.3-.9 2.1-.9z"/></svg>
+                <svg width="22" height="11" viewBox="0 0 22 11" fill="white"><rect x="0" y="1" width="19" height="9" rx="2" stroke="white" stroke-width="1" fill="none"/><rect x="19.5" y="3.5" width="2" height="4" rx="0.5"/><rect x="1.5" y="2.5" width="14" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="mobile-screen">
+              <h4>Need to make a change?</h4>
+              <div class="timer-text">There is still time to make updates 29:59</div>
+              <div class="m-action"><span>Edit shipping address</span><span class="chevron">&#8744;</span></div>
+              <div class="m-action"><span>Edit contact info</span><span class="chevron">&#8744;</span></div>
+              <div class="m-action"><span>Edit products</span><span class="chevron">&#8744;</span></div>
+              <div class="m-action"><span>Add products</span><span class="chevron">&#8744;</span></div>
+              <div class="m-action"><span>Add discount code</span><span class="chevron">&#8744;</span></div>
+              <div class="m-action"><span>Cancel order</span><span class="chevron">&#8744;</span></div>
+              <div class="m-upsell-title">Grab one to this order</div>
+              <div class="m-upsell-grid">
+                <div class="m-upsell-item">
+                  <div class="mi-img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=120&h=120&fit=crop') center/cover;"></div>
+                  <div class="mi-name">Cedar &amp; Moss</div>
+                  <div class="mi-meta">6 colors · 4 sizes</div>
+                </div>
+                <div class="m-upsell-item">
+                  <div class="mi-img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=120&h=120&fit=crop') center/cover;"></div>
+                  <div class="mi-name">Brew Brew Kit</div>
+                  <div class="mi-meta">6 colors</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Block info row (inside same card) -->
+      <div class="hp-block-info" id="blockInfoSection">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+              <span style="font-size:14px; font-weight:600;">Order edits block</span>
+              <span id="blockLiveStatus" style="display:inline-flex; align-items:center; gap:4px; font-size:11px; color:#616161;"><span id="blockLiveDot" style="width:6px; height:6px; border-radius:50%; background:#8a8a8a; display:inline-block;"></span> <span id="blockLiveText">Not live</span></span>
+            </div>
+            <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">Customize actions and preview the responsive layout across desktop and mobile.</div>
+            <div class="hp-status-row" style="margin-bottom:0;">
+              <div class="hp-status-item"><span>Thank you page</span><span class="install-badge" id="badgeThankYou">Not installed</span></div>
+              <div class="hp-status-item"><span>Order status page</span><span class="install-badge" id="badgeOrderStatus">Not installed</span></div>
+            </div>
+          </div>
+          <!-- Buttons: not-live state -->
+          <div id="blockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
+            <button style="padding:7px 16px; font-size:13px; font-weight:600; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; font-family:var(--font);">Customize</button>
+            <button id="blockActionBtn" style="padding:7px 16px; font-size:13px; font-weight:600; border:none; border-radius:8px; background:#303030; color:#fff; cursor:pointer; font-family:var(--font);" onclick="openInstallModal()">Install</button>
+          </div>
+          <!-- Buttons: live state -->
+          <div id="blockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
+            <button onclick="toggleMoreMenu(event)" style="width:36px; height:36px; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; color:#5c5f62;">⋯</button>
+            <button style="padding:7px 16px; font-size:13px; font-weight:600; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; font-family:var(--font);">Customize</button>
+            <!-- More dropdown -->
+            <div id="moreMenuDropdown" style="display:none; position:absolute; bottom:42px; right:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
+              <div style="padding:10px 16px; font-size:13px; cursor:default; display:flex; align-items:center; gap:8px;">Unpublish</div>
+              <div onclick="toggleMoreMenu(event)" style="padding:10px 16px; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:8px;">Test order</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Advanced settings -->
+      <s-section style="padding:0; overflow:hidden;">
+        <div style="display:flex; align-items:stretch;">
+          <div style="flex:1; padding:20px;">
+            <s-text variant="headingMd">Want more control?</s-text>
+            <div style="font-size:13px; color:var(--text-sub); margin-top:4px; margin-bottom:14px;">Configure advanced rules like Tax Recalculation, Auto-refund, and Upsell strategies.</div>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <s-button>Advanced Settings</s-button>
+              <a href="#" style="font-size:13px; color:#2c6ecb; font-weight:500; text-decoration:none;">Learn more</a>
+            </div>
+          </div>
+          <div style="width:180px; flex-shrink:0; background:#d9dff0; display:flex; align-items:center; justify-content:center; border-radius:0 12px 12px 0;">
+            <div style="width:40px; height:22px; background:#fff; border-radius:11px; position:relative;">
+              <div style="width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; right:2px; top:2px; box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+            </div>
+          </div>
+        </div>
+      </s-section>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== ONBOARDING OVERLAY (Page 3) ===== -->
+<div class="onboarding-overlay hidden" id="onboardingOverlay" onclick="dismissOnboarding(event)">
+  <div class="onboarding-tooltip" id="onboardingTooltip" style="bottom:240px; right:calc(50% - 160px);">
+    <h4>Great start! Your widget is ready.</h4>
+    <p>Complete the installation and go live to let your customers fix their own order errors independently.</p>
+    <button class="got-it" onclick="dismissOnboarding(event, true)">Got it</button>
+  </div>
+</div>
+
+<!-- ===== INSTALL MODAL ===== -->
+<div class="install-modal-overlay" id="installModal" onclick="closeInstallModal(event)">
+  <div class="install-modal" onclick="event.stopPropagation()">
+    <div class="install-modal-header">
+      <h2>How to install and go live</h2>
+      <button class="install-modal-close" onclick="closeInstallModal()" aria-label="Close">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.414 10l4.293-4.293a.999.999 0 10-1.414-1.414L10 8.586 5.707 4.293a.999.999 0 10-1.414 1.414L8.586 10l-4.293 4.293a.999.999 0 101.414 1.414L10 11.414l4.293 4.293a.999.999 0 101.414-1.414L11.414 10z"/></svg>
+      </button>
+    </div>
+    <div class="install-modal-body">
+      <ul class="setup-steps-list">
+        <!-- Step 1 -->
+        <li class="setup-step expanded actionable" data-step="1">
+          <div class="setup-step-header" onclick="toggleSetupStep(1)">
+            <span class="setup-step-circle"></span>
+            <span class="setup-step-title">Step 1: Install AfterShip Order Edits block</span>
+          </div>
+          <div class="setup-step-body">
+            <div class="setup-step-desc">Click "Go to editor" below to open the Shopify Checkout Editor, choose which page to add the block to, and save your changes.</div>
+            <div class="setup-step-gif">
+              <img src="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg" alt="Checkout editor" onerror="this.parentElement.textContent='GIF'">
+            </div>
+            <div class="setup-step-actions">
+              <button class="setup-step-btn" onclick="goToEditor()">Go to editor</button>
+            </div>
+          </div>
+        </li>
+        <!-- Step 2 -->
+        <li class="setup-step" data-step="2">
+          <div class="setup-step-header" onclick="toggleSetupStep(2)">
+            <span class="setup-step-circle"></span>
+            <span class="setup-step-title">Step 2: Test the block with a test order</span>
+            <span class="setup-step-skip-badge">Skip</span>
+          </div>
+          <div class="setup-step-body">
+            <div class="setup-step-desc">Test order edits via a test order. Didn't sync the edited order to your ERP? <a href="#">Learn more</a></div>
+            <div class="setup-step-banner" id="testOrderBanner">
+              <div class="banner-title">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#008060"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                Test order created successfully on May 6 at 10:11 AM.
+              </div>
+              Order no.: #TEST-7336<br>
+              Order tag: AS.OrderEdits.Test<br>
+              Email: yvette@aftership.com
+              <div class="banner-links">
+                <a href="#">View order status page</a>
+                <a href="#">Generate another</a>
+              </div>
+            </div>
+            <div class="setup-step-actions" id="step2Actions">
+              <button class="setup-step-btn" onclick="createTestOrder()">Create a test order</button>
+              <button class="setup-step-btn-secondary" onclick="skipTest()">Skip test</button>
+            </div>
+          </div>
+        </li>
+        <!-- Step 3 -->
+        <li class="setup-step" data-step="3">
+          <div class="setup-step-header" onclick="toggleSetupStep(3)">
+            <span class="setup-step-circle"></span>
+            <span class="setup-step-title">Step 3: Go live</span>
+          </div>
+          <div class="setup-step-body">
+            <div class="setup-step-actions">
+              <button class="setup-step-btn" onclick="completeSetupStep(3)">Go live</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FULL-SCREEN CHECKOUT EDITOR PAGE ===== -->
+<div id="page-editor" class="screen" style="position:fixed; inset:0; z-index:300; background:#fff; display:none;">
+  <!-- Editor Top Bar -->
+  <div class="editor-topbar">
+    <span class="editor-back" onclick="goBackFromEditor()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><path d="M17 9H5.414l3.293-3.293a1 1 0 00-1.414-1.414l-5 5a1 1 0 000 1.414l5 5a1 1 0 001.414-1.414L5.414 11H17a1 1 0 100-2z"/></svg>
+    </span>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><path d="M3 4h14v2H3V4zm0 5h14v2H3V9zm0 5h14v2H3v-2z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="#5c5f62" stroke-width="1.5"/><rect x="3" y="3" width="6" height="6" rx="1" fill="#5c5f62"/></svg>
+    <span style="font-weight:500;">brain-mkt-new-08 configuration</span>
+    <span class="live-badge">Live</span>
+    <span style="flex:1;"></span>
+    <span style="color:#6d7175; display:flex; align-items:center; gap:4px;">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M2.5 5A2.5 2.5 0 015 2.5h10A2.5 2.5 0 0117.5 5v10a2.5 2.5 0 01-2.5 2.5H5A2.5 2.5 0 012.5 15V5z"/></svg>
+      Store default
+    </span>
+    <span style="color:#6d7175; margin-left:16px; display:flex; align-items:center; gap:4px;">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><circle cx="10" cy="10" r="7" fill="none" stroke="#5c5f62" stroke-width="1.5"/><path d="M8 7l5 3-5 3V7z" fill="#5c5f62"/></svg>
+      Thank you
+    </span>
+    <span style="flex:1;"></span>
+    <button class="save-btn" id="editorSaveBtnFull" disabled style="opacity:.5;" onclick="saveEditor()">Save</button>
+  </div>
+  <!-- Editor Body -->
+  <div class="editor-body">
+    <!-- Sidebar -->
+    <div class="editor-sidebar">
+      <!-- Apps view (initial state) -->
+      <div class="sidebar-apps" id="editorAppsView">
+        <div style="font-size:14px; font-weight:600; margin-bottom:12px;">Apps</div>
+        <div style="background:#f6f6f7; border-radius:8px; padding:8px 12px; margin-bottom:12px; color:#8c9196; display:flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="#8c9196"><path d="M8 16a8 8 0 116.32-3.1l3.39 3.4a1 1 0 01-1.42 1.4l-3.38-3.38A8 8 0 018 16zm0-2A6 6 0 108 2a6 6 0 000 12z"/></svg>
+          Search blocks
+        </div>
+        <div style="display:flex; border:1px solid #e1e3e5; border-radius:8px; overflow:hidden; margin-bottom:14px;">
+          <span style="padding:6px 14px; background:#fff; font-weight:500; flex:1; text-align:center;">All</span>
+          <span style="padding:6px 14px; color:#8c9196; flex:1; text-align:center; border-left:1px solid #e1e3e5;">Added 0</span>
+        </div>
+        <!-- Block list -->
+        <div class="section-label">AfterShip Tracking</div>
+        <div class="block-row" id="editorOERowFull" onclick="showEditorDropdown(event)" style="position:relative;">
+          <span class="block-icon" style="background:#e55b37;"></span>
+          <span>AfterShip Order Edits</span>
+          <span class="add-btn">⊕</span>
+          <!-- Dropdown -->
+          <div class="editor-dropdown" id="editorDropdownFull">
+            <div class="dd-label">Add to</div>
+            <div class="dd-item" onclick="addBlockToPage('thankyou'); event.stopPropagation();">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#008060"><circle cx="10" cy="10" r="7" fill="none" stroke="#008060" stroke-width="1.5"/><path d="M8 7l5 3-5 3V7z" fill="#008060"/></svg>
+              Thank you
+            </div>
+            <div class="dd-item" onclick="addBlockToPage('orderstatus'); event.stopPropagation();">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#5c5f62"><circle cx="10" cy="10" r="7" fill="none" stroke="#5c5f62" stroke-width="1.5"/><path d="M9 6h2v5H9V6zm0 6h2v2H9v-2z"/></svg>
+              Order status
+            </div>
+          </div>
+        </div>
+        <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>Apple Wallet Order Tracking</span><span class="add-btn">⊕</span></div>
+        <div class="section-label">(Test) AfterShip</div>
+        <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>Apple Wallet Order Tracking</span><span class="add-btn">⊕</span></div>
+        <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>PayPal Package tracking</span><span class="add-btn">⊕</span></div>
+        <div class="section-label">Order Editing</div>
+        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-1 4h2v5h-2V6zm0 6h2v2h-2v-2z"/></svg><span>Address Validation</span></div>
+        <div class="block-row"><span class="block-icon" style="background:#5b6af0;"></span><span>Edit Shipping Address</span><span class="add-btn">⊕</span></div>
+        <div class="section-label">Recommended Upsells</div>
+        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M4 4h2v12H4V4zm5 0h2v12H9V4zm5 0h2v12h-2V4z"/></svg><span>Products</span><span class="add-btn">⊕</span></div>
+        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><rect x="3" y="5" width="14" height="10" rx="2" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Order Status Offers</span><span class="add-btn">⊕</span></div>
+        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M4 8l6-4 6 4v8H4V8z" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Shipping Rates</span><span class="add-btn">⊕</span></div>
+        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><circle cx="10" cy="10" r="7" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Personalized Upsells</span><span class="add-btn">⊕</span></div>
+      </div>
+      <!-- Tree view (after adding block) -->
+      <div class="sidebar-tree" id="editorTreeView">
+        <div style="font-size:14px; font-weight:600; margin-bottom:12px;">Thank you</div>
+        <div class="tree-item"><svg class="tree-icon" viewBox="0 0 20 20" fill="#8c9196"><circle cx="10" cy="10" r="7" fill="none" stroke="#8c9196" stroke-width="1.5"/><path d="M8 7l5 3-5 3V7z" fill="#8c9196"/></svg> Confirmation</div>
+        <div class="tree-item selected"><span class="block-icon" style="background:#e55b37; width:16px; height:16px; border-radius:4px; display:inline-block;"></span> AfterShip Order Edits</div>
+        <div class="tree-item"><svg class="tree-icon" viewBox="0 0 20 20" fill="#8c9196"><circle cx="10" cy="10" r="7" fill="none" stroke="#8c9196" stroke-width="1.5"/><path d="M9 6h2v5H9V6zm0 6h2v2H9v-2z"/></svg> Order status</div>
+        <div class="tree-item"><svg class="tree-icon" viewBox="0 0 20 20" fill="#8c9196"><path d="M3 5h14v2H3V5zm0 4h14v2H3V9zm0 4h14v2H3v-2z"/></svg> Order details</div>
+        <!-- Block info panel -->
+        <div class="block-info">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+            <span class="block-icon" style="background:#e55b37; width:18px; height:18px; border-radius:4px;"></span>
+            <span style="font-weight:600; flex:1;">AfterShip Order Edits</span>
+            <span style="color:#6d7175; cursor:pointer;">⋯</span>
+            <span style="color:#6d7175; cursor:pointer; margin-left:4px;">✕</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px; font-size:12px; white-space:nowrap;">
+            <span>AfterShip Order Edits block</span>
+            <span class="not-live">Not live</span>
+          </div>
+          <div style="font-size:13px; margin-bottom:4px;">To activate it:</div>
+          <div style="font-size:12px; color:#6d7175; line-height:1.6; margin-bottom:12px;">
+            1. Return to AfterShip Order Edits<br>
+            2. Click "Verify and go live" to publish
+          </div>
+          <span class="back-btn" onclick="goBackFromEditor()">Back to set up</span>
+          <div style="border-top:1px solid #e1e3e5; padding-top:10px; margin-top:14px;">
+            <div style="color:#005bd3; cursor:pointer; margin-bottom:8px;">Manage app</div>
+            <div style="color:#d72c0d; display:flex; align-items:center; gap:4px; cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#d72c0d"><path d="M8 4h4v1H8V4zM5 6v1h1v9a2 2 0 002 2h4a2 2 0 002-2V7h1V6H5zm3 2h1v7H8V8zm3 0h1v7h-1V8z"/></svg>
+              Remove block
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main content: Thank you page -->
+    <div class="editor-main">
+      <div style="max-width:700px; margin:0 auto;">
+        <div style="font-size:15px; font-weight:500; margin-bottom:12px; color:#303030;">brain-mkt-new-08</div>
+        <div style="display:flex; gap:16px;">
+          <div style="flex:1;">
+            <!-- Confirmation -->
+            <div style="background:#fff; border-radius:10px; border:1px solid #e1e3e5; padding:16px 20px; margin-bottom:12px;">
+              <div style="display:flex; align-items:flex-start; gap:10px;">
+                <svg width="24" height="24" viewBox="0 0 20 20" fill="#008060" style="flex-shrink:0; margin-top:2px;"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                <div>
+                  <div style="font-size:12px; color:#6d7175;">Confirmation #ABC123EXAMPLE</div>
+                  <div style="font-size:18px; font-weight:600; margin-top:2px;">Thank you, Pauline!</div>
+                </div>
+              </div>
+            </div>
+            <!-- Order confirmed -->
+            <div style="background:#fff; border-radius:10px; border:1px solid #e1e3e5; padding:14px 20px; margin-bottom:12px;">
+              <div style="font-size:14px; font-weight:600; margin-bottom:4px;">Your order is confirmed</div>
+              <div style="font-size:13px; color:#6d7175;">You'll receive a confirmation email soon</div>
+              <div style="display:flex; align-items:center; gap:6px; margin-top:10px; font-size:13px; color:#6d7175;">
+                <span style="width:14px; height:14px; border:1.5px solid #8c9196; border-radius:3px; display:inline-block;"></span>
+                Email me with news and offers
+              </div>
+            </div>
+            <!-- AfterShip Order Edits Block (visible after adding block) -->
+            <div id="editorOEBlock" style="display:none; background:#fff; border-radius:10px; border:1px solid #e1e3e5; padding:20px; margin-bottom:12px;">
+              <div style="font-size:16px; font-weight:700; margin-bottom:4px; color:#303030;">Need to make a change?</div>
+              <div style="font-size:13px; color:#6d7175; margin-bottom:14px;">There is still time to make updates <span style="font-weight:600; color:#303030;">29:59</span></div>
+              <!-- Action rows with dividers -->
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Edit shipping address</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Edit contact info</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Edit Products</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Add Product</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Add discount code</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 0; border-bottom:1px solid #e8e8e8; cursor:pointer;">
+                <span style="font-size:14px; font-weight:500;">Cancel order</span>
+                <span style="color:#8c9196; font-size:18px;">&#8250;</span>
+              </div>
+              <!-- Upsell section -->
+              <div style="font-size:14px; font-weight:600; margin:16px 0 10px; color:#303030;">Grab one to this order</div>
+              <div style="display:flex; gap:12px; overflow-x:auto;">
+                <div style="min-width:140px; flex-shrink:0;">
+                  <div style="width:140px; height:140px; background:#e8e4e0; border-radius:8px; margin-bottom:8px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=280&h=280&fit=crop" alt="Cedar & Moss" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.style.background='#ddd'; this.style.display='none';">
+                  </div>
+                  <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Cedar & Moss</div>
+                  <div style="font-size:11px; color:#6d7175; margin-bottom:6px;">6 colors · 4 sizes</div>
+                  <span style="font-size:13px; font-weight:500; color:#005bd3; cursor:pointer;">+ Add £56</span>
+                </div>
+                <div style="min-width:140px; flex-shrink:0;">
+                  <div style="width:140px; height:140px; background:#e0dcd5; border-radius:8px; margin-bottom:8px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=280&h=280&fit=crop" alt="Brew Brew Kit" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.style.background='#ddd'; this.style.display='none';">
+                  </div>
+                  <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Brew Brew Kit</div>
+                  <div style="font-size:11px; color:#6d7175; margin-bottom:6px;">6 colors · 4 sizes</div>
+                  <span style="font-size:13px; font-weight:500; color:#005bd3; cursor:pointer;">+ Add £56</span>
+                </div>
+                <div style="min-width:140px; flex-shrink:0;">
+                  <div style="width:140px; height:140px; background:#ddd8d0; border-radius:8px; margin-bottom:8px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=280&h=280&fit=crop" alt="Concrete Valet" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.style.background='#ddd'; this.style.display='none';">
+                  </div>
+                  <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Concrete Valet</div>
+                  <div style="font-size:11px; color:#6d7175; margin-bottom:6px;">6 colors · 4 sizes</div>
+                  <span style="font-size:13px; font-weight:500; color:#005bd3; cursor:pointer;">+ Add £48</span>
+                </div>
+                <div style="min-width:140px; flex-shrink:0;">
+                  <div style="width:140px; height:140px; background:#e0dcd5; border-radius:8px; margin-bottom:8px; overflow:hidden;">
+                    <img src="https://images.unsplash.com/photo-1543512214-318c7553f230?w=280&h=280&fit=crop" alt="Amber Glass" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.style.background='#ddd'; this.style.display='none';">
+                  </div>
+                  <div style="font-size:13px; font-weight:500; margin-bottom:2px;">Amber Glass</div>
+                  <div style="font-size:11px; color:#6d7175; margin-bottom:6px;">3 colors · 2 sizes</div>
+                  <span style="font-size:13px; font-weight:500; color:#005bd3; cursor:pointer;">+ Add £32</span>
+                </div>
+              </div>
+            </div>
+            <!-- Order details -->
+            <div style="background:#fff; border-radius:10px; border:1px solid #e1e3e5; padding:14px 20px; display:flex; gap:20px;">
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; margin-bottom:6px;">Contact information</div>
+                <div style="font-size:12px; color:#6d7175; margin-bottom:12px;">pauline.schinner@example.com</div>
+                <div style="font-size:13px; font-weight:600; margin-bottom:6px;">Shipping address</div>
+                <div style="font-size:12px; color:#6d7175; line-height:1.6;">Pauline Schinner<br>Salisbury Rd<br>Tsim Sha Tsui<br>Kowloon Hong Kong SAR<br>+852 2920 2888</div>
+                <div style="font-size:13px; font-weight:600; margin:12px 0 6px;">Shipping method</div>
+                <div style="font-size:12px; color:#6d7175;">Standard (Example)</div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; margin-bottom:6px;">Payment method</div>
+                <div style="font-size:12px; color:#6d7175; display:flex; align-items:center; gap:6px; margin-bottom:12px;">
+                  <span style="width:24px; height:16px; background:#1a1f71; border-radius:3px; display:inline-block;"></span> Credit card
+                </div>
+                <div style="font-size:13px; font-weight:600; margin-bottom:6px;">Billing address</div>
+                <div style="font-size:12px; color:#6d7175; line-height:1.6;">Pauline Schinner<br>Salisbury Rd<br>Tsim Sha Tsui<br>Kowloon Hong Kong SAR<br>+852 2920 2888</div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+              <span style="font-size:13px; color:#6d7175;">Need help? <span style="color:#005bd3; cursor:pointer;">Contact us</span></span>
+              <span style="background:#005bd3; color:#fff; font-size:14px; font-weight:500; padding:8px 20px; border-radius:8px; cursor:pointer;">Continue shopping</span>
+            </div>
+          </div>
+          <!-- Order summary (right side) -->
+          <div style="width:200px; flex-shrink:0;">
+            <div style="background:#fff; border-radius:10px; border:1px solid #e1e3e5; padding:16px;">
+              <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <div style="width:36px; height:36px; background:#f0f0f0; border-radius:6px; display:flex; align-items:center; justify-content:center; position:relative;">
+                  <span style="font-size:8px; color:#6d7175;">AS</span>
+                  <span style="position:absolute; top:-4px; right:-4px; width:14px; height:14px; background:#005bd3; color:#fff; font-size:8px; border-radius:50%; display:flex; align-items:center; justify-content:center;">1</span>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:12px; color:#6d7175;">return care</div>
+                  <div style="font-size:13px; font-weight:500; text-align:right;">$10.00</div>
+                </div>
+              </div>
+              <div style="border-top:1px solid #e1e3e5; padding-top:10px; font-size:13px; line-height:2;">
+                <div style="display:flex; justify-content:space-between;"><span style="color:#6d7175;">Subtotal</span><span>$10.00</span></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:#6d7175;">Shipping</span><span>$10.00</span></div>
+                <div style="display:flex; justify-content:space-between; font-weight:600; font-size:15px; margin-top:6px; padding-top:8px; border-top:1px solid #e1e3e5;">
+                  <span>Total</span><span><span style="font-size:11px; color:#6d7175; font-weight:400; margin-right:4px;">USD</span>$20.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- Navigation ----
+function goTo(page) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  var target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  document.querySelector('.main').scrollTop = 0;
+
+  // Save current page so refresh preserves state
+  try { sessionStorage.setItem('currentPage', page); } catch(e) {}
+
+  // Show onboarding overlay when entering homepage
+  if (page === 'homepage') {
+    setTimeout(showOnboarding, 300);
+  }
+}
+
+// Save setup state
+function saveSetupState() {
+  try {
+    sessionStorage.setItem('setupState', JSON.stringify({
+      completedSteps: completedSteps,
+      editorSaved: editorSaved,
+      skippedStep2: !!document.querySelector('.setup-step[data-step="2"].skipped'),
+      testOrderCreated: !!document.querySelector('#testOrderBanner.show'),
+      blockLive: document.getElementById('blockLiveText') && document.getElementById('blockLiveText').textContent === 'Live'
+    }));
+  } catch(e) {}
+}
+
+// Restore page and setup state on load
+(function() {
+  try {
+    var saved = sessionStorage.getItem('currentPage');
+    if (saved && document.getElementById('page-' + saved)) {
+      document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+      document.getElementById('page-' + saved).classList.add('active');
+    }
+    // Restore setup state
+    var state = sessionStorage.getItem('setupState');
+    if (state) {
+      state = JSON.parse(state);
+      completedSteps = state.completedSteps || {};
+      editorSaved = state.editorSaved || false;
+      // Restore completed steps visually
+      for (var key in completedSteps) {
+        var stepEl = document.querySelector('.setup-step[data-step="' + key + '"]');
+        if (stepEl) {
+          stepEl.classList.add('completed', 'actionable');
+          stepEl.classList.remove('expanded');
+        }
+      }
+      // Restore step 2 skipped state
+      if (state.skippedStep2) {
+        var s2 = document.querySelector('.setup-step[data-step="2"]');
+        if (s2) s2.classList.add('skipped');
+      }
+      // Restore test order banner
+      if (state.testOrderCreated) {
+        var banner = document.getElementById('testOrderBanner');
+        if (banner) banner.classList.add('show');
+        var actions = document.getElementById('step2Actions');
+        if (actions) actions.style.display = 'none';
+        // Keep step 2 body visible for banner
+        var s2b = document.querySelector('.setup-step[data-step="2"]');
+        if (s2b) { var body = s2b.querySelector('.setup-step-body'); if (body) body.style.display = 'block'; }
+      }
+      // Determine which step should be expanded
+      var maxCompleted = 0;
+      for (var k in completedSteps) { if (parseInt(k) > maxCompleted) maxCompleted = parseInt(k); }
+      var nextStep = maxCompleted + 1;
+      if (nextStep <= 3 && !completedSteps[nextStep]) {
+        var nextEl = document.querySelector('.setup-step[data-step="' + nextStep + '"]');
+        if (nextEl) nextEl.classList.add('expanded', 'actionable');
+      }
+      // Step 1 always actionable
+      var s1 = document.querySelector('.setup-step[data-step="1"]');
+      if (s1) s1.classList.add('actionable');
+      // Restore badges
+      if (completedSteps[1]) {
+        var badgeTY = document.getElementById('badgeThankYou');
+        if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
+        var actionBtn = document.getElementById('blockActionBtn');
+        if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.style.background = '#008060'; }
+      }
+      // Restore live state
+      if (state.blockLive) {
+        setBlockLive();
+      }
+    }
+  } catch(e) {}
+})();
+
+// ---- Paywall removed — Enable goes directly to config ----
+function enterSetup() {
+  goTo('config');
+}
+
+// ---- Install Modal ----
+function openInstallModal() {
+  document.getElementById('installModal').classList.add('open');
+}
+function closeInstallModal() {
+  document.getElementById('installModal').classList.remove('open');
+}
+// ---- Setup Guide Step Toggle & Completion ----
+var completedSteps = {};
+
+function toggleSetupStep(n) {
+  var step = document.querySelector('.setup-step[data-step="' + n + '"]');
+  if (!step) return;
+  // Only allow expanding if this step or a previous step is completed, or it's the next actionable step
+  var prevCompleted = (n === 1) || completedSteps[n - 1];
+  if (!step.classList.contains('completed') && !step.classList.contains('expanded') && !prevCompleted) return;
+  // Toggle expanded state
+  if (step.classList.contains('expanded')) {
+    step.classList.remove('expanded');
+  } else {
+    document.querySelectorAll('.setup-step').forEach(function(s) { s.classList.remove('expanded'); });
+    step.classList.add('expanded');
+  }
+}
+
+function completeSetupStep(n) {
+  completedSteps[n] = true;
+  var step = document.querySelector('.setup-step[data-step="' + n + '"]');
+  if (step) {
+    step.classList.add('completed');
+    step.classList.remove('expanded');
+  }
+  // Step 1 complete → update Thank you page badge + change Install → Verify and go live
+  if (n === 1) {
+    var badge = document.getElementById('badgeThankYou');
+    if (badge) { badge.textContent = 'Installed'; badge.classList.add('installed'); }
+    var actionBtn = document.getElementById('blockActionBtn');
+    if (actionBtn) {
+      actionBtn.textContent = 'Verify and go live';
+      actionBtn.style.background = '#008060';
+    }
+  }
+  // Step 3 complete → close modal, switch to live state
+  if (n === 3) {
+    closeInstallModal();
+    setBlockLive();
+  }
+  saveSetupState();
+  // Expand next step and make it actionable
+  var nextN = n + 1;
+  if (nextN <= 3) {
+    var next = document.querySelector('.setup-step[data-step="' + nextN + '"]');
+    if (next && !next.classList.contains('completed')) {
+      next.classList.add('expanded', 'actionable');
+    }
+  }
+}
+
+function setBlockLive() {
+  // Update status badge to Live (green)
+  var dot = document.getElementById('blockLiveDot');
+  if (dot) dot.style.background = '#008060';
+  var txt = document.getElementById('blockLiveText');
+  if (txt) txt.textContent = 'Live';
+  var status = document.getElementById('blockLiveStatus');
+  if (status) status.style.color = '#008060';
+  // Both pages installed
+  var badgeTY = document.getElementById('badgeThankYou');
+  if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
+  var badgeOS = document.getElementById('badgeOrderStatus');
+  if (badgeOS) { badgeOS.textContent = 'Installed'; badgeOS.classList.add('installed'); }
+  // Switch buttons: hide not-live, show live
+  var btnsNotLive = document.getElementById('blockBtnsNotLive');
+  if (btnsNotLive) btnsNotLive.style.display = 'none';
+  var btnsLive = document.getElementById('blockBtnsLive');
+  if (btnsLive) btnsLive.style.display = 'flex';
+}
+
+function toggleMoreMenu(event) {
+  event.stopPropagation();
+  var dd = document.getElementById('moreMenuDropdown');
+  if (dd) dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+
+function unpublishBlock() {
+  // Revert to not-live installed state
+  var dot = document.getElementById('blockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var txt = document.getElementById('blockLiveText');
+  if (txt) txt.textContent = 'Not live';
+  var status = document.getElementById('blockLiveStatus');
+  if (status) status.style.color = '#616161';
+  // Switch buttons back
+  var btnsNotLive = document.getElementById('blockBtnsNotLive');
+  if (btnsNotLive) btnsNotLive.style.display = 'flex';
+  var btnsLive = document.getElementById('blockBtnsLive');
+  if (btnsLive) btnsLive.style.display = 'none';
+  // Update action button to Verify and go live
+  var actionBtn = document.getElementById('blockActionBtn');
+  if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.style.background = '#008060'; }
+  // Close dropdown
+  var dd = document.getElementById('moreMenuDropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+// Close more menu when clicking outside
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('moreMenuDropdown');
+  if (dd && dd.style.display !== 'none' && !e.target.closest('#blockBtnsLive')) {
+    dd.style.display = 'none';
+  }
+});
+
+function createTestOrder() {
+  // Show success banner, hide buttons, complete step 2, expand step 3
+  var banner = document.getElementById('testOrderBanner');
+  if (banner) banner.classList.add('show');
+  var actions = document.getElementById('step2Actions');
+  if (actions) actions.style.display = 'none';
+  completeSetupStep(2);
+  // Keep step 2 body visible to show the banner
+  var step2 = document.querySelector('.setup-step[data-step="2"]');
+  if (step2) {
+    var body = step2.querySelector('.setup-step-body');
+    if (body) body.style.display = 'block';
+  }
+  saveSetupState();
+}
+
+function skipTest() {
+  // Mark step 2 as skipped with badge, complete it, expand step 3
+  var step2 = document.querySelector('.setup-step[data-step="2"]');
+  if (step2) step2.classList.add('skipped');
+  completeSetupStep(2);
+  saveSetupState();
+}
+
+// ---- Full-Screen Checkout Editor ----
+function goToEditor() {
+  // Close modal, show full-screen editor
+  document.getElementById('installModal').classList.remove('open');
+  var editor = document.getElementById('page-editor');
+  editor.style.display = 'block';
+  // Reset editor to apps view
+  document.getElementById('editorAppsView').style.display = 'block';
+  document.getElementById('editorTreeView').style.display = 'none';
+  var dropdown = document.getElementById('editorDropdownFull');
+  if (dropdown) dropdown.classList.remove('open');
+  var saveBtn = document.getElementById('editorSaveBtnFull');
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.style.opacity = '.5'; saveBtn.classList.remove('active'); }
+  // Hide the Order Edits block preview
+  var oeBlock = document.getElementById('editorOEBlock');
+  if (oeBlock) oeBlock.style.display = 'none';
+}
+
+var editorSaved = false;
+
+function saveEditor() {
+  var saveBtn = document.getElementById('editorSaveBtnFull');
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.style.opacity = '.5';
+    saveBtn.classList.remove('active');
+  }
+  editorSaved = true;
+  saveSetupState();
+}
+
+function goBackFromEditor() {
+  // Hide editor, reopen modal with step 1 completed
+  document.getElementById('page-editor').style.display = 'none';
+  if (editorSaved) {
+    completeSetupStep(1);
+    // Also directly update the button in case DOM wasn't ready
+    var btn = document.getElementById('blockActionBtn');
+    if (btn) { btn.textContent = 'Verify and go live'; btn.style.background = '#008060'; }
+  }
+  document.getElementById('installModal').classList.add('open');
+}
+
+function showEditorDropdown(event) {
+  event.stopPropagation();
+  var dropdown = document.getElementById('editorDropdownFull');
+  if (dropdown) dropdown.classList.toggle('open');
+}
+
+function addBlockToPage(page) {
+  // Hide dropdown
+  var dropdown = document.getElementById('editorDropdownFull');
+  if (dropdown) dropdown.classList.remove('open');
+  // Switch sidebar from apps view to tree view
+  document.getElementById('editorAppsView').style.display = 'none';
+  document.getElementById('editorTreeView').style.display = 'block';
+  // Show the Order Edits block in the main content
+  var oeBlock = document.getElementById('editorOEBlock');
+  if (oeBlock) oeBlock.style.display = 'block';
+  // Enable save button
+  var saveBtn = document.getElementById('editorSaveBtnFull');
+  if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = '1'; saveBtn.classList.add('active'); }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  var dropdown = document.getElementById('editorDropdownFull');
+  if (dropdown && dropdown.classList.contains('open')) {
+    if (!e.target.closest('#editorOERowFull')) {
+      dropdown.classList.remove('open');
+    }
+  }
+});
+
+// Reset to landing (not enabled) state
+function resetToLanding() {
+  try { sessionStorage.removeItem('currentPage'); sessionStorage.removeItem('setupState'); } catch(e) {}
+  // Reset all setup steps
+  completedSteps = {};
+  editorSaved = false;
+  document.querySelectorAll('.setup-step').forEach(function(s) {
+    s.classList.remove('completed', 'expanded', 'skipped', 'actionable');
+  });
+  // Expand step 1 by default
+  var step1 = document.querySelector('.setup-step[data-step="1"]');
+  if (step1) step1.classList.add('expanded', 'actionable');
+  // Reset test order banner
+  var banner = document.getElementById('testOrderBanner');
+  if (banner) banner.classList.remove('show');
+  var step2Actions = document.getElementById('step2Actions');
+  if (step2Actions) step2Actions.style.display = '';
+  // Reset step 2 body display
+  var step2 = document.querySelector('.setup-step[data-step="2"]');
+  if (step2) { var body = step2.querySelector('.setup-step-body'); if (body) body.style.display = ''; }
+  // Reset install badges
+  var badgeTY = document.getElementById('badgeThankYou');
+  if (badgeTY) { badgeTY.textContent = 'Not installed'; badgeTY.classList.remove('installed'); }
+  var badgeOS = document.getElementById('badgeOrderStatus');
+  if (badgeOS) { badgeOS.textContent = 'Not installed'; badgeOS.classList.remove('installed'); }
+  // Reset action button
+  var actionBtn = document.getElementById('blockActionBtn');
+  if (actionBtn) { actionBtn.textContent = 'Install'; actionBtn.style.background = '#303030'; }
+  // Reset live state
+  var dot = document.getElementById('blockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var ltxt = document.getElementById('blockLiveText');
+  if (ltxt) ltxt.textContent = 'Not live';
+  var lstatus = document.getElementById('blockLiveStatus');
+  if (lstatus) lstatus.style.color = '#616161';
+  var btnsNotLive = document.getElementById('blockBtnsNotLive');
+  if (btnsNotLive) btnsNotLive.style.display = 'flex';
+  var btnsLive = document.getElementById('blockBtnsLive');
+  if (btnsLive) btnsLive.style.display = 'none';
+  var dd = document.getElementById('moreMenuDropdown');
+  if (dd) dd.style.display = 'none';
+  // Close modal if open
+  document.getElementById('installModal').classList.remove('open');
+  // Hide editor if open
+  document.getElementById('page-editor').style.display = 'none';
+  goTo('landing');
+}
+
+// ---- Onboarding Overlay (Page 3) ----
+function showOnboarding() {
+  const overlay = document.getElementById('onboardingOverlay');
+  const tooltip = document.getElementById('onboardingTooltip');
+  const blockSection = document.getElementById('blockInfoSection');
+  overlay.classList.remove('hidden');
+  // Position tooltip near the block info section
+  setTimeout(() => {
+    if (blockSection) {
+      const rect = blockSection.getBoundingClientRect();
+      tooltip.style.position = 'fixed';
+      tooltip.style.top = (rect.bottom + 12) + 'px';
+      tooltip.style.left = (rect.left + rect.width / 2 - 160) + 'px';
+      tooltip.style.bottom = 'auto';
+      tooltip.style.right = 'auto';
+      // Add highlight effect
+      blockSection.style.position = 'relative';
+      blockSection.style.zIndex = '401';
+      blockSection.style.boxShadow = '0 0 0 4px rgba(255,255,255,.9), 0 0 0 6px rgba(0,0,0,.1)';
+    }
+  }, 50);
+}
+function dismissOnboarding(e, force) {
+  if (force || e.target === document.getElementById('onboardingOverlay')) {
+    document.getElementById('onboardingOverlay').classList.add('hidden');
+    const blockSection = document.getElementById('blockInfoSection');
+    if (blockSection) {
+      blockSection.style.zIndex = '';
+      blockSection.style.boxShadow = '';
+    }
+  }
+}
+
+// ---- Toggle Switch (click on track only) ----
+function toggleTrack(trackEl) {
+  const sw = trackEl.closest('s-switch');
+  if (!sw || sw.hasAttribute('disabled')) return;
+  const action = sw.getAttribute('data-action');
+  if (sw.hasAttribute('checked')) {
+    sw.removeAttribute('checked');
+    updatePreview(null);
+  } else {
+    sw.setAttribute('checked', '');
+    updatePreview(action);
+  }
+}
+// Keep old function as alias for compatibility
+function toggleSwitch(el) { /* no-op, toggle is now on track only */ }
+
+// ---- Drag & Drop Reorder ----
+(function() {
+  let dragEl = null;
+  const list = document.getElementById('actionsList');
+  if (!list) return;
+
+  list.addEventListener('dragstart', function(e) {
+    dragEl = e.target.closest('s-switch');
+    if (!dragEl) return;
+    dragEl.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
+  });
+
+  list.addEventListener('dragend', function(e) {
+    if (dragEl) dragEl.classList.remove('dragging');
+    list.querySelectorAll('s-switch').forEach(s => s.classList.remove('drag-over'));
+    dragEl = null;
+  });
+
+  list.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const target = e.target.closest('s-switch');
+    if (!target || target === dragEl) return;
+    list.querySelectorAll('s-switch').forEach(s => s.classList.remove('drag-over'));
+    target.classList.add('drag-over');
+  });
+
+  list.addEventListener('dragleave', function(e) {
+    const target = e.target.closest('s-switch');
+    if (target) target.classList.remove('drag-over');
+  });
+
+  list.addEventListener('drop', function(e) {
+    e.preventDefault();
+    const target = e.target.closest('s-switch');
+    if (!target || target === dragEl || !dragEl) return;
+    target.classList.remove('drag-over');
+    // Insert before or after depending on position
+    const allItems = [...list.querySelectorAll('s-switch')];
+    const dragIdx = allItems.indexOf(dragEl);
+    const targetIdx = allItems.indexOf(target);
+    if (dragIdx < targetIdx) {
+      target.after(dragEl);
+    } else {
+      target.before(dragEl);
+    }
+    // Sync preview order
+    syncPreviewOrder();
+  });
+})();
+
+function syncPreviewOrder() {
+  const previewContainer = document.getElementById('previewActions');
+  if (!previewContainer) return;
+  const switches = document.querySelectorAll('#actionsList s-switch');
+  switches.forEach(sw => {
+    const action = sw.getAttribute('data-action');
+    const previewEl = previewContainer.querySelector('[data-preview="' + action + '"]');
+    if (previewEl) previewContainer.appendChild(previewEl);
+  });
+  updatePreview(null);
+}
+
+// ---- Preview Panel Accordion ----
+function togglePanel(headerEl) {
+  const action = headerEl.closest('.preview-action');
+  const wasOpen = action.classList.contains('open');
+  // Close all panels first
+  document.querySelectorAll('#previewActions .preview-action').forEach(a => a.classList.remove('open'));
+  // Toggle clicked one
+  if (!wasOpen) action.classList.add('open');
+}
+
+// ---- Preview Sync with Left-Side Switches ----
+function updatePreview(justToggledAction) {
+  const allActions = ['address', 'editProduct', 'addProduct', 'contact', 'discount', 'cancel'];
+  allActions.forEach(key => {
+    const sw = document.querySelector('s-switch[data-action="' + key + '"]');
+    const previewEl = document.querySelector('.preview-action[data-preview="' + key + '"]');
+    if (!previewEl) return;
+    const isOn = sw && sw.hasAttribute('checked');
+    previewEl.style.display = isOn ? 'block' : 'none';
+    // Collapse if turned off
+    if (!isOn) previewEl.classList.remove('open');
+  });
+  // Upsell section
+  const upsellSwitch = document.querySelector('s-switch[data-action="upsell"]');
+  const upsellSection = document.querySelector('[data-preview-upsell]');
+  if (upsellSection) {
+    upsellSection.style.display = (upsellSwitch && upsellSwitch.hasAttribute('checked')) ? 'block' : 'none';
+  }
+}
+
+// Sync preview with initial switch states on load
+updatePreview(null);
+
+// Countdown timer — syncs with time window input
+(function() {
+  var el = document.getElementById('countdown');
+  var timeInput = document.getElementById('timeValue');
+  var unitSelect = document.getElementById('timeUnit');
+  if (!el || !timeInput || !unitSelect) return;
+
+  var total = 0;
+  var ticker = null;
+
+  function getSeconds() {
+    var val = parseInt(timeInput.value) || 0;
+    var unit = unitSelect.value;
+    if (unit === 'hours') return val * 3600;
+    if (unit === 'days') return val * 86400;
+    return val * 60;
+  }
+
+  function formatTime(sec) {
+    if (sec >= 3600) {
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      var s = sec % 60;
+      return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function resetTimer() {
+    total = getSeconds();
+    el.textContent = formatTime(total);
+    if (ticker) clearInterval(ticker);
+    ticker = setInterval(function() {
+      total--;
+      if (total < 0) total = 0;
+      el.textContent = formatTime(total);
+      if (total <= 0) clearInterval(ticker);
+    }, 1000);
+  }
+
+  timeInput.addEventListener('input', resetTimer);
+  unitSelect.addEventListener('change', resetTimer);
+  resetTimer();
+})();
+</script>
+
+<!-- Paywall success state removed -->
+
+</body>
+</html>
