@@ -424,21 +424,22 @@ s-select select, .time-select {
 .hp-advanced-actions { display:flex; align-items:center; gap:12px; }
 .hp-advanced-actions .learn-link { font-size:13px; color:#2c6ecb; font-weight:500; text-decoration:none; }
 
-/* Onboarding overlay */
+/* Onboarding tooltip (no overlay, points at Install button) */
 .onboarding-overlay {
-  position:fixed; inset:0; z-index:400; background:rgba(0,0,0,.55);
-  display:flex; justify-content:center; align-items:flex-start;
-  cursor:pointer;
+  position:fixed; inset:0; z-index:400;
+  pointer-events:none;
 }
 .onboarding-overlay.hidden { display:none; }
-.onboarding-highlight {
-  position:absolute; background:var(--surface); border-radius:12px;
-  box-shadow:0 0 0 4px rgba(255,255,255,.8); pointer-events:none;
-}
 .onboarding-tooltip {
   position:absolute; background:var(--surface); border-radius:12px;
-  padding:16px 20px; width:320px; box-shadow:0 8px 24px rgba(0,0,0,.2);
-  pointer-events:auto; cursor:default;
+  padding:16px 20px; width:320px; box-shadow:0 4px 20px rgba(0,0,0,.15), 0 0 0 1px rgba(0,0,0,.06);
+  pointer-events:auto; cursor:default; z-index:402;
+}
+/* Arrow pointing right toward the Install button */
+.onboarding-tooltip::after {
+  content:''; position:absolute; top:50%; right:-8px; transform:translateY(-50%);
+  width:0; height:0; border-top:8px solid transparent; border-bottom:8px solid transparent;
+  border-left:8px solid var(--surface);
 }
 .onboarding-tooltip h4 { font-size:14px; font-weight:600; margin-bottom:6px; }
 .onboarding-tooltip p { font-size:13px; color:var(--text-sub); line-height:1.5; margin-bottom:12px; }
@@ -1130,7 +1131,7 @@ s-select select, .time-select {
       </div>
 
       <!-- Combined block card: preview + info -->
-      <div class="hp-block-card">
+      <div class="hp-block-card" id="blockCard">
       <div class="hp-preview-section">
         <!-- Desktop browser frame -->
         <div class="desktop-frame">
@@ -1216,7 +1217,7 @@ s-select select, .time-select {
           <div>
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
               <span style="font-size:14px; font-weight:600;">Order edits block</span>
-              <span id="blockLiveStatus" style="display:inline-flex; align-items:center; gap:4px; font-size:11px; color:#616161;"><span id="blockLiveDot" style="width:6px; height:6px; border-radius:50%; background:#8a8a8a; display:inline-block;"></span> <span id="blockLiveText">Not live</span></span>
+              <span id="blockLiveStatus" style="display:none; align-items:center; gap:4px; font-size:11px; color:#616161;"><span id="blockLiveDot" style="width:6px; height:6px; border-radius:50%; background:#8a8a8a; display:inline-block;"></span> <span id="blockLiveText">Not live</span></span>
             </div>
             <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">Customize actions and preview the responsive layout across desktop and mobile.</div>
             <div class="hp-status-row" style="margin-bottom:0;">
@@ -1597,6 +1598,16 @@ s-select select, .time-select {
 </div>
 
 <script>
+// ---- Show/hide "Not live" status based on install state ----
+function updateLiveStatusVisibility() {
+  var badgeTY = document.getElementById('badgeThankYou');
+  var badgeOS = document.getElementById('badgeOrderStatus');
+  var status = document.getElementById('blockLiveStatus');
+  if (!status) return;
+  var anyInstalled = (badgeTY && badgeTY.classList.contains('installed')) || (badgeOS && badgeOS.classList.contains('installed'));
+  status.style.display = anyInstalled ? 'inline-flex' : 'none';
+}
+
 // ---- Navigation ----
 function goTo(page) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1609,7 +1620,7 @@ function goTo(page) {
 
   // Show onboarding overlay when entering homepage
   if (page === 'homepage') {
-    setTimeout(showOnboarding, 300);
+    setTimeout(showOnboarding, 500);
   }
 }
 
@@ -1680,6 +1691,7 @@ function saveSetupState() {
         if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
         var actionBtn = document.getElementById('blockActionBtn');
         if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.style.background = '#008060'; }
+        updateLiveStatusVisibility();
       }
       // Restore live state
       if (state.blockLive) {
@@ -1735,6 +1747,7 @@ function completeSetupStep(n) {
       actionBtn.textContent = 'Verify and go live';
       actionBtn.style.background = '#008060';
     }
+    updateLiveStatusVisibility();
   }
   // Step 3 complete → close modal, switch to live state
   if (n === 3) {
@@ -1759,7 +1772,7 @@ function setBlockLive() {
   var txt = document.getElementById('blockLiveText');
   if (txt) txt.textContent = 'Live';
   var status = document.getElementById('blockLiveStatus');
-  if (status) status.style.color = '#008060';
+  if (status) { status.style.color = '#008060'; status.style.display = 'inline-flex'; }
   // Both pages installed
   var badgeTY = document.getElementById('badgeThankYou');
   if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
@@ -1907,7 +1920,7 @@ document.addEventListener('click', function(e) {
 
 // Reset to landing (not enabled) state
 function resetToLanding() {
-  try { sessionStorage.removeItem('currentPage'); sessionStorage.removeItem('setupState'); } catch(e) {}
+  try { sessionStorage.removeItem('currentPage'); sessionStorage.removeItem('setupState'); sessionStorage.removeItem('onboardingDismissed'); } catch(e) {}
   // Reset all setup steps
   completedSteps = {};
   editorSaved = false;
@@ -1939,7 +1952,7 @@ function resetToLanding() {
   var ltxt = document.getElementById('blockLiveText');
   if (ltxt) ltxt.textContent = 'Not live';
   var lstatus = document.getElementById('blockLiveStatus');
-  if (lstatus) lstatus.style.color = '#616161';
+  if (lstatus) { lstatus.style.color = '#616161'; lstatus.style.display = 'none'; }
   var btnsNotLive = document.getElementById('blockBtnsNotLive');
   if (btnsNotLive) btnsNotLive.style.display = 'flex';
   var btnsLive = document.getElementById('blockBtnsLive');
@@ -1953,36 +1966,46 @@ function resetToLanding() {
   goTo('landing');
 }
 
-// ---- Onboarding Overlay (Page 3) ----
+// ---- Onboarding Tooltip (points at Install button) ----
 function showOnboarding() {
-  const overlay = document.getElementById('onboardingOverlay');
-  const tooltip = document.getElementById('onboardingTooltip');
-  const blockSection = document.getElementById('blockInfoSection');
+  // Don't show if already dismissed or if block is live
+  var liveText = document.getElementById('blockLiveText');
+  if (liveText && liveText.textContent === 'Live') return;
+  try { if (sessionStorage.getItem('onboardingDismissed')) return; } catch(e) {}
+
+  var overlay = document.getElementById('onboardingOverlay');
+  var tooltip = document.getElementById('onboardingTooltip');
+  var installBtn = document.getElementById('blockActionBtn');
+  if (!installBtn) return;
+
   overlay.classList.remove('hidden');
-  // Position tooltip near the block info section
-  setTimeout(() => {
-    if (blockSection) {
-      const rect = blockSection.getBoundingClientRect();
+
+  setTimeout(function() {
+    // Scroll the install button area into view
+    installBtn.scrollIntoView({ block: 'center', behavior: 'instant' });
+
+    setTimeout(function() {
+      var btnRect = installBtn.getBoundingClientRect();
+      // Position tooltip to the left of the Install button, arrow pointing right
       tooltip.style.position = 'fixed';
-      tooltip.style.top = (rect.bottom + 12) + 'px';
-      tooltip.style.left = (rect.left + rect.width / 2 - 160) + 'px';
+      tooltip.style.top = (btnRect.top + btnRect.height / 2 - 60) + 'px';
+      tooltip.style.left = (btnRect.left - 320 - 16) + 'px';
       tooltip.style.bottom = 'auto';
       tooltip.style.right = 'auto';
-      // Add highlight effect
-      blockSection.style.position = 'relative';
-      blockSection.style.zIndex = '401';
-      blockSection.style.boxShadow = '0 0 0 4px rgba(255,255,255,.9), 0 0 0 6px rgba(0,0,0,.1)';
-    }
-  }, 50);
+      // If tooltip goes off left edge, place it below the button instead
+      if (parseFloat(tooltip.style.left) < 240) {
+        tooltip.style.left = (btnRect.left + btnRect.width / 2 - 160) + 'px';
+        tooltip.style.top = (btnRect.bottom + 12) + 'px';
+        // Switch arrow to point up
+        tooltip.style.setProperty('--arrow', 'up');
+      }
+    }, 100);
+  }, 100);
 }
 function dismissOnboarding(e, force) {
-  if (force || e.target === document.getElementById('onboardingOverlay')) {
+  if (force) {
     document.getElementById('onboardingOverlay').classList.add('hidden');
-    const blockSection = document.getElementById('blockInfoSection');
-    if (blockSection) {
-      blockSection.style.zIndex = '';
-      blockSection.style.boxShadow = '';
-    }
+    try { sessionStorage.setItem('onboardingDismissed', '1'); } catch(e) {}
   }
 }
 
