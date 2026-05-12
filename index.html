@@ -84,21 +84,7 @@ body { font-family:var(--font); font-size:13px; color:var(--text); background:va
 .hero-dots span { width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,.2); }
 .hero-dots span:first-child { background:rgba(0,0,0,.6); }
 
-.btn-dark {
-  display:inline-flex; align-items:center; gap:6px;
-  background:var(--dark); color:#fff; border:none; padding:9px 16px;
-  border-radius:8px; font-size:13px; font-weight:600; cursor:pointer;
-  font-family:var(--font); transition:background .15s;
-}
-.btn-dark:hover { background:#1a1a1a; }
-.btn-dark svg { width:16px; height:16px; }
-.btn-outline {
-  display:inline-flex; align-items:center; gap:6px;
-  background:var(--surface); color:var(--text); border:1px solid var(--border);
-  padding:8px 16px; border-radius:8px; font-size:13px; font-weight:500;
-  cursor:pointer; font-family:var(--font); transition:background .15s;
-}
-.btn-outline:hover { background:#f5f5f5; }
+/* .btn-dark, .btn-outline now use s-button */
 
 .features { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
 .feature-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
@@ -173,26 +159,69 @@ s-text[variant="bodyMd"] { display:block; font-size:13px; }
 s-text[tone="subdued"] { color:var(--text-sub); }
 /* s-heading polyfill */
 s-heading { display:block; font-size:14px; font-weight:600; }
-/* s-button polyfill */
+/* s-button polyfill — Polaris Button */
 s-button {
-  display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  padding:7px 16px; border-radius:8px; font-size:13px; font-weight:600;
-  font-family:var(--font); cursor:pointer; border:1px solid var(--border);
-  background:var(--surface); color:var(--text); text-decoration:none;
-  line-height:1.4; transition:background .15s;
+  display:inline-flex; align-items:center; justify-content:center; gap:2px;
+  padding:6px 12px; border-radius:8px; font-size:12px; font-weight:550;
+  font-family:var(--font); cursor:pointer; border:none;
+  background:#fff; color:var(--text); text-decoration:none;
+  line-height:16px; min-height:28px; box-sizing:border-box;
+  transition:background .12s, box-shadow .12s;
+  white-space:nowrap; position:relative;
+  box-shadow:0 0 0 0 transparent,0 1px 0 0 #b5b5b5,0 0 0 0 transparent,0 0 0 1px #e3e3e3,0 -1px 0 0 #d2d2d2 inset;
 }
-s-button:hover { background:#f5f5f5; }
+s-button:hover { background:#fafafa; box-shadow:0 0 0 0 transparent,0 1px 0 0 #b5b5b5,0 0 0 0 transparent,0 0 0 1px #e3e3e3,0 -1px 0 0 #c6c6c6 inset; }
+s-button:active { background:#f7f7f7; box-shadow:0 1px 0 0 #b5b5b5 inset,0 0 0 1px #e3e3e3; }
+s-button:active > * { transform:translateY(0.5px); }
+s-button:focus-visible { outline:2px solid #005bd3; outline-offset:1px; }
+/* Primary */
 s-button[variant="primary"] {
-  background:var(--dark); color:#fff; border-color:var(--dark);
+  background:var(--dark); color:#fff; border:none;
+  background-image:linear-gradient(180deg,rgba(48,48,48,0) 63.53%,rgba(255,255,255,.15) 100%);
+  box-shadow:0 0 0 0 transparent,0 1px 0 0 rgba(0,0,0,.8),0 0 0 0 transparent,0 0 0 1px rgba(0,0,0,.8),0 -1px 0 0 rgba(255,255,255,.2) inset;
 }
-s-button[variant="primary"]:hover { background:#1a1a1a; }
-s-button[variant="tertiary"] {
-  background:none; border:none; color:var(--text); padding:7px 12px;
+s-button[variant="primary"]:hover { background-color:#1a1a1a; box-shadow:0 0 0 0 transparent,0 1px 0 0 rgba(0,0,0,.8),0 0 0 0 transparent,0 0 0 1px rgba(0,0,0,.8),0 -1px 0 0 rgba(255,255,255,.12) inset; }
+s-button[variant="primary"]:active { background-color:#111; background-image:none; box-shadow:0 1px 0 0 rgba(0,0,0,.8) inset,0 0 0 1px rgba(0,0,0,.8); }
+/* Tertiary */
+s-button[variant="tertiary"] { background:transparent; box-shadow:none; color:var(--text); padding:6px 8px; }
+s-button[variant="tertiary"]:hover { background:rgba(0,0,0,.05); box-shadow:none; }
+s-button[variant="tertiary"]:active { background:rgba(0,0,0,.08); box-shadow:none; }
+/* Plain */
+s-button[variant="plain"] { background:transparent; box-shadow:none; color:#005bd3; padding:0; font-weight:550; min-height:auto; }
+s-button[variant="plain"]:hover { color:#004299; text-decoration:underline; background:transparent; box-shadow:none; }
+s-button[variant="plain"]:active { color:#002e6a; text-decoration:underline; background:transparent; box-shadow:none; }
+/* Tones — critical */
+s-button[tone="critical"] { color:#8e0b21; }
+s-button[tone="critical"][variant="primary"] {
+  background:#c70a24; color:#fffafb; border:none;
+  background-image:linear-gradient(180deg,rgba(199,10,36,0) 63.53%,rgba(255,255,255,.15) 100%);
+  box-shadow:0 0 0 0 transparent,0 1px 0 0 rgba(142,11,33,.8),0 0 0 0 transparent,0 0 0 1px rgba(142,11,33,.8),0 -1px 0 0 rgba(255,255,255,.2) inset;
 }
-s-button[variant="tertiary"]:hover { background:rgba(0,0,0,.05); }
-s-button[tone="critical"] { color:#d72c0d; border-color:#d72c0d; }
-s-button[tone="critical"][variant="primary"] { background:#d72c0d; color:#fff; }
-s-button[disabled] { opacity:.5; cursor:not-allowed; }
+s-button[tone="critical"][variant="primary"]:hover { background-color:#a30a24; }
+s-button[tone="critical"][variant="primary"]:active { background-color:#8e0b21; background-image:none; }
+/* Tones — success */
+s-button[tone="success"] { color:#014b40; }
+s-button[tone="success"][variant="primary"] {
+  background:#047b5d; color:#fafffb; border:none;
+  background-image:linear-gradient(180deg,rgba(4,123,93,0) 63.53%,rgba(255,255,255,.15) 100%);
+  box-shadow:0 0 0 0 transparent,0 1px 0 0 rgba(1,75,64,.8),0 0 0 0 transparent,0 0 0 1px rgba(1,75,64,.8),0 -1px 0 0 rgba(255,255,255,.2) inset;
+}
+s-button[tone="success"][variant="primary"]:hover { background-color:#035e4c; }
+s-button[tone="success"][variant="primary"]:active { background-color:#014b40; background-image:none; }
+/* Sizes */
+s-button[size="micro"] { padding:4px 8px; font-size:11px; border-radius:6px; min-height:24px; }
+s-button[size="large"] { padding:6px 12px; font-size:13px; line-height:20px; min-height:32px; }
+/* Icon-only */
+s-button[icon-only] { padding:4px; min-width:28px; min-height:28px; }
+s-button[icon-only][size="large"] { padding:6px; min-width:32px; min-height:32px; }
+s-button[icon-only][size="micro"] { padding:2px; min-width:24px; min-height:24px; }
+/* Disclosure */
+s-button[disclosure]::after { content:''; border:solid currentColor; border-width:0 1.5px 1.5px 0; display:inline-block; padding:2px; transform:rotate(45deg); margin-left:2px; margin-top:-2px; }
+/* Disabled */
+s-button[disabled] { background:rgba(0,0,0,.05); color:#b5b5b5; box-shadow:none; cursor:not-allowed; pointer-events:none; background-image:none; }
+s-button[variant="primary"][disabled] { background:rgba(0,0,0,.17); color:rgba(255,255,255,.67); }
+/* Icon sizing */
+s-button svg { width:16px; height:16px; flex-shrink:0; }
 /* s-badge polyfill */
 s-badge {
   display:inline-flex; align-items:center; gap:4px;
@@ -272,17 +301,38 @@ s-select select, .time-select {
 /* Preview card — overrides handled above */
 .preview-container { position:sticky; top:0; max-width:80%; }
 .preview-toggle-bar { display:flex; justify-content:flex-end; gap:4px; margin-bottom:8px; }
-.preview-toggle-btn {
-  width:32px; height:32px; border:1px solid var(--border); border-radius:6px;
-  background:var(--surface); cursor:pointer; display:flex; align-items:center; justify-content:center;
-  color:var(--text-sub); font-size:16px;
-}
-.preview-toggle-btn.active { background:var(--dark); color:#fff; border-color:var(--dark); }
+s-button.preview-toggle-btn { padding:4px; min-width:28px; min-height:28px; border-radius:6px; color:var(--text-sub); }
+s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-shadow:0 0 0 1px var(--dark); }
 
 .preview-frame {
   background:var(--surface); border:1px solid var(--border); border-radius:12px;
-  overflow:hidden;
+  overflow:hidden; transition:all .3s ease;
 }
+/* Mobile phone mode for preview */
+.preview-frame.mobile-mode {
+  max-width:280px; margin:0 auto; border-radius:16px;
+  border:1px solid #ddd; box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.preview-frame.mobile-mode .preview-inner { padding:12px 14px; }
+.preview-frame.mobile-mode .preview-inner h4 { font-size:12px; }
+.preview-frame.mobile-mode .preview-inner .timer { font-size:10px; margin-bottom:8px; }
+.preview-frame.mobile-mode .preview-action-header { font-size:11px; padding:8px 0; }
+.preview-frame.mobile-mode .preview-upsell h5 { font-size:10px; }
+.preview-frame.mobile-mode .preview-upsell-grid { flex-wrap:nowrap; }
+.preview-frame.mobile-mode .preview-upsell-item { min-width:0; }
+.preview-frame.mobile-mode .preview-upsell-item:nth-child(n+3) { display:none; }
+.preview-frame.mobile-mode .preview-upsell-item .img { height:80px; }
+.preview-frame.mobile-mode .preview-upsell-item .name { font-size:9px; }
+.preview-frame.mobile-mode .preview-upsell-item .meta { font-size:8px; }
+.preview-frame.mobile-mode .preview-upsell-item .add-link { font-size:9px; padding:3px 8px; }
+.preview-phone-bar {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6px 16px; font-size:11px; font-weight:600; color:#fff;
+  background:#303030; border-radius:15px 15px 0 0;
+}
+.phone-time { font-size:11px; font-weight:600; }
+.phone-icons { display:flex; align-items:center; gap:5px; }
+.phone-icons svg { width:auto; height:10px; }
 .preview-mac-bar {
   display:flex; align-items:center; gap:6px; padding:10px 14px;
   background:#f8f8f8; border-bottom:1px solid var(--border);
@@ -443,12 +493,7 @@ s-select select, .time-select {
 }
 .onboarding-tooltip h4 { font-size:14px; font-weight:600; margin-bottom:6px; }
 .onboarding-tooltip p { font-size:13px; color:var(--text-sub); line-height:1.5; margin-bottom:12px; }
-.onboarding-tooltip .got-it {
-  background:none; border:1px solid var(--border); border-radius:8px;
-  padding:6px 16px; font-size:13px; font-weight:500; cursor:pointer;
-  font-family:var(--font);
-}
-.onboarding-tooltip .got-it:hover { background:#f5f5f5; }
+/* .onboarding-tooltip .got-it now uses s-button */
 
 /* ===== INSTALL MODAL ===== */
 .install-modal-overlay {
@@ -520,18 +565,7 @@ s-select select, .time-select {
 }
 .setup-step-gif img { width:100%; height:100%; object-fit:cover; }
 .setup-step-actions { display:flex; gap:8px; flex-wrap:wrap; }
-.setup-step-btn {
-  display:inline-flex; align-items:center; padding:7px 16px;
-  background:#303030; color:#fff; border:none; border-radius:8px;
-  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
-}
-.setup-step-btn:hover { background:#1a1a1a; }
-.setup-step-btn-secondary {
-  display:inline-flex; align-items:center; padding:7px 16px;
-  background:#fff; color:#303030; border:1px solid #c9cccf; border-radius:8px;
-  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
-}
-.setup-step-btn-secondary:hover { background:#f6f6f7; }
+/* .setup-step-btn, .setup-step-btn-secondary now use s-button */
 /* Success banner */
 .setup-step-banner {
   background:#e4f6ee; border-radius:10px; padding:14px 16px;
@@ -570,11 +604,8 @@ s-select select, .time-select {
 #page-editor .editor-topbar .live-badge {
   background:#aee9d1; color:#0c5132; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px;
 }
-#page-editor .editor-topbar .save-btn {
-  background:#e1e1e1; color:#6d7175; font-size:13px; font-weight:500; padding:6px 16px; border-radius:8px;
-  border:none; cursor:pointer; margin-left:auto; transition:all .2s;
-}
-#page-editor .editor-topbar .save-btn.active { background:#303030; color:#fff; opacity:1; }
+/* .save-btn now uses s-button */
+#page-editor .editor-topbar s-button { margin-left:auto; }
 #page-editor .editor-body { display:flex; height:calc(100vh - 52px - 48px); }
 #page-editor .editor-sidebar {
   width:300px; background:#fff; border-right:1px solid #e1e3e5; overflow-y:auto; font-size:13px;
@@ -622,11 +653,8 @@ s-select select, .time-select {
 .editor-sidebar .block-info .not-live::before {
   content:''; width:6px; height:6px; background:#6d7175; border-radius:50%;
 }
-.editor-sidebar .block-info .back-btn {
-  display:inline-block; border:1px solid #e1e3e5; border-radius:8px; padding:6px 14px;
-  font-size:12px; font-weight:500; cursor:pointer; background:#fff; margin-top:10px;
-}
-.editor-sidebar .block-info .back-btn:hover { background:#f6f6f7; }
+/* .back-btn now uses s-button */
+.editor-sidebar .block-info s-button { margin-top:10px; }
 
 /* ===== PREVIEW ACCORDION ===== */
 .preview-action {
@@ -663,13 +691,7 @@ s-select select, .time-select {
 .mini-row { display:flex; gap:6px; }
 .mini-row .mini-form-group { flex:1; }
 .mini-btn-row { display:flex; gap:6px; justify-content:flex-end; margin-top:8px; }
-.mini-btn {
-  padding:4px 12px; border-radius:6px; font-size:10px; font-weight:600;
-  font-family:var(--font); cursor:pointer; border:1px solid var(--border); background:#fff; color:var(--text);
-}
-.mini-btn.primary { background:var(--dark); color:#fff; border-color:var(--dark); }
-.mini-btn.link { background:none; border:none; color:#2c6ecb; padding:4px 8px; }
-.mini-btn.danger { background:#d72c0d; color:#fff; border-color:#d72c0d; }
+/* .mini-btn and variants now use s-button */
 /* Product row mini */
 .mini-product { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid #f3f3f3; }
 .mini-product:last-child { border-bottom:none; }
@@ -694,6 +716,171 @@ s-select select, .time-select {
 /* Address book link */
 .mini-link { color:#2c6ecb; font-size:10px; font-weight:500; text-decoration:none; cursor:pointer; }
 .mini-link:hover { text-decoration:underline; }
+
+/* ===== ANALYTICS TAB ===== */
+.analytics-filter-bar {
+  display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;
+}
+/* .analytics-filter-btn now uses s-button */
+s-button.af-btn { font-weight:500; position:relative; }
+.analytics-filter-spacer { flex:1; }
+
+.analytics-dropdown {
+  display:none; position:absolute; top:calc(100% + 4px); left:0;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,.1);
+  min-width:160px; z-index:20; overflow:hidden;
+}
+.analytics-dropdown.open { display:block; }
+.analytics-dropdown-item {
+  padding:8px 14px; font-size:13px; cursor:pointer; color:var(--text);
+}
+.analytics-dropdown-item:hover { background:#f5f5f5; }
+.analytics-dropdown-item.active { font-weight:600; background:rgba(0,0,0,.04); }
+
+.analytics-kpi-row {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px;
+}
+.analytics-kpi-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:16px 20px; display:flex; align-items:center; cursor:pointer;
+  transition:box-shadow .15s;
+}
+.analytics-kpi-card:hover { box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.analytics-kpi-info { flex:1; }
+.analytics-kpi-label { font-size:13px; color:var(--text-sub); margin-bottom:4px; }
+.analytics-kpi-value { font-size:22px; font-weight:700; color:var(--text); }
+.analytics-kpi-change {
+  display:inline-flex; align-items:center; gap:3px;
+  font-size:12px; font-weight:600; margin-left:8px;
+}
+.analytics-kpi-change.up { color:#008060; }
+.analytics-kpi-change.down { color:#d72c0d; }
+.analytics-kpi-arrow {
+  display:flex; align-items:center; justify-content:center;
+  width:32px; height:32px; border-radius:8px; color:var(--text-sub); flex-shrink:0;
+}
+.analytics-kpi-arrow svg { width:20px; height:20px; }
+
+.analytics-chart-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  padding:20px; margin-bottom:16px;
+}
+.analytics-chart-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+}
+.analytics-chart-title { font-size:14px; font-weight:600; }
+.analytics-chart-actions { display:flex; align-items:center; gap:8px; }
+.analytics-chart-row {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;
+}
+
+.analytics-chart-svg { width:100%; overflow:visible; }
+.analytics-chart-svg text { font-family:var(--font); }
+.analytics-chart-svg .axis-label { font-size:11px; fill:var(--text-sub); }
+.analytics-chart-svg .grid-line { stroke:var(--border); stroke-width:1; }
+.analytics-chart-svg .chart-line { fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.analytics-chart-svg .chart-area { opacity:.08; }
+.analytics-chart-svg .chart-dot { cursor:pointer; }
+.analytics-chart-svg .hover-line { stroke:var(--text-sub); stroke-width:1; stroke-dasharray:3,3; opacity:0; transition:opacity .15s; }
+.analytics-chart-svg .hover-dot { opacity:0; transition:opacity .12s; }
+.analytics-chart-svg .chart-dot-default { opacity:0; transition:opacity .12s; }
+.analytics-chart-svg .bar-hover-overlay { opacity:0; fill:#000; transition:opacity .12s; cursor:pointer; }
+
+.analytics-tooltip {
+  position:absolute; background:#fff; color:var(--text);
+  padding:10px 14px; border-radius:10px; font-size:12px;
+  pointer-events:none; white-space:nowrap; z-index:30;
+  transform:translate(-50%, -100%); margin-top:-12px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.12);
+  min-width:120px;
+}
+.analytics-tooltip::after {
+  content:''; position:absolute; top:100%; left:50%;
+  transform:translateX(-50%); border:5px solid transparent;
+  border-top-color:#fff;
+}
+.analytics-tooltip .tt-label { font-size:11px; color:var(--text-sub); margin-bottom:4px; }
+.analytics-tooltip .tt-value { font-size:16px; font-weight:650; color:var(--text); }
+.analytics-tooltip .tt-compare { font-size:11px; color:var(--text-sub); margin-top:2px; }
+.analytics-tooltip .tt-row { display:flex; align-items:center; gap:6px; margin-top:4px; }
+.analytics-tooltip .tt-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+.analytics-tooltip .tt-seg-label { font-size:11px; color:var(--text-sub); flex:1; }
+.analytics-tooltip .tt-seg-value { font-size:12px; font-weight:600; color:var(--text); }
+
+.analytics-legend {
+  display:flex; align-items:center; gap:16px; margin-top:12px; flex-wrap:wrap;
+}
+.analytics-legend-item {
+  display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text-sub);
+}
+.analytics-legend-dot {
+  width:8px; height:8px; border-radius:2px; flex-shrink:0;
+}
+
+.analytics-pagination {
+  display:flex; align-items:center; gap:8px; margin-top:12px; justify-content:center;
+}
+/* .analytics-pagination button now uses s-button */
+.analytics-pagination span { font-size:12px; color:var(--text-sub); }
+
+.analytics-bar-label {
+  font-size:12px; fill:var(--text);
+}
+.analytics-bar-value {
+  font-size:11px; fill:var(--text-sub);
+}
+
+.home-tab { padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer; border-radius:8px; transition:all .15s; }
+.home-tab:hover { background:rgba(0,0,0,.04); }
+.home-tab.active { font-weight:600; background:#303030; color:#fff; }
+
+/* Analytics detail view */
+.analytics-detail {
+  display:none;
+}
+.analytics-detail.active {
+  display:block;
+}
+.analytics-detail-header {
+  display:flex; align-items:center; gap:12px; margin-bottom:16px;
+}
+.analytics-detail-header h2 {
+  font-size:16px; font-weight:600; color:var(--text); margin:0;
+}
+.analytics-detail-back {
+  display:inline-flex; align-items:center; gap:4px; font-size:13px; color:var(--text);
+  cursor:pointer; padding:4px 8px; border-radius:6px; background:none; border:none;
+  font-family:var(--font); font-weight:500;
+}
+.analytics-detail-back:hover { background:rgba(0,0,0,.05); }
+.analytics-detail-back svg { width:16px; height:16px; }
+.analytics-detail-filters {
+  display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;
+}
+.analytics-detail-table {
+  width:100%; border-collapse:collapse; margin-top:16px; font-size:13px;
+}
+.analytics-detail-table th {
+  text-align:left; padding:10px 12px; font-weight:550; color:var(--text);
+  border-bottom:1px solid var(--border); font-size:12px;
+}
+.analytics-detail-table th.num { text-align:right; }
+.analytics-detail-table td {
+  padding:10px 12px; border-bottom:1px solid #f1f1f1; color:var(--text);
+}
+.analytics-detail-table td.num { text-align:right; }
+.analytics-detail-table tr:hover td { background:#fafafa; }
+.analytics-detail-table .sortable { cursor:pointer; user-select:none; }
+.analytics-detail-table .sortable::after { content:' ↕'; color:var(--text-sub); font-size:10px; }
+.analytics-detail-count { font-size:12px; color:var(--text-sub); margin-top:12px; }
+
+.detail-gran-tab {
+  padding:6px 14px; font-size:13px; font-weight:500; color:var(--text-sub);
+  cursor:pointer; border-radius:8px; transition:all .15s; border:1px solid transparent;
+}
+.detail-gran-tab:hover { background:rgba(0,0,0,.04); }
+.detail-gran-tab.active { color:#005bd3; border-color:#005bd3; background:rgba(0,91,211,.04); font-weight:600; }
 </style>
 </head>
 <body>
@@ -904,14 +1091,22 @@ s-select select, .time-select {
         <div class="config-right">
           <div class="preview-container">
             <div class="preview-toggle-bar">
-              <button class="preview-toggle-btn active" title="Desktop"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 6.25a2.75 2.75 0 0 1 2.75-2.75h7.5a2.75 2.75 0 0 1 2.75 2.75v4.5a2.75 2.75 0 0 1-2.75 2.75h-1.25v1.5h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.5h-1.25a2.75 2.75 0 0 1-2.75-2.75v-4.5Zm5.5 7.25h2v1.5h-2v-1.5Zm-2.75-8.5c-.69 0-1.25.56-1.25 1.25v3.25h10v-3.25c0-.69-.56-1.25-1.25-1.25h-7.5Zm8.725 6c-.116.57-.62 1-1.225 1h-7.5a1.25 1.25 0 0 1-1.225-1h9.95Z"/></svg></button>
-              <button class="preview-toggle-btn" title="Mobile"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M7.75 13.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/><path fill-rule="evenodd" d="M4.75 5.75a2.75 2.75 0 0 1 2.75-2.75h5a2.75 2.75 0 0 1 2.75 2.75v8.5a2.75 2.75 0 0 1-2.75 2.75h-5a2.75 2.75 0 0 1-2.75-2.75v-8.5Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v8.5c0 .69.56 1.25 1.25 1.25h5c.69 0 1.25-.56 1.25-1.25v-8.5c0-.69-.56-1.25-1.25-1.25h-.531a1 1 0 0 1-.969.75h-2a1 1 0 0 1-.969-.75h-.531Z"/></svg></button>
+              <s-button class="preview-toggle-btn active" icon-only title="Desktop" onclick="switchPreviewDevice('desktop')"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 6.25a2.75 2.75 0 0 1 2.75-2.75h7.5a2.75 2.75 0 0 1 2.75 2.75v4.5a2.75 2.75 0 0 1-2.75 2.75h-1.25v1.5h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.5h-1.25a2.75 2.75 0 0 1-2.75-2.75v-4.5Zm5.5 7.25h2v1.5h-2v-1.5Zm-2.75-8.5c-.69 0-1.25.56-1.25 1.25v3.25h10v-3.25c0-.69-.56-1.25-1.25-1.25h-7.5Zm8.725 6c-.116.57-.62 1-1.225 1h-7.5a1.25 1.25 0 0 1-1.225-1h9.95Z"/></svg></s-button>
+              <s-button class="preview-toggle-btn" icon-only title="Mobile" onclick="switchPreviewDevice('mobile')"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M7.75 13.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/><path fill-rule="evenodd" d="M4.75 5.75a2.75 2.75 0 0 1 2.75-2.75h5a2.75 2.75 0 0 1 2.75 2.75v8.5a2.75 2.75 0 0 1-2.75 2.75h-5a2.75 2.75 0 0 1-2.75-2.75v-8.5Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v8.5c0 .69.56 1.25 1.25 1.25h5c.69 0 1.25-.56 1.25-1.25v-8.5c0-.69-.56-1.25-1.25-1.25h-.531a1 1 0 0 1-.969.75h-2a1 1 0 0 1-.969-.75h-.531Z"/></svg></s-button>
             </div>
-            <div class="preview-frame">
-              <div class="preview-mac-bar">
+            <div class="preview-frame" id="previewFrame">
+              <div class="preview-mac-bar" id="previewMacBar">
                 <span class="mac-dot r"></span>
                 <span class="mac-dot y"></span>
                 <span class="mac-dot g"></span>
+              </div>
+              <div class="preview-phone-bar" id="previewPhoneBar" style="display:none;">
+                <span class="phone-time">9:41</span>
+                <span class="phone-icons">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 8h1.5v3H1zM3.5 6h1.5v5H3.5zM6 4h1.5v7H6zM8.5 1.5h1.5V11H8.5z" fill="#fff"/></svg>
+                  <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M6.5 3c1.5 0 2.8.6 3.8 1.5L9.1 5.7c-.7-.6-1.6-1-2.6-1s-1.9.4-2.6 1L2.7 4.5C3.7 3.6 5 3 6.5 3zM6.5.5c2.3 0 4.4.9 5.9 2.4L11.2 4C10 2.8 8.3 2 6.5 2S3 2.8 1.8 4L.6 2.9C2.1 1.4 4.2.5 6.5.5zM6.5 5.5c.8 0 1.6.3 2.1.9L6.5 9 4.4 6.4c.5-.6 1.3-.9 2.1-.9z" fill="#fff"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="#fff" stroke-opacity=".4"/><rect x="1.5" y="1.5" width="14" height="8" rx="1" fill="#fff"/><path d="M20 4v3a1.5 1.5 0 0 0 0-3z" fill="#fff" opacity=".4"/></svg>
+                </span>
               </div>
               <div class="preview-inner">
                 <h4>Need to make a change?</h4>
@@ -946,9 +1141,9 @@ s-select select, .time-select {
                           <div class="mini-form-group"><label>ZIP code</label><input class="mini-input" value="94102"></div>
                         </div>
                         <div class="mini-btn-row">
-                          <button class="mini-btn link">Clear</button>
-                          <button class="mini-btn">Discard</button>
-                          <button class="mini-btn primary">Save</button>
+                          <s-button variant="plain" size="micro">Clear</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Save</s-button>
                         </div>
                       </div>
                     </div>
@@ -1001,9 +1196,9 @@ s-select select, .time-select {
                           <div class="mini-summary-row total"><span>Remaining</span><span>USD $50.00</span></div>
                         </div>
                         <div class="mini-btn-row" style="margin-top:10px;">
-                          <button class="mini-btn link">Reset</button>
-                          <button class="mini-btn">Discard</button>
-                          <button class="mini-btn primary">Continue to pay</button>
+                          <s-button variant="plain" size="micro">Reset</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Continue to pay</s-button>
                         </div>
                       </div>
                     </div>
@@ -1035,9 +1230,9 @@ s-select select, .time-select {
                         <div class="mini-form-group"><label>Name</label><input class="mini-input" value="Katherine"></div>
                         <div class="mini-form-group"><label>Email</label><input class="mini-input" value="342342342@gmail.com"></div>
                         <div class="mini-btn-row">
-                          <button class="mini-btn link">Clear</button>
-                          <button class="mini-btn">Discard</button>
-                          <button class="mini-btn primary">Save</button>
+                          <s-button variant="plain" size="micro">Clear</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Save</s-button>
                         </div>
                       </div>
                     </div>
@@ -1054,8 +1249,8 @@ s-select select, .time-select {
                         <p style="margin-bottom:8px; color:var(--text-sub); font-size:11px;">Enter a valid discount code to apply to your order.</p>
                         <div class="mini-form-group"><input class="mini-input" placeholder="Discount code"></div>
                         <div class="mini-btn-row">
-                          <button class="mini-btn">Discard</button>
-                          <button class="mini-btn primary">Apply</button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Apply</s-button>
                         </div>
                       </div>
                     </div>
@@ -1072,8 +1267,8 @@ s-select select, .time-select {
                         <p style="margin-bottom:8px; color:var(--text); font-size:11px;">Wait, before you cancel, could you choose the reason for cancellation (optional)</p>
                         <select class="mini-select"><option>Select reason</option><option>Changed my mind</option><option>Found a better price</option><option>Ordered by mistake</option></select>
                         <div class="mini-btn-row" style="margin-top:10px;">
-                          <button class="mini-btn">Keep order</button>
-                          <button class="mini-btn danger">Cancel order</button>
+                          <s-button size="micro">Keep order</s-button>
+                          <s-button variant="primary" tone="critical" size="micro">Cancel order</s-button>
                         </div>
                       </div>
                     </div>
@@ -1124,12 +1319,14 @@ s-select select, .time-select {
       <div class="hp-title">Order Edits</div>
 
       <!-- Tabs: App block / Analytics / Rules -->
-      <div style="display:flex; gap:4px; margin-bottom:20px;">
-        <div style="padding:7px 14px; font-size:13px; font-weight:600; background:#303030; color:#fff; border-radius:8px; cursor:pointer;">App block</div>
-        <div style="padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer;">Analytics</div>
-        <div style="padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer;">Rules</div>
+      <div id="homeTabs" style="display:flex; gap:4px; margin-bottom:20px;">
+        <div class="home-tab active" onclick="switchHomeTab('appblock')">App block</div>
+        <div class="home-tab" onclick="switchHomeTab('analytics')">Analytics</div>
+        <div class="home-tab" onclick="switchHomeTab('rules')">Rules</div>
       </div>
 
+      <!-- === Tab: App Block === -->
+      <div id="tabAppBlock">
       <!-- Combined block card: preview + info -->
       <div class="hp-block-card" id="blockCard">
       <div class="hp-preview-section">
@@ -1227,13 +1424,13 @@ s-select select, .time-select {
           </div>
           <!-- Buttons: not-live state -->
           <div id="blockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
-            <button style="padding:7px 16px; font-size:13px; font-weight:600; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; font-family:var(--font);">Customize</button>
-            <button id="blockActionBtn" style="padding:7px 16px; font-size:13px; font-weight:600; border:none; border-radius:8px; background:#303030; color:#fff; cursor:pointer; font-family:var(--font);" onclick="openInstallModal()">Install</button>
+            <s-button>Customize</s-button>
+            <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Install</s-button>
           </div>
           <!-- Buttons: live state -->
           <div id="blockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
-            <button onclick="toggleMoreMenu(event)" style="width:36px; height:36px; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; color:#5c5f62;">⋯</button>
-            <button style="padding:7px 16px; font-size:13px; font-weight:600; border:1px solid #c9cccf; border-radius:8px; background:#fff; cursor:pointer; font-family:var(--font);">Customize</button>
+            <s-button icon-only onclick="toggleMoreMenu(event)">⋯</s-button>
+            <s-button>Customize</s-button>
             <!-- More dropdown -->
             <div id="moreMenuDropdown" style="display:none; position:absolute; bottom:42px; right:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
               <div style="padding:10px 16px; font-size:13px; cursor:default; display:flex; align-items:center; gap:8px;">Unpublish</div>
@@ -1262,6 +1459,237 @@ s-select select, .time-select {
           </div>
         </div>
       </s-section>
+      </div><!-- end tabAppBlock -->
+
+      <!-- === Tab: Analytics === -->
+      <div id="tabAnalytics" style="display:none;">
+
+        <!-- Filter bar -->
+        <div class="analytics-filter-bar">
+          <s-button class="af-btn" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'ddDateRange')">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z"/></svg>
+            Date range: <span id="dateRangeLabel">Last 30 days</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+            <div class="analytics-dropdown" id="ddDateRange">
+              <div class="analytics-dropdown-item" onclick="changeDateRange(event,'7')">Last 7 days</div>
+              <div class="analytics-dropdown-item active" onclick="changeDateRange(event,'30')">Last 30 days</div>
+              <div class="analytics-dropdown-item" onclick="changeDateRange(event,'90')">Last 90 days</div>
+            </div>
+          </s-button>
+          <s-button class="af-btn">Compare: Previous period <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <s-button class="af-btn">Order tag <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <s-button class="af-btn">Store <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <div class="analytics-filter-spacer"></div>
+          <s-button class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+            Email dashboard
+          </s-button>
+          <s-button variant="primary" class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/></svg>
+            Export PDF
+          </s-button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="analytics-kpi-row">
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Total edited order</div>
+              <div>
+                <span class="analytics-kpi-value" id="kpiTotalEdited">2,123</span>
+                <span class="analytics-kpi-change up" id="kpiTotalEditedChange">&#9650; 12.5%</span>
+              </div>
+            </div>
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Rescue revenue</div>
+              <div>
+                <span class="analytics-kpi-value" id="kpiRescue">$18,432</span>
+                <span class="analytics-kpi-change up" id="kpiRescueChange">&#9650; 5.7%</span>
+              </div>
+            </div>
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Upsell revenue</div>
+              <div>
+                <span class="analytics-kpi-value" id="kpiUpsell">$6,280</span>
+                <span class="analytics-kpi-change up" id="kpiUpsellChange">&#9650; 18.3%</span>
+              </div>
+            </div>
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+        </div>
+
+        <!-- Order edits over time (full width) -->
+        <div class="analytics-chart-card">
+          <div class="analytics-chart-header">
+            <div class="analytics-chart-title">Order edits over time</div>
+            <div class="analytics-chart-actions">
+              <s-button class="af-btn" size="micro" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'ddMainGranularity')">
+                <span id="mainGranLabel">Day</span>
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+                <div class="analytics-dropdown" id="ddMainGranularity">
+                  <div class="analytics-dropdown-item active" onclick="changeGranularity(event,'mainChart','Day')">Day</div>
+                  <div class="analytics-dropdown-item" onclick="changeGranularity(event,'mainChart','Week')">Week</div>
+                  <div class="analytics-dropdown-item" onclick="changeGranularity(event,'mainChart','Month')">Month</div>
+                </div>
+              </s-button>
+              <s-button class="af-btn" size="micro" title="View details" onclick="openChartDetail('mainChart')">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+              </s-button>
+            </div>
+          </div>
+          <div style="position:relative;">
+            <svg id="chartMain" class="analytics-chart-svg" viewBox="0 0 920 240"></svg>
+            <div id="tooltipMain" class="analytics-tooltip" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Row of 2 charts: Upsell revenue + Top 5 upsell products -->
+        <div class="analytics-chart-row">
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Upsell revenue over time</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'ddUpsellGran')">
+                  <span id="upsellGranLabel">Day</span>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+                  <div class="analytics-dropdown" id="ddUpsellGran">
+                    <div class="analytics-dropdown-item active" onclick="changeGranularity(event,'upsellChart','Day')">Day</div>
+                    <div class="analytics-dropdown-item" onclick="changeGranularity(event,'upsellChart','Week')">Week</div>
+                    <div class="analytics-dropdown-item" onclick="changeGranularity(event,'upsellChart','Month')">Month</div>
+                  </div>
+                </s-button>
+                <s-button class="af-btn" size="micro" title="View details" onclick="openChartDetail('upsellChart')">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="chartUpsellRev" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="tooltipUpsell" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+          </div>
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Top 5 upsell product revenue</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details" onclick="openChartDetail('topProducts')">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="chartTopProducts" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="tooltipTopProducts" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row of 2 charts: Edited order by type + Top 5 cancellation reason -->
+        <div class="analytics-chart-row" style="margin-top:12px;">
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Edited order by type over time</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details" onclick="openChartDetail('stackedBar')">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="chartStackedBar" class="analytics-chart-svg" viewBox="0 0 440 220"></svg>
+              <div id="tooltipStacked" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+            <div class="analytics-legend">
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#5AC8FA;"></div> Shipping address change</div>
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#4CD964;"></div> Product variant change</div>
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#FF9500;"></div> Upsell</div>
+            </div>
+            <div class="analytics-pagination">
+              <s-button icon-only size="micro" onclick="changeStackedPage(-1)">&#8249;</s-button>
+              <span id="stackedPageLabel">1 / 3</span>
+              <s-button icon-only size="micro" onclick="changeStackedPage(1)">&#8250;</s-button>
+            </div>
+          </div>
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Top 5 order cancellation reason</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details" onclick="openChartDetail('cancelReasons')">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="chartCancelReasons" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="tooltipCancelReasons" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end tabAnalytics -->
+
+      <!-- === Analytics Detail View === -->
+      <div id="analyticsDetail" class="analytics-detail">
+        <div class="analytics-detail-header">
+          <button class="analytics-detail-back" onclick="closeChartDetail()">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          </button>
+          <h2 id="detailTitle">Chart Title</h2>
+        </div>
+
+        <div class="analytics-detail-filters" id="detailFilters">
+          <s-button class="af-btn" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'ddDetailDateRange')">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z"/></svg>
+            Created date: <span id="detailDateLabel">Last 7 days</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+            <div class="analytics-dropdown" id="ddDetailDateRange">
+              <div class="analytics-dropdown-item active" onclick="changeDetailDateRange(event,'7')">Last 7 days</div>
+              <div class="analytics-dropdown-item" onclick="changeDetailDateRange(event,'30')">Last 30 days</div>
+              <div class="analytics-dropdown-item" onclick="changeDetailDateRange(event,'90')">Last 90 days</div>
+            </div>
+          </s-button>
+          <div class="analytics-filter-spacer"></div>
+          <s-button class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+            Email report
+          </s-button>
+          <s-button class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/></svg>
+            Export CSV
+          </s-button>
+        </div>
+
+        <!-- Detail chart area (Day/Week/Month tabs + chart) -->
+        <div class="analytics-chart-card">
+          <div style="display:flex; gap:2px; margin-bottom:12px;">
+            <span class="detail-gran-tab active" onclick="switchDetailGran(this,'Day')">Day</span>
+            <span class="detail-gran-tab" onclick="switchDetailGran(this,'Week')">Week</span>
+            <span class="detail-gran-tab" onclick="switchDetailGran(this,'Month')">Month</span>
+          </div>
+          <div style="position:relative;">
+            <svg id="chartDetail" class="analytics-chart-svg" viewBox="0 0 920 280"></svg>
+            <div id="tooltipDetail" class="analytics-tooltip" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Detail data table -->
+        <div class="analytics-chart-card" style="padding:0;">
+          <table class="analytics-detail-table" id="detailTable">
+            <thead>
+              <tr id="detailTableHead"></tr>
+            </thead>
+            <tbody id="detailTableBody"></tbody>
+          </table>
+          <div class="analytics-detail-count" id="detailCount" style="padding:12px 16px;"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1272,7 +1700,7 @@ s-select select, .time-select {
   <div class="onboarding-tooltip" id="onboardingTooltip" style="bottom:240px; right:calc(50% - 160px);">
     <h4>Great start! Your widget is ready.</h4>
     <p>Complete the installation and go live to let your customers fix their own order errors independently.</p>
-    <button class="got-it" onclick="dismissOnboarding(event, true)">Got it</button>
+    <s-button onclick="dismissOnboarding(event, true)">Got it</s-button>
   </div>
 </div>
 
@@ -1299,7 +1727,7 @@ s-select select, .time-select {
               <img src="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg" alt="Checkout editor" onerror="this.parentElement.textContent='GIF'">
             </div>
             <div class="setup-step-actions">
-              <button class="setup-step-btn" onclick="goToEditor()">Go to editor</button>
+              <s-button variant="primary" onclick="goToEditor()">Go to editor</s-button>
             </div>
           </div>
         </li>
@@ -1326,8 +1754,8 @@ s-select select, .time-select {
               </div>
             </div>
             <div class="setup-step-actions" id="step2Actions">
-              <button class="setup-step-btn" onclick="createTestOrder()">Create a test order</button>
-              <button class="setup-step-btn-secondary" onclick="skipTest()">Skip test</button>
+              <s-button variant="primary" onclick="createTestOrder()">Create a test order</s-button>
+              <s-button onclick="skipTest()">Skip test</s-button>
             </div>
           </div>
         </li>
@@ -1339,7 +1767,7 @@ s-select select, .time-select {
           </div>
           <div class="setup-step-body">
             <div class="setup-step-actions">
-              <button class="setup-step-btn" onclick="completeSetupStep(3)">Go live</button>
+              <s-button variant="primary" onclick="completeSetupStep(3)">Go live</s-button>
             </div>
           </div>
         </li>
@@ -1369,7 +1797,7 @@ s-select select, .time-select {
       Thank you
     </span>
     <span style="flex:1;"></span>
-    <button class="save-btn" id="editorSaveBtnFull" disabled style="opacity:.5;" onclick="saveEditor()">Save</button>
+    <s-button id="editorSaveBtnFull" disabled onclick="saveEditor()">Save</s-button>
   </div>
   <!-- Editor Body -->
   <div class="editor-body">
@@ -1442,7 +1870,7 @@ s-select select, .time-select {
             1. Return to AfterShip Order Edits<br>
             2. Click "Verify and go live" to publish
           </div>
-          <span class="back-btn" onclick="goBackFromEditor()">Back to set up</span>
+          <s-button variant="tertiary" onclick="goBackFromEditor()">Back to set up</s-button>
           <div style="border-top:1px solid #e1e3e5; padding-top:10px; margin-top:14px;">
             <div style="color:#005bd3; cursor:pointer; margin-bottom:8px;">Manage app</div>
             <div style="color:#d72c0d; display:flex; align-items:center; gap:4px; cursor:pointer;">
@@ -1690,7 +2118,7 @@ function saveSetupState() {
         var badgeTY = document.getElementById('badgeThankYou');
         if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
         var actionBtn = document.getElementById('blockActionBtn');
-        if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.style.background = '#008060'; }
+        if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); actionBtn.setAttribute('tone','success'); }
         updateLiveStatusVisibility();
       }
       // Restore live state
@@ -1745,7 +2173,8 @@ function completeSetupStep(n) {
     var actionBtn = document.getElementById('blockActionBtn');
     if (actionBtn) {
       actionBtn.textContent = 'Verify and go live';
-      actionBtn.style.background = '#008060';
+      actionBtn.setAttribute('variant','primary');
+      actionBtn.setAttribute('tone','success');
     }
     updateLiveStatusVisibility();
   }
@@ -1806,7 +2235,7 @@ function unpublishBlock() {
   if (btnsLive) btnsLive.style.display = 'none';
   // Update action button to Verify and go live
   var actionBtn = document.getElementById('blockActionBtn');
-  if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.style.background = '#008060'; }
+  if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); actionBtn.setAttribute('tone','success'); }
   // Close dropdown
   var dd = document.getElementById('moreMenuDropdown');
   if (dd) dd.style.display = 'none';
@@ -1856,7 +2285,7 @@ function goToEditor() {
   var dropdown = document.getElementById('editorDropdownFull');
   if (dropdown) dropdown.classList.remove('open');
   var saveBtn = document.getElementById('editorSaveBtnFull');
-  if (saveBtn) { saveBtn.disabled = true; saveBtn.style.opacity = '.5'; saveBtn.classList.remove('active'); }
+  if (saveBtn) { saveBtn.disabled = true; saveBtn.removeAttribute('variant'); }
   // Hide the Order Edits block preview
   var oeBlock = document.getElementById('editorOEBlock');
   if (oeBlock) oeBlock.style.display = 'none';
@@ -1868,8 +2297,7 @@ function saveEditor() {
   var saveBtn = document.getElementById('editorSaveBtnFull');
   if (saveBtn) {
     saveBtn.disabled = true;
-    saveBtn.style.opacity = '.5';
-    saveBtn.classList.remove('active');
+    saveBtn.removeAttribute('variant');
   }
   editorSaved = true;
   saveSetupState();
@@ -1882,7 +2310,7 @@ function goBackFromEditor() {
     completeSetupStep(1);
     // Also directly update the button in case DOM wasn't ready
     var btn = document.getElementById('blockActionBtn');
-    if (btn) { btn.textContent = 'Verify and go live'; btn.style.background = '#008060'; }
+    if (btn) { btn.textContent = 'Verify and go live'; btn.setAttribute('variant','primary'); btn.setAttribute('tone','success'); }
   }
   document.getElementById('installModal').classList.add('open');
 }
@@ -1905,7 +2333,7 @@ function addBlockToPage(page) {
   if (oeBlock) oeBlock.style.display = 'block';
   // Enable save button
   var saveBtn = document.getElementById('editorSaveBtnFull');
-  if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = '1'; saveBtn.classList.add('active'); }
+  if (saveBtn) { saveBtn.disabled = false; saveBtn.setAttribute('variant', 'primary'); }
 }
 
 // Close dropdown when clicking outside
@@ -1945,7 +2373,7 @@ function resetToLanding() {
   if (badgeOS) { badgeOS.textContent = 'Not installed'; badgeOS.classList.remove('installed'); }
   // Reset action button
   var actionBtn = document.getElementById('blockActionBtn');
-  if (actionBtn) { actionBtn.textContent = 'Install'; actionBtn.style.background = '#303030'; }
+  if (actionBtn) { actionBtn.textContent = 'Install'; actionBtn.setAttribute('variant','primary'); actionBtn.removeAttribute('tone'); }
   // Reset live state
   var dot = document.getElementById('blockLiveDot');
   if (dot) dot.style.background = '#8a8a8a';
@@ -2006,6 +2434,30 @@ function dismissOnboarding(e, force) {
   if (force) {
     document.getElementById('onboardingOverlay').classList.add('hidden');
     try { sessionStorage.setItem('onboardingDismissed', '1'); } catch(e) {}
+  }
+}
+
+// ---- Desktop / Mobile Preview Toggle ----
+function switchPreviewDevice(mode) {
+  var btns = document.querySelectorAll('.preview-toggle-btn');
+  btns.forEach(function(btn, i) {
+    if ((mode === 'desktop' && i === 0) || (mode === 'mobile' && i === 1)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  var frame = document.getElementById('previewFrame');
+  var macBar = document.getElementById('previewMacBar');
+  var phoneBar = document.getElementById('previewPhoneBar');
+  if (mode === 'mobile') {
+    frame.classList.add('mobile-mode');
+    macBar.style.display = 'none';
+    phoneBar.style.display = 'flex';
+  } else {
+    frame.classList.remove('mobile-mode');
+    macBar.style.display = 'flex';
+    phoneBar.style.display = 'none';
   }
 }
 
@@ -2169,6 +2621,676 @@ updatePreview(null);
   unitSelect.addEventListener('change', resetTimer);
   resetTimer();
 })();
+
+// =====================================================
+// ANALYTICS TAB — chart rendering & interactions
+// =====================================================
+
+// --- Tab switching ---
+function switchHomeTab(tab) {
+  var tabs = document.querySelectorAll('#homeTabs .home-tab');
+  tabs.forEach(function(t) { t.classList.remove('active'); });
+  // Find and activate clicked tab
+  tabs.forEach(function(t) {
+    if ((tab === 'appblock' && t.textContent.trim() === 'App block') ||
+        (tab === 'analytics' && t.textContent.trim() === 'Analytics') ||
+        (tab === 'rules' && t.textContent.trim() === 'Rules')) {
+      t.classList.add('active');
+    }
+  });
+  document.getElementById('tabAppBlock').style.display = tab === 'appblock' ? '' : 'none';
+  document.getElementById('tabAnalytics').style.display = tab === 'analytics' ? '' : 'none';
+  if (tab === 'analytics') {
+    renderAllCharts();
+  }
+}
+
+// --- Dropdown toggle ---
+function toggleAnalyticsDropdown(e, id) {
+  e.stopPropagation();
+  var dd = document.getElementById(id);
+  var wasOpen = dd.classList.contains('open');
+  closeAllAnalyticsDropdowns();
+  if (!wasOpen) dd.classList.add('open');
+}
+function closeAllAnalyticsDropdowns() {
+  document.querySelectorAll('.analytics-dropdown').forEach(function(d) { d.classList.remove('open'); });
+}
+document.addEventListener('click', closeAllAnalyticsDropdowns);
+
+// --- Date range data ---
+var analyticsData = {
+  '7': { totalEdited:'587', totalPct:'8.2', rescue:'$4,891', rescuePct:'3.1', upsell:'$1,740', upsellPct:'14.6' },
+  '30': { totalEdited:'2,123', totalPct:'12.5', rescue:'$18,432', rescuePct:'5.7', upsell:'$6,280', upsellPct:'18.3' },
+  '90': { totalEdited:'6,891', totalPct:'15.8', rescue:'$54,210', rescuePct:'9.2', upsell:'$19,430', upsellPct:'22.1' }
+};
+var currentDateRange = '30';
+
+function changeDateRange(e, range) {
+  e.stopPropagation();
+  currentDateRange = range;
+  var d = analyticsData[range];
+  document.getElementById('kpiTotalEdited').textContent = d.totalEdited;
+  document.getElementById('kpiTotalEditedChange').innerHTML = '&#9650; ' + d.totalPct + '%';
+  document.getElementById('kpiRescue').textContent = d.rescue;
+  document.getElementById('kpiRescueChange').innerHTML = '&#9650; ' + d.rescuePct + '%';
+  document.getElementById('kpiUpsell').textContent = d.upsell;
+  document.getElementById('kpiUpsellChange').innerHTML = '&#9650; ' + d.upsellPct + '%';
+  document.getElementById('dateRangeLabel').textContent = range === '7' ? 'Last 7 days' : range === '30' ? 'Last 30 days' : 'Last 90 days';
+  // Update active state
+  document.querySelectorAll('#ddDateRange .analytics-dropdown-item').forEach(function(item) {
+    item.classList.toggle('active', item.textContent.indexOf(range) > -1);
+  });
+  closeAllAnalyticsDropdowns();
+  renderAllCharts();
+}
+
+function changeGranularity(e, chart, label) {
+  e.stopPropagation();
+  if (chart === 'mainChart') document.getElementById('mainGranLabel').textContent = label;
+  if (chart === 'upsellChart') document.getElementById('upsellGranLabel').textContent = label;
+  closeAllAnalyticsDropdowns();
+  renderAllCharts();
+}
+
+// --- Chart helpers ---
+function svgEl(tag, attrs) {
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (var k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+function smoothPath(points) {
+  if (points.length < 2) return '';
+  var d = 'M' + points[0][0] + ',' + points[0][1];
+  for (var i = 1; i < points.length; i++) {
+    var prev = points[i - 1];
+    var cur = points[i];
+    var cpx1 = prev[0] + (cur[0] - prev[0]) * 0.4;
+    var cpx2 = cur[0] - (cur[0] - prev[0]) * 0.4;
+    d += ' C' + cpx1 + ',' + prev[1] + ' ' + cpx2 + ',' + cur[1] + ' ' + cur[0] + ',' + cur[1];
+  }
+  return d;
+}
+
+function generateData(count, min, max) {
+  var arr = [];
+  var val = min + Math.random() * (max - min) * 0.5;
+  for (var i = 0; i < count; i++) {
+    val += (Math.random() - 0.45) * (max - min) * 0.15;
+    if (val < min) val = min + Math.random() * (max - min) * 0.1;
+    if (val > max) val = max - Math.random() * (max - min) * 0.1;
+    arr.push(Math.round(val));
+  }
+  return arr;
+}
+
+// Find nearest data point index to mouse X
+function findNearest(mouseX, points) {
+  var minDist = Infinity, idx = 0;
+  for (var i = 0; i < points.length; i++) {
+    var d = Math.abs(points[i][0] - mouseX);
+    if (d < minDist) { minDist = d; idx = i; }
+  }
+  return idx;
+}
+
+// Generic line chart hover system
+function addLineChartHover(svg, svgW, svgH, padL, padR, padT, padB, points, labels, data, tooltipId, color, valuePrefix, valueSuffix) {
+  valuePrefix = valuePrefix || '';
+  valueSuffix = valueSuffix || '';
+  var chartH = svgH - padT - padB;
+
+  // Vertical hover line
+  var hoverLine = svgEl('line', { x1:0, y1:padT, x2:0, y2:padT+chartH, class:'hover-line' });
+  svg.appendChild(hoverLine);
+
+  // Hover dot (larger, highlighted)
+  var hoverDot = svgEl('circle', { cx:0, cy:0, r:5, fill:color, stroke:'#fff', 'stroke-width':2.5, class:'hover-dot', style:'filter:drop-shadow(0 1px 3px rgba(0,0,0,.2))' });
+  svg.appendChild(hoverDot);
+
+  // Invisible overlay for smooth mouse tracking
+  var overlay = svgEl('rect', { x:padL, y:0, width:svgW-padL-padR, height:svgH, fill:'transparent', style:'cursor:crosshair' });
+  svg.appendChild(overlay);
+
+  var tooltip = document.getElementById(tooltipId);
+
+  overlay.addEventListener('mousemove', function(e) {
+    var svgRect = svg.getBoundingClientRect();
+    var scaleX = svgW / svgRect.width;
+    var mouseX = (e.clientX - svgRect.left) * scaleX;
+
+    var idx = findNearest(mouseX, points);
+    var px = points[idx][0];
+    var py = points[idx][1];
+
+    // Show vertical line
+    hoverLine.setAttribute('x1', px);
+    hoverLine.setAttribute('x2', px);
+    hoverLine.style.opacity = '1';
+
+    // Show hover dot
+    hoverDot.setAttribute('cx', px);
+    hoverDot.setAttribute('cy', py);
+    hoverDot.style.opacity = '1';
+
+    // Show tooltip
+    var lbl = labels[idx] || 'Day ' + (idx + 1);
+    tooltip.innerHTML = '<div class="tt-label">' + lbl + '</div>' +
+      '<div class="tt-value">' + valuePrefix + data[idx].toLocaleString() + valueSuffix + '</div>' +
+      '<div class="tt-compare">vs prev period</div>';
+    tooltip.style.display = 'block';
+    tooltip.style.left = ((px / svgW) * svgRect.width) + 'px';
+    tooltip.style.top = ((py / svgH) * svgRect.height - 14) + 'px';
+  });
+
+  overlay.addEventListener('mouseleave', function() {
+    hoverLine.style.opacity = '0';
+    hoverDot.style.opacity = '0';
+    tooltip.style.display = 'none';
+  });
+}
+
+// --- Main line chart: Order edits over time ---
+function renderMainChart() {
+  var svg = document.getElementById('chartMain');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 920, H = 240, padL = 40, padR = 20, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+
+  var numPoints = currentDateRange === '7' ? 7 : currentDateRange === '30' ? 31 : 13;
+  var data = generateData(numPoints, 10, 85);
+  var maxVal = 90;
+  var yTicks = [0, 30, 60, 90];
+
+  // Grid & Y axis
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = v;
+  });
+
+  // X axis labels
+  var labels = [];
+  if (currentDateRange === '7') labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  else if (currentDateRange === '30') {
+    for (var i = 1; i <= 31; i++) labels.push('Mar ' + i);
+  } else {
+    labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan'];
+  }
+  var step = Math.max(1, Math.floor(numPoints / 7));
+  for (var i = 0; i < numPoints; i += step) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    svg.appendChild(svgEl('text', { x:x, y:H-4, 'text-anchor':'middle', class:'axis-label' })).textContent = labels[i] || '';
+  }
+
+  // Line + area
+  var points = [];
+  for (var i = 0; i < numPoints; i++) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    var y = padT + chartH - (data[i] / maxVal) * chartH;
+    points.push([x, y]);
+  }
+  var pathD = smoothPath(points);
+  var areaD = pathD + ' L' + points[points.length-1][0] + ',' + (padT+chartH) + ' L' + points[0][0] + ',' + (padT+chartH) + ' Z';
+  svg.appendChild(svgEl('path', { d:areaD, fill:'#5AC8FA', class:'chart-area' }));
+  svg.appendChild(svgEl('path', { d:pathD, stroke:'#5AC8FA', class:'chart-line' }));
+
+  // Add hover system (no static dots — Shopify hides them until hover)
+  addLineChartHover(svg, W, H, padL, padR, padT, padB, points, labels, data, 'tooltipMain', '#5AC8FA', '', ' edits');
+}
+
+// --- Upsell revenue line chart ---
+function renderUpsellChart() {
+  var svg = document.getElementById('chartUpsellRev');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200, padL = 45, padR = 15, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+
+  var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var data = [120, 210, 180, 340, 280, 160, 390];
+  var maxVal = 400;
+  var yTicks = [0, 100, 200, 300, 400];
+
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = '$' + v;
+  });
+
+  labels.forEach(function(l, i) {
+    var x = padL + (i / (labels.length - 1)) * chartW;
+    svg.appendChild(svgEl('text', { x:x, y:H-4, 'text-anchor':'middle', class:'axis-label' })).textContent = l;
+  });
+
+  var points = [];
+  data.forEach(function(v, i) {
+    var x = padL + (i / (data.length - 1)) * chartW;
+    var y = padT + chartH - (v / maxVal) * chartH;
+    points.push([x, y]);
+  });
+
+  var pathD = smoothPath(points);
+  var areaD = pathD + ' L' + points[points.length-1][0] + ',' + (padT+chartH) + ' L' + points[0][0] + ',' + (padT+chartH) + ' Z';
+  svg.appendChild(svgEl('path', { d:areaD, fill:'#5AC8FA', class:'chart-area' }));
+  svg.appendChild(svgEl('path', { d:pathD, stroke:'#5AC8FA', class:'chart-line' }));
+
+  addLineChartHover(svg, W, H, padL, padR, padT, padB, points, labels, data, 'tooltipUpsell', '#5AC8FA', '$', '');
+}
+
+// --- Top 5 upsell product revenue (horizontal bar) ---
+function renderTopProducts() {
+  var svg = document.getElementById('chartTopProducts');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200;
+  var products = [
+    { name:'Classic Tote Bag', value:2041 },
+    { name:'Wireless Charger', value:1513 },
+    { name:'Silk Pillowcase Set', value:1174 },
+    { name:'Bamboo Water Bottle', value:892 },
+    { name:'Organic Tea Sampler', value:659 }
+  ];
+  var maxVal = 2200;
+  var barH = 24, gap = 14, padL = 150, padR = 60, padT = 8;
+  var barW = W - padL - padR;
+  var tooltipEl = document.getElementById('tooltipTopProducts');
+
+  products.forEach(function(p, i) {
+    var y = padT + i * (barH + gap);
+    var w = (p.value / maxVal) * barW;
+    // Label
+    svg.appendChild(svgEl('text', { x:padL-10, y:y+barH/2+4, 'text-anchor':'end', class:'analytics-bar-label' })).textContent = p.name;
+    // Bar bg
+    svg.appendChild(svgEl('rect', { x:padL, y:y, width:barW, height:barH, rx:4, fill:'#f3f3f3' }));
+    // Bar fill
+    var barFill = svgEl('rect', { x:padL, y:y, width:w, height:barH, rx:4, fill:'#5AC8FA', style:'transition:opacity .12s' });
+    svg.appendChild(barFill);
+    // Value
+    svg.appendChild(svgEl('text', { x:padL+w+8, y:y+barH/2+4, class:'analytics-bar-value' })).textContent = '$' + p.value.toLocaleString();
+    // Hover overlay (invisible)
+    var hoverRect = svgEl('rect', { x:0, y:y-gap/2, width:W, height:barH+gap, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barFill.setAttribute('fill', '#3db8f0');
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + p.name + '</div><div class="tt-value">$' + p.value.toLocaleString() + '</div>';
+        tooltipEl.style.display = 'block';
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((padL + w/2) / W * svgRect.width) + 'px';
+        tooltipEl.style.top = (y / H * svgRect.height - 8) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barFill.setAttribute('fill', '#5AC8FA');
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+// --- Stacked bar chart: Edited order by type ---
+var stackedPage = 0;
+var stackedPages = [
+  {
+    labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    shipping: [22, 18, 25, 30, 28, 15, 20],
+    variant: [14, 20, 12, 18, 22, 10, 16],
+    upsell: [8, 12, 10, 14, 10, 6, 10]
+  },
+  {
+    labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    shipping: [30, 22, 28, 18, 24, 20, 26],
+    variant: [10, 16, 18, 22, 14, 12, 20],
+    upsell: [12, 8, 14, 10, 16, 8, 12]
+  },
+  {
+    labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    shipping: [18, 26, 20, 32, 22, 18, 24],
+    variant: [16, 12, 22, 14, 18, 14, 18],
+    upsell: [10, 14, 8, 12, 14, 10, 8]
+  }
+];
+
+function changeStackedPage(dir) {
+  stackedPage = (stackedPage + dir + stackedPages.length) % stackedPages.length;
+  document.getElementById('stackedPageLabel').textContent = (stackedPage + 1) + ' / ' + stackedPages.length;
+  renderStackedBar();
+}
+
+function renderStackedBar() {
+  var svg = document.getElementById('chartStackedBar');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 220, padL = 40, padR = 15, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var page = stackedPages[stackedPage];
+  var maxVal = 70;
+  var yTicks = [0, 20, 40, 60];
+  var tooltipEl = document.getElementById('tooltipStacked');
+
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = v;
+  });
+
+  var barCount = page.labels.length;
+  var groupW = chartW / barCount;
+  var barW = groupW * 0.5;
+  var barGroups = []; // Store refs for dimming
+
+  page.labels.forEach(function(label, i) {
+    var x = padL + i * groupW + (groupW - barW) / 2;
+    var s = page.shipping[i], v = page.variant[i], u = page.upsell[i];
+    var baseY = padT + chartH;
+
+    var group = svgEl('g', { style:'transition:opacity .15s' });
+
+    // Shipping (bottom, blue)
+    var sH = (s / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH, width:barW, height:sH, rx:2, fill:'#5AC8FA' }));
+    // Variant (middle, green)
+    var vH = (v / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH-vH, width:barW, height:vH, rx:0, fill:'#4CD964' }));
+    // Upsell (top, orange)
+    var uH = (u / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH-vH-uH, width:barW, height:uH, rx:2, fill:'#FF9500' }));
+
+    svg.appendChild(group);
+    barGroups.push(group);
+
+    // X label
+    svg.appendChild(svgEl('text', { x:x+barW/2, y:H-6, 'text-anchor':'middle', class:'axis-label' })).textContent = label;
+  });
+
+  // Add hover overlays on top
+  page.labels.forEach(function(label, i) {
+    var x = padL + i * groupW;
+    var s = page.shipping[i], v = page.variant[i], u = page.upsell[i];
+    var total = s + v + u;
+    var topY = padT + chartH - ((s + v + u) / maxVal) * chartH;
+
+    var hoverRect = svgEl('rect', { x:x, y:0, width:groupW, height:H, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barGroups.forEach(function(g, gi) {
+        g.style.opacity = gi === i ? '1' : '0.35';
+      });
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + label + '</div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#5AC8FA"></div><div class="tt-seg-label">Shipping</div><div class="tt-seg-value">' + s + '</div></div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#4CD964"></div><div class="tt-seg-label">Variant</div><div class="tt-seg-value">' + v + '</div></div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#FF9500"></div><div class="tt-seg-label">Upsell</div><div class="tt-seg-value">' + u + '</div></div>' +
+          '<div style="border-top:1px solid #e3e3e3;margin-top:6px;padding-top:6px;font-size:12px;font-weight:650;color:var(--text)">Total: ' + total + '</div>';
+        tooltipEl.style.display = 'block';
+        var bx = padL + i * groupW + groupW / 2;
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((bx / W) * svgRect.width) + 'px';
+        tooltipEl.style.top = ((topY / H) * svgRect.height - 14) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barGroups.forEach(function(g) { g.style.opacity = '1'; });
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+// --- Top 5 cancellation reasons (horizontal bar) ---
+function renderCancelReasons() {
+  var svg = document.getElementById('chartCancelReasons');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200;
+  var reasons = [
+    { name:'Changed my mind', value:148 },
+    { name:'Found a better price', value:100 },
+    { name:'Other', value:74 },
+    { name:'Payment issues', value:59 },
+    { name:'Forgot to buy product', value:39 }
+  ];
+  var maxVal = 160;
+  var barH = 24, gap = 14, padL = 155, padR = 45, padT = 8;
+  var barW = W - padL - padR;
+  var tooltipEl = document.getElementById('tooltipCancelReasons');
+
+  reasons.forEach(function(r, i) {
+    var y = padT + i * (barH + gap);
+    var w = (r.value / maxVal) * barW;
+    svg.appendChild(svgEl('text', { x:padL-10, y:y+barH/2+4, 'text-anchor':'end', class:'analytics-bar-label' })).textContent = r.name;
+    svg.appendChild(svgEl('rect', { x:padL, y:y, width:barW, height:barH, rx:4, fill:'#f3f3f3' }));
+    var barFill = svgEl('rect', { x:padL, y:y, width:w, height:barH, rx:4, fill:'#5AC8FA', style:'transition:opacity .12s' });
+    svg.appendChild(barFill);
+    svg.appendChild(svgEl('text', { x:padL+w+8, y:y+barH/2+4, class:'analytics-bar-value' })).textContent = r.value;
+    // Hover
+    var hoverRect = svgEl('rect', { x:0, y:y-gap/2, width:W, height:barH+gap, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barFill.setAttribute('fill', '#3db8f0');
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + r.name + '</div><div class="tt-value">' + r.value + ' orders</div>';
+        tooltipEl.style.display = 'block';
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((padL + w/2) / W * svgRect.width) + 'px';
+        tooltipEl.style.top = (y / H * svgRect.height - 8) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barFill.setAttribute('fill', '#5AC8FA');
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+// --- Render all charts ---
+function renderAllCharts() {
+  renderMainChart();
+  renderUpsellChart();
+  renderTopProducts();
+  renderStackedBar();
+  renderCancelReasons();
+}
+
+// --- Detail view ---
+var currentDetailChart = null;
+
+var chartTitles = {
+  mainChart: 'Order edits over time',
+  upsellChart: 'Upsell revenue over time',
+  topProducts: 'Top 5 upsell product revenue',
+  stackedBar: 'Edited order by type over time',
+  cancelReasons: 'Top 5 order cancellation reason'
+};
+
+function openChartDetail(chartId) {
+  currentDetailChart = chartId;
+  document.getElementById('tabAnalytics').style.display = 'none';
+  document.getElementById('analyticsDetail').classList.add('active');
+  document.getElementById('detailTitle').textContent = chartTitles[chartId] || chartId;
+  renderDetailChart();
+  renderDetailTable();
+}
+
+function closeChartDetail() {
+  document.getElementById('analyticsDetail').classList.remove('active');
+  document.getElementById('tabAnalytics').style.display = '';
+  currentDetailChart = null;
+}
+
+function changeDetailDateRange(e, range) {
+  e.stopPropagation();
+  var labels = {'7':'Last 7 days','30':'Last 30 days','90':'Last 90 days'};
+  document.getElementById('detailDateLabel').textContent = labels[range] || range;
+  document.querySelectorAll('#ddDetailDateRange .analytics-dropdown-item').forEach(function(item) {
+    item.classList.toggle('active', item.textContent === labels[range]);
+  });
+  closeAllAnalyticsDropdowns();
+  renderDetailChart();
+  renderDetailTable();
+}
+
+function switchDetailGran(el, gran) {
+  document.querySelectorAll('.detail-gran-tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  renderDetailChart();
+}
+
+function renderDetailChart() {
+  var svg = document.getElementById('chartDetail');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 920, H = 280, padL = 50, padR = 20, padT = 15, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+
+  // Generate data based on current detail chart type
+  var labels, data, maxVal, yTicks, valuePrefix = '', valueSuffix = '';
+  var numPoints = 7;
+
+  if (currentDetailChart === 'upsellChart' || currentDetailChart === 'topProducts') {
+    labels = ['May 6','May 7','May 8','May 9','May 10','May 11','May 12'];
+    data = [120, 210, 180, 340, 280, 160, 390];
+    maxVal = 400; yTicks = [0, 100, 200, 300, 400]; valuePrefix = '$';
+  } else if (currentDetailChart === 'cancelReasons') {
+    labels = ['May 6','May 7','May 8','May 9','May 10','May 11','May 12'];
+    data = [12, 8, 15, 6, 10, 14, 9];
+    maxVal = 20; yTicks = [0, 5, 10, 15, 20]; valueSuffix = ' orders';
+  } else {
+    labels = ['May 6','May 7','May 8','May 9','May 10','May 11','May 12'];
+    data = generateData(numPoints, 0, 80);
+    maxVal = 90; yTicks = [0, 30, 60, 90]; valueSuffix = ' edits';
+  }
+
+  // Grid
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = valuePrefix + v;
+  });
+
+  // X labels
+  for (var i = 0; i < numPoints; i++) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    svg.appendChild(svgEl('text', { x:x, y:H-4, 'text-anchor':'middle', class:'axis-label' })).textContent = labels[i] || '';
+  }
+
+  // Line + area
+  var points = [];
+  for (var i = 0; i < numPoints; i++) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    var y = padT + chartH - (data[i] / maxVal) * chartH;
+    points.push([x, y]);
+  }
+  var pathD = smoothPath(points);
+  var areaD = pathD + ' L' + points[points.length-1][0] + ',' + (padT+chartH) + ' L' + points[0][0] + ',' + (padT+chartH) + ' Z';
+  svg.appendChild(svgEl('path', { d:areaD, fill:'#5AC8FA', class:'chart-area' }));
+  svg.appendChild(svgEl('path', { d:pathD, stroke:'#5AC8FA', class:'chart-line' }));
+
+  addLineChartHover(svg, W, H, padL, padR, padT, padB, points, labels, data, 'tooltipDetail', '#5AC8FA', valuePrefix, valueSuffix);
+}
+
+function renderDetailTable() {
+  var thead = document.getElementById('detailTableHead');
+  var tbody = document.getElementById('detailTableBody');
+  var countEl = document.getElementById('detailCount');
+  if (!thead || !tbody) return;
+  thead.innerHTML = '';
+  tbody.innerHTML = '';
+
+  var columns, rows;
+
+  if (currentDetailChart === 'mainChart' || currentDetailChart === 'stackedBar') {
+    columns = [
+      {label:'Created date', cls:'sortable'},
+      {label:'Total edits', cls:'num'},
+      {label:'Shipping changes', cls:'num'},
+      {label:'Variant changes', cls:'num'},
+      {label:'Upsell', cls:'num'},
+      {label:'Edit rate', cls:'num'}
+    ];
+    rows = [
+      ['May 12, 2026','18','8','6','4','2.4%'],
+      ['May 11, 2026','32','14','10','8','4.2%'],
+      ['May 10, 2026','24','10','8','6','3.1%'],
+      ['May 9, 2026','15','6','5','4','2.0%'],
+      ['May 8, 2026','28','12','9','7','3.7%'],
+      ['May 7, 2026','22','10','7','5','2.9%'],
+      ['May 6, 2026','10','4','3','3','1.3%']
+    ];
+  } else if (currentDetailChart === 'upsellChart') {
+    columns = [
+      {label:'Created date', cls:'sortable'},
+      {label:'Total upsell revenue', cls:'num'},
+      {label:'Orders with upsell', cls:'num'},
+      {label:'Avg upsell value', cls:'num'},
+      {label:'Conversion rate', cls:'num'}
+    ];
+    rows = [
+      ['May 12, 2026','$390','12','$32.50','8.4%'],
+      ['May 11, 2026','$160','6','$26.67','4.2%'],
+      ['May 10, 2026','$280','9','$31.11','6.3%'],
+      ['May 9, 2026','$340','11','$30.91','7.5%'],
+      ['May 8, 2026','$180','7','$25.71','4.9%'],
+      ['May 7, 2026','$210','8','$26.25','5.6%'],
+      ['May 6, 2026','$120','4','$30.00','2.8%']
+    ];
+  } else if (currentDetailChart === 'topProducts') {
+    columns = [
+      {label:'Product', cls:'sortable'},
+      {label:'Revenue', cls:'num'},
+      {label:'Units sold', cls:'num'},
+      {label:'Avg price', cls:'num'},
+      {label:'% of total', cls:'num'}
+    ];
+    rows = [
+      ['Classic Tote Bag','$2,041','68','$30.01','32.5%'],
+      ['Wireless Charger','$1,513','43','$35.19','24.1%'],
+      ['Silk Pillowcase Set','$1,174','29','$40.48','18.7%'],
+      ['Bamboo Water Bottle','$892','45','$19.82','14.2%'],
+      ['Organic Tea Sampler','$659','38','$17.34','10.5%']
+    ];
+  } else if (currentDetailChart === 'cancelReasons') {
+    columns = [
+      {label:'Reason', cls:'sortable'},
+      {label:'Count', cls:'num'},
+      {label:'% of total', cls:'num'},
+      {label:'Avg order value', cls:'num'}
+    ];
+    rows = [
+      ['Changed my mind','148','35.2%','$42.30'],
+      ['Found a better price','100','23.8%','$38.50'],
+      ['Other','74','17.6%','$29.80'],
+      ['Payment issues','59','14.0%','$55.20'],
+      ['Forgot to buy product','39','9.3%','$22.10']
+    ];
+  } else {
+    columns = [{label:'Date', cls:'sortable'},{label:'Value', cls:'num'}];
+    rows = [['May 12','10'],['May 11','8']];
+  }
+
+  // Render header
+  columns.forEach(function(col) {
+    var th = document.createElement('th');
+    th.textContent = col.label;
+    if (col.cls) th.className = col.cls;
+    thead.appendChild(th);
+  });
+
+  // Render rows
+  rows.forEach(function(row) {
+    var tr = document.createElement('tr');
+    row.forEach(function(cell, ci) {
+      var td = document.createElement('td');
+      td.textContent = cell;
+      if (columns[ci] && columns[ci].cls === 'num') td.className = 'num';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+
+  countEl.textContent = 'Showing ' + rows.length + ' of ' + rows.length + ' results';
+}
 </script>
 
 <!-- Paywall success state removed -->
