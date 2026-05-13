@@ -618,14 +618,16 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 #page-editor { background:#fff; }
 #page-editor .editor-topbar {
   display:flex; align-items:center; background:#fff; border-bottom:1px solid #e1e3e5;
-  padding:8px 16px; gap:10px; font-size:13px; height:48px;
+  padding:8px 12px; gap:4px; font-size:13px; height:48px;
 }
-#page-editor .editor-topbar .editor-back { cursor:pointer; color:#5c5f62; display:flex; align-items:center; }
+#page-editor .editor-topbar .editor-back { cursor:pointer; display:flex; align-items:center; padding:4px; border-radius:6px; }
+#page-editor .editor-topbar .editor-back:hover { background:rgba(0,0,0,.05); }
+#page-editor .editor-topbar .editor-icon-btn { cursor:pointer; display:flex; align-items:center; padding:4px; border-radius:6px; }
+#page-editor .editor-topbar .editor-icon-btn:hover { background:rgba(0,0,0,.05); }
 #page-editor .editor-topbar .live-badge {
   background:#aee9d1; color:#0c5132; font-size:11px; font-weight:600; padding:2px 8px; border-radius:4px;
 }
-/* .save-btn now uses s-button */
-#page-editor .editor-topbar s-button { margin-left:auto; }
+#page-editor .editor-topbar s-button { margin-left:8px; }
 #page-editor .editor-body { display:flex; height:calc(100vh - 52px - 48px); }
 #page-editor .editor-sidebar {
   width:300px; background:#fff; border-right:1px solid #e1e3e5; overflow-y:auto; font-size:13px;
@@ -1917,7 +1919,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           <div class="stepper-panel-title">Step 1: Install AfterShip Order Edits block</div>
           <div class="stepper-panel-desc">Click "Go to editor" below to open the Shopify Checkout Editor, choose which page to add the block to, and save your changes.</div>
           <div class="stepper-panel-gif">
-            <img src="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg" alt="Checkout editor" onerror="this.parentElement.textContent='GIF'">
+            <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Checkout editor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
           </div>
         </div>
         <!-- Step 2 -->
@@ -2222,23 +2224,52 @@ s-button.af-btn { font-weight:500; position:relative; }
 <div id="page-editor" class="screen" style="position:fixed; inset:0; z-index:300; background:#fff; display:none;">
   <!-- Editor Top Bar -->
   <div class="editor-topbar">
-    <span class="editor-back" onclick="goBackFromEditor()">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><path d="M17 9H5.414l3.293-3.293a1 1 0 00-1.414-1.414l-5 5a1 1 0 000 1.414l5 5a1 1 0 001.414-1.414L5.414 11H17a1 1 0 100-2z"/></svg>
+    <!-- Left icon group -->
+    <span class="editor-back" onclick="goBackFromEditor()" title="Back">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3.5 9.72c0-.2.08-.39.22-.53l4-4a.75.75 0 011.06 1.06L5.56 9.47h10.69a.75.75 0 010 1.5H5.56l3.22 3.22a.75.75 0 01-1.06 1.06l-4-4a.75.75 0 01-.22-.53z" fill="#4a4a4a"/></svg>
     </span>
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><path d="M3 4h14v2H3V4zm0 5h14v2H3V9zm0 5h14v2H3v-2z"/></svg>
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="#5c5f62"><rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="#5c5f62" stroke-width="1.5"/><rect x="3" y="3" width="6" height="6" rx="1" fill="#5c5f62"/></svg>
-    <span style="font-weight:500;">brain-mkt-new-08 configuration</span>
-    <span class="live-badge">Live</span>
+    <span class="editor-icon-btn" title="Sidebar">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 5.5A2.5 2.5 0 014.5 3h11A2.5 2.5 0 0118 5.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 012 14.5v-9zM7.5 4.5v11H15.5a1 1 0 001-1v-9a1 1 0 00-1-1H7.5zm-1.5 11V4.5H4.5a1 1 0 00-1 1v9a1 1 0 001 1H6z" fill="#8c9196"/></svg>
+    </span>
+    <span class="editor-icon-btn" title="Settings">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.61 2.098a1.75 1.75 0 012.78 0l.96 1.236a.25.25 0 00.2.096l1.557-.07a1.75 1.75 0 011.965 1.392l.244 1.542a.25.25 0 00.123.175l1.35.734a1.75 1.75 0 01.608 2.644l-.94 1.25a.25.25 0 000 .224l.94 1.25a1.75 1.75 0 01-.608 2.643l-1.35.735a.25.25 0 00-.123.175l-.244 1.542a1.75 1.75 0 01-1.965 1.391l-1.556-.069a.25.25 0 00-.2.096l-.961 1.236a1.75 1.75 0 01-2.78 0l-.96-1.236a.25.25 0 00-.201-.096l-1.556.07a1.75 1.75 0 01-1.965-1.392l-.244-1.542a.25.25 0 00-.124-.175l-1.35-.735a1.75 1.75 0 01-.607-2.644l.94-1.25a.25.25 0 000-.224l-.94-1.25a1.75 1.75 0 01.608-2.643l1.35-.735a.25.25 0 00.123-.175l.244-1.542A1.75 1.75 0 017.449 3.36l1.556.07a.25.25 0 00.2-.096l.96-1.236zM10 13a3 3 0 100-6 3 3 0 000 6z" fill="#8c9196"/></svg>
+    </span>
+    <span class="editor-icon-btn" title="Apps">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h3A1.5 1.5 0 019 4.5v3A1.5 1.5 0 017.5 9h-3A1.5 1.5 0 013 7.5v-3zm1.5 0h3v3h-3v-3zM11 4.5A1.5 1.5 0 0112.5 3h3A1.5 1.5 0 0117 4.5v3A1.5 1.5 0 0115.5 9h-3A1.5 1.5 0 0111 7.5v-3zm1.5 0h3v3h-3v-3zM4.5 11A1.5 1.5 0 003 12.5v3A1.5 1.5 0 004.5 17h3A1.5 1.5 0 009 15.5v-3A1.5 1.5 0 007.5 11h-3zm0 1.5h3v3h-3v-3zM11 12.5A1.5 1.5 0 0112.5 11h3a1.5 1.5 0 011.5 1.5v3a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 0111 15.5v-3zm1.5 0h3v3h-3v-3z" fill="#8c9196"/></svg>
+    </span>
+    <!-- Center: store + page info -->
     <span style="flex:1;"></span>
-    <span style="color:#6d7175; display:flex; align-items:center; gap:4px;">
-      <svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M2.5 5A2.5 2.5 0 015 2.5h10A2.5 2.5 0 0117.5 5v10a2.5 2.5 0 01-2.5 2.5H5A2.5 2.5 0 012.5 15V5z"/></svg>
+    <span style="display:flex; align-items:center; gap:6px;">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="#8c9196"><path d="M6.25 2A2.25 2.25 0 004 4.25V5H3.25A2.25 2.25 0 001 7.25v.5C1 9.55 2.48 11 4.25 11a3.25 3.25 0 002.75-1.512A3.25 3.25 0 0010 11a3.25 3.25 0 003-2.012A3.25 3.25 0 0015.75 11C17.55 11 19 9.55 19 7.75v-.5A2.25 2.25 0 0016.75 5H16v-.75A2.25 2.25 0 0013.75 2h-7.5zM4 12.5v4.25c0 .69.56 1.25 1.25 1.25h9.5c.69 0 1.25-.56 1.25-1.25V12.5a4.74 4.74 0 01-1.25.167A4.73 4.73 0 0110 10.965a4.73 4.73 0 01-4.75 1.702A4.74 4.74 0 014 12.5z"/></svg>
+      <span style="font-weight:500; font-size:13px;">brain-mkt-new-08 configuration</span>
+      <span class="live-badge">Live</span>
+    </span>
+    <span style="margin-left:20px; color:#6d7175; display:flex; align-items:center; gap:4px; font-size:13px;">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="#8c9196"><path d="M6.25 2A2.25 2.25 0 004 4.25V5H3.25A2.25 2.25 0 001 7.25v.5C1 9.55 2.48 11 4.25 11a3.25 3.25 0 002.75-1.512A3.25 3.25 0 0010 11a3.25 3.25 0 003-2.012A3.25 3.25 0 0015.75 11C17.55 11 19 9.55 19 7.75v-.5A2.25 2.25 0 0016.75 5H16v-.75A2.25 2.25 0 0013.75 2h-7.5zM4 12.5v4.25c0 .69.56 1.25 1.25 1.25h9.5c.69 0 1.25-.56 1.25-1.25V12.5a4.74 4.74 0 01-1.25.167A4.73 4.73 0 0110 10.965a4.73 4.73 0 01-4.75 1.702A4.74 4.74 0 014 12.5z"/></svg>
       Store default
     </span>
-    <span style="color:#6d7175; margin-left:16px; display:flex; align-items:center; gap:4px;">
-      <svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><circle cx="10" cy="10" r="7" fill="none" stroke="#5c5f62" stroke-width="1.5"/><path d="M8 7l5 3-5 3V7z" fill="#5c5f62"/></svg>
+    <span style="margin-left:14px; color:#6d7175; display:flex; align-items:center; gap:4px; font-size:13px;">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 17a7 7 0 100-14 7 7 0 000 14zm3.2-8.2a.75.75 0 00-1.06-1.06L9 10.88 7.86 9.74a.75.75 0 00-1.06 1.06l1.67 1.67a.75.75 0 001.06 0L13.2 8.8z" fill="#8c9196"/></svg>
       Thank you
     </span>
     <span style="flex:1;"></span>
+    <!-- Right icon group -->
+    <span class="editor-icon-btn" title="Fullscreen">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3.75 3h3.5a.75.75 0 010 1.5H5.06l3.22 3.22a.75.75 0 01-1.06 1.06L4 5.56v2.19a.75.75 0 01-1.5 0v-3.5c0-.69.56-1.25 1.25-1.25zM12.75 3a.75.75 0 000 1.5h2.19l-3.22 3.22a.75.75 0 101.06 1.06L16 5.56v2.19a.75.75 0 001.5 0V4.25c0-.69-.56-1.25-1.25-1.25h-3.5zM7.22 11.72a.75.75 0 010 1.06L4 16.06v-2.31a.75.75 0 00-1.5 0v3.5c0 .69.56 1.25 1.25 1.25h3.5a.75.75 0 000-1.5H5.06l3.22-3.22a.75.75 0 00-1.06-1.06zM12.78 11.72a.75.75 0 011.06 0l3.41 3.34v-2.31a.75.75 0 011.5 0v3.5c0 .69-.56 1.25-1.25 1.25h-3.5a.75.75 0 010-1.5h2.19l-3.41-3.22a.75.75 0 010-1.06z" fill="#8c9196"/></svg>
+    </span>
+    <span class="editor-icon-btn" title="Mobile">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 2.25A2.25 2.25 0 004.75 4.5v11A2.25 2.25 0 007 17.75h6a2.25 2.25 0 002.25-2.25v-11A2.25 2.25 0 0013 2.25H7zm-.75 2.25a.75.75 0 01.75-.75h6a.75.75 0 01.75.75v11a.75.75 0 01-.75.75H7a.75.75 0 01-.75-.75v-11zM9 14.75a.75.75 0 000 1.5h2a.75.75 0 000-1.5H9z" fill="#8c9196"/></svg>
+    </span>
+    <span style="width:1px; height:20px; background:#e3e3e3; margin:0 4px;"></span>
+    <span class="editor-icon-btn" title="Undo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.53 6.78a.75.75 0 01-1.06 0l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 1.06L5.81 2.5h6.44A4.75 4.75 0 0117 7.25v.5a4.75 4.75 0 01-4.75 4.75H4a.75.75 0 010-1.5h8.25a3.25 3.25 0 003.25-3.25v-.5a3.25 3.25 0 00-3.25-3.25H5.81l1.72 1.72a.75.75 0 010 1.06z" fill="#8c9196"/></svg>
+    </span>
+    <span class="editor-icon-btn" title="Redo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.47 6.78a.75.75 0 001.06 0l3-3a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H7.75A4.75 4.75 0 003 7.25v.5a4.75 4.75 0 004.75 4.75H16a.75.75 0 000-1.5H7.75a3.25 3.25 0 01-3.25-3.25v-.5A3.25 3.25 0 017.75 4H14.19l-1.72 1.72a.75.75 0 000 1.06z" fill="#8c9196"/></svg>
+    </span>
+    <span class="editor-icon-btn" title="More actions">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 10a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm5.5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm4 1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" fill="#8c9196"/></svg>
+    </span>
     <s-button id="editorSaveBtnFull" disabled onclick="saveEditor()">Save</s-button>
   </div>
   <!-- Editor Body -->
