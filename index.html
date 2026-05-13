@@ -697,6 +697,8 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
   padding:2px 8px; border-radius:10px; background:#e4e5e7; color:#616161;
 }
 #page-blockeditor .be-toolbar .be-badge-notlived::before { content:''; width:6px; height:6px; background:#8a8a8a; border-radius:50%; }
+#page-blockeditor .be-toolbar .be-badge-notlived.is-live { background:#aee9d1; color:#0c5132; }
+#page-blockeditor .be-toolbar .be-badge-notlived.is-live::before { background:#008060; }
 #page-blockeditor .be-toolbar .be-spacer { flex:1; }
 #page-blockeditor .be-toolbar .be-icon-btn {
   width:32px; height:32px; display:flex; align-items:center; justify-content:center;
@@ -1054,6 +1056,39 @@ s-button.af-btn { font-weight:500; position:relative; }
 .home-tab { padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub); cursor:pointer; border-radius:8px; transition:all .15s; }
 .home-tab:hover { background:rgba(0,0,0,.04); }
 .home-tab.active { font-weight:600; background:#303030; color:#fff; }
+
+/* ---- Rules tab ---- */
+.rules-section { display:flex; gap:40px; padding:24px 0; border-bottom:1px solid #e3e3e3; }
+.rules-section:last-child { border-bottom:none; }
+.rules-desc { width:260px; flex-shrink:0; }
+.rules-desc h3 { font-size:13px; font-weight:600; color:#303030; margin:0 0 4px; }
+.rules-desc p { font-size:12.5px; color:#616161; margin:0; line-height:1.45; }
+.rules-cards { flex:1; display:flex; flex-direction:column; gap:12px; }
+.rules-card { background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:16px 20px; }
+.rules-card-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.rules-card-title { font-size:13px; font-weight:600; color:#303030; margin:0; }
+.rules-card-sub { font-size:12.5px; color:#616161; margin:4px 0 0; line-height:1.45; }
+.rules-card .rules-toggle { flex-shrink:0; }
+.rules-input-row { display:flex; gap:12px; margin-top:12px; }
+.rules-input { flex:1; height:36px; border:1px solid #c9cccf; border-radius:8px; padding:0 12px; font-size:13px; color:#303030; background:#fff; }
+.rules-select { height:36px; border:1px solid #c9cccf; border-radius:8px; padding:0 12px; font-size:13px; color:#303030; background:#fff; min-width:120px; appearance:auto; }
+.rules-radio-group { margin-top:12px; display:flex; flex-direction:column; gap:10px; }
+.rules-radio { display:flex; align-items:flex-start; gap:8px; cursor:pointer; }
+.rules-radio input[type="radio"] { margin-top:2px; accent-color:#303030; }
+.rules-radio-label { font-size:13px; font-weight:500; color:#303030; }
+.rules-radio-help { font-size:12px; color:#8c9196; margin:1px 0 0; }
+.rules-tag-section { margin-top:14px; }
+.rules-tag-label { font-size:13px; font-weight:500; color:#303030; margin-bottom:6px; }
+.rules-tag-input { width:100%; height:36px; border:1px solid #c9cccf; border-radius:8px; padding:0 12px; font-size:13px; color:#8c9196; background:#fff; box-sizing:border-box; }
+.rules-check-group { margin-top:14px; display:flex; flex-direction:column; gap:10px; }
+.rules-check { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; color:#303030; }
+.rules-check input[type="checkbox"] { width:16px; height:16px; accent-color:#303030; margin:0; }
+/* Rules standalone toggle */
+.rules-toggle .track { position:relative; width:36px; height:20px; flex-shrink:0; cursor:pointer; }
+.rules-toggle .track-bg { position:absolute; inset:0; border-radius:12px; background:#babec3; transition:background .2s; }
+.rules-toggle .track-knob { position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; left:2px; top:2px; transition:transform .2s; box-shadow:0 1px 2px rgba(0,0,0,.15); }
+.rules-toggle .track.checked .track-bg { background:#303030; }
+.rules-toggle .track.checked .track-knob { transform:translateX(16px); }
 
 /* Analytics detail view */
 .analytics-detail {
@@ -1944,6 +1979,161 @@ s-button.af-btn { font-weight:500; position:relative; }
         </div>
       </div>
 
+      <!-- ===== Rules Tab ===== -->
+      <div id="tabRules" style="display:none;">
+
+        <!-- Editing Deadlines -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Editing Deadlines</h3>
+            <p>Control when customers can make changes to their orders</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Editing time window</div>
+              <div class="rules-card-sub">Set how long after placing an order shoppers can make changes.</div>
+              <div class="rules-input-row">
+                <input class="rules-input" type="number" value="30" />
+                <select class="rules-select">
+                  <option>minutes</option>
+                  <option>hours</option>
+                  <option>days</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order hold -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Order hold</h3>
+            <p>Block orders from flowing into downstream systems while the editing window is open</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Fulfillment hold</div>
+                  <div class="rules-card-sub">For downstream systems that pull orders by fulfillment status. AfterShip holds fulfillment until the editing window closes</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Auto payment capture</div>
+                  <div class="rules-card-sub">For downstream systems that pull orders by payment status. AfterShip auto-captures your payment after the editing window closes.</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order recalculation & Refund -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Order recalculation & Refund</h3>
+            <p>Auto-recalculate and refund the order value when some certain edits change</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Auto Refund</div>
+                  <div class="rules-card-sub">When edits reduce order amount, initiate refund process automatically.</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track checked" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rules-card">
+              <div class="rules-card-title">Tax Recalculation</div>
+              <div class="rules-card-sub">Auto recalculate tax when edits change the shipping address.</div>
+              <div class="rules-radio-group">
+                <label class="rules-radio">
+                  <input type="radio" name="taxRecalc" checked />
+                  <div>
+                    <div class="rules-radio-label">Shopify default</div>
+                    <div class="rules-radio-help">Help text</div>
+                  </div>
+                </label>
+                <label class="rules-radio">
+                  <input type="radio" name="taxRecalc" />
+                  <div>
+                    <div class="rules-radio-label">Tax recalculation</div>
+                    <div class="rules-radio-help">Help text</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Discount eligibility validation</div>
+                  <div class="rules-card-sub">Auto-validate whether applied discounts still qualify when some edits change</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track checked" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prevent order editing -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Prevent order editing</h3>
+            <p>Control when customers can make changes to their orders</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Prevent order editing</div>
+              <div class="rules-card-sub">Block specific orders or products from being edited by customers. Orders or products matching these tags will not show editing options.</div>
+              <div class="rules-tag-section">
+                <div class="rules-tag-label">Exclude orders with tags</div>
+                <input class="rules-tag-input" placeholder="Input value" />
+              </div>
+              <div class="rules-tag-section">
+                <div class="rules-tag-label">Exclude products with tags</div>
+                <input class="rules-tag-input" placeholder="Input value" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email engagement -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Email engagement</h3>
+            <p>Choose which email notifications are sent to customers during order editing.</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Email notifications</div>
+              <div class="rules-card-sub">Choose which email notifications are sent to customers during order editing.</div>
+              <div class="rules-check-group">
+                <label class="rules-check"><input type="checkbox" checked /> Order canceled after edited</label>
+                <label class="rules-check"><input type="checkbox" checked /> Order refunded after edited</label>
+                <label class="rules-check"><input type="checkbox" /> Order edited success</label>
+                <label class="rules-check"><input type="checkbox" /> Order edited reverted</label>
+                <label class="rules-check"><input type="checkbox" /> Order paid after edited</label>
+                <label class="rules-check"><input type="checkbox" /> Order has outstanding balance after edited</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
@@ -2041,7 +2231,7 @@ s-button.af-btn { font-weight:500; position:relative; }
     </div>
     <div class="be-sep"></div>
     <span class="be-title">Order edits block</span>
-    <span class="be-badge-notlived">Not lived</span>
+    <span class="be-badge-notlived" id="beLiveBadge">Not lived</span>
     <span class="be-spacer"></span>
     <s-button variant="primary" onclick="beClickSave()">Save</s-button>
   </div>
@@ -2969,6 +3159,9 @@ function setBlockLive() {
   if (txt) txt.textContent = 'Live';
   var status = document.getElementById('blockLiveStatus');
   if (status) { status.style.color = '#008060'; status.style.display = 'inline-flex'; }
+  // Sync block editor badge
+  var beBadge = document.getElementById('beLiveBadge');
+  if (beBadge) { beBadge.textContent = 'Live'; beBadge.classList.add('is-live'); }
   // Both pages installed
   var badgeTY = document.getElementById('badgeThankYou');
   if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
@@ -2995,6 +3188,9 @@ function unpublishBlock() {
   if (txt) txt.textContent = 'Not live';
   var status = document.getElementById('blockLiveStatus');
   if (status) status.style.color = '#616161';
+  // Sync block editor badge back to Not lived
+  var beBadge = document.getElementById('beLiveBadge');
+  if (beBadge) { beBadge.textContent = 'Not lived'; beBadge.classList.remove('is-live'); }
   // Switch buttons back
   var btnsNotLive = document.getElementById('blockBtnsNotLive');
   if (btnsNotLive) btnsNotLive.style.display = 'flex';
@@ -3085,10 +3281,21 @@ function beUpdatePreview() {
 }
 function beClickSave() {
   // Visual feedback
-  var toolbar = document.querySelector('#page-blockeditor .be-toolbar');
-  var badge = toolbar.querySelector('.be-badge-notlived');
-  if (badge) { badge.textContent = 'Saved'; badge.style.background = '#aee9d1'; badge.style.color = '#0c5132'; }
-  setTimeout(function() { if (badge) { badge.textContent = 'Not lived'; badge.style.background = '#e4e5e7'; badge.style.color = '#616161'; } }, 2000);
+  var badge = document.getElementById('beLiveBadge');
+  if (!badge) return;
+  var isLive = badge.classList.contains('is-live');
+  badge.textContent = 'Saved';
+  badge.style.background = '#aee9d1';
+  badge.style.color = '#0c5132';
+  setTimeout(function() {
+    if (isLive) {
+      badge.textContent = 'Live';
+      badge.style.background = ''; badge.style.color = '';
+    } else {
+      badge.textContent = 'Not lived';
+      badge.style.background = ''; badge.style.color = '';
+    }
+  }, 2000);
 }
 
 // ---- Block-editor drag-and-drop (mirrors onboarding) ----
@@ -3351,6 +3558,9 @@ function switchPreviewDevice(mode) {
 }
 
 // ---- Toggle Switch (click on track only) ----
+function rulesToggle(trackEl) {
+  trackEl.classList.toggle('checked');
+}
 function toggleTrack(trackEl) {
   const sw = trackEl.closest('s-switch');
   if (!sw || sw.hasAttribute('disabled')) return;
@@ -3530,6 +3740,7 @@ function switchHomeTab(tab) {
   });
   document.getElementById('tabAppBlock').style.display = tab === 'appblock' ? '' : 'none';
   document.getElementById('tabAnalytics').style.display = tab === 'analytics' ? '' : 'none';
+  document.getElementById('tabRules').style.display = tab === 'rules' ? '' : 'none';
   if (tab === 'analytics') {
     renderAllCharts();
   }
