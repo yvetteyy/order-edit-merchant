@@ -729,6 +729,11 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 #page-blockeditor s-switch { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid #f0f0f0; }
 #page-blockeditor s-switch:last-child { border-bottom:none; }
 #page-blockeditor s-switch:hover { background:rgba(0,0,0,.02); border-radius:8px; }
+#page-blockeditor s-switch .be-drag-handle {
+  width:20px; display:flex; align-items:center; justify-content:center;
+  color:#c9cccf; cursor:grab; flex-shrink:0; opacity:0; transition:opacity .15s;
+}
+#page-blockeditor s-switch:hover .be-drag-handle { opacity:1; }
 #page-blockeditor s-switch .switch-left { display:flex; align-items:center; gap:10px; flex:1; }
 #page-blockeditor s-switch .switch-label { font-size:13px; flex:1; }
 #page-blockeditor s-switch .switch-right { display:flex; align-items:center; gap:8px; }
@@ -2047,6 +2052,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           <div id="beActionsList">
             <!-- Edit shipping address -->
             <s-switch checked data-action="shipping">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm0-1.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Zm1.173-11.75c-2.35 0-4 1.646-4 3.977 0 1.846 1.049 3.618 2.2 4.99a15.919 15.919 0 0 0 1.8 1.816 15.92 15.92 0 0 0 1.8-1.817c1.151-1.371 2.2-3.143 2.2-4.99 0-2.33-1.65-3.976-4-3.976Z"/></svg></s-icon>
                 <span class="switch-label">Edit shipping address</span>
@@ -2057,6 +2063,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Edit Products -->
             <s-switch checked data-action="products">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Zm-4.409 2.72-5.88 5.88a1.25 1.25 0 0 0-.366.884v1.172h1.172c.331 0 .65-.132.883-.366l5.88-5.88-1.689-1.69Zm2.75.629.599-.599a1.195 1.195 0 1 0-1.69-1.689l-.598.599 1.69 1.689Z"/></svg></s-icon>
                 <span class="switch-label">Edit Products</span>
@@ -2068,6 +2075,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Add Product -->
             <s-switch checked data-action="addproduct">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path d="M11.276 3.5a3.75 3.75 0 0 0-2.701 1.149l-4.254 4.417a2.75 2.75 0 0 0 .036 3.852l2.898 2.898a2.5 2.5 0 0 0 3.502.033l.45-.434a.75.75 0 1 0-1.04-1.08l-.45.434a1 1 0 0 1-1.401-.014l-2.898-2.898a1.25 1.25 0 0 1-.016-1.75l4.253-4.418a2.25 2.25 0 0 1 1.62-.689h1.975c.966 0 1.75.784 1.75 1.75v2.371c0 .358-.146.7-.403.948a.75.75 0 1 0 1.04 1.08 2.81 2.81 0 0 0 .863-2.028v-2.371a3.25 3.25 0 0 0-3.25-3.25h-1.974Z"/><path d="M13 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M14.75 12a.75.75 0 0 1 .75.75v1.25h1.25a.75.75 0 0 1 0 1.5h-1.25v1.25a.75.75 0 0 1-1.5 0v-1.25h-1.25a.75.75 0 0 1 0-1.5h1.25v-1.25a.75.75 0 0 1 .75-.75Z"/></svg></s-icon>
                 <span class="switch-label">Add Product</span>
@@ -2078,6 +2086,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Edit contact info -->
             <s-switch data-action="contact">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 3a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-2 3.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Z"/><path fill-rule="evenodd" d="M15.484 14.227a6.274 6.274 0 0 0-10.968 0l-.437.786a1.338 1.338 0 0 0 1.17 1.987h9.502a1.338 1.338 0 0 0 1.17-1.987l-.437-.786Zm-9.657.728a4.773 4.773 0 0 1 8.346 0l.302.545h-8.95l.302-.545Z"/></svg></s-icon>
                 <span class="switch-label">Edit contact info</span>
@@ -2088,6 +2097,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Add discount code -->
             <s-switch data-action="discount">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path d="M12.78 8.28a.75.75 0 0 0-1.06-1.06l-4.5 4.5a.75.75 0 1 0 1.06 1.06l4.5-4.5Z"/><path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Zm-2.825.626a.804.804 0 0 1 1.462 0 2.304 2.304 0 0 0 2.896 1.2.804.804 0 0 1 1.034 1.034 2.304 2.304 0 0 0 1.199 2.895.804.804 0 0 1 0 1.462 2.304 2.304 0 0 0-1.2 2.896.805.805 0 0 1-1.034 1.034 2.304 2.304 0 0 0-2.895 1.199.804.804 0 0 1-1.462 0 2.304 2.304 0 0 0-2.896-1.2.804.804 0 0 1-1.033-1.034 2.305 2.305 0 0 0-1.2-2.895.804.804 0 0 1 0-1.462 2.304 2.304 0 0 0 1.2-2.896.804.804 0 0 1 1.033-1.033 2.304 2.304 0 0 0 2.896-1.2Z"/></svg></s-icon>
                 <span class="switch-label">Add discount code</span>
@@ -2098,6 +2108,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Cancel order -->
             <s-switch data-action="cancel">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path d="M13.03 6.97a.75.75 0 0 1 0 1.06l-1.97 1.97 1.97 1.97a.75.75 0 1 1-1.06 1.06l-1.97-1.97-1.97 1.97a.75.75 0 0 1-1.06-1.06l1.97-1.97-1.97-1.97a.75.75 0 0 1 1.06-1.06l1.97 1.97 1.97-1.97a.75.75 0 0 1 1.06 0Z"/><path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg></s-icon>
                 <span class="switch-label">Cancel order</span>
@@ -2109,6 +2120,7 @@ s-button.af-btn { font-weight:500; position:relative; }
             </s-switch>
             <!-- Upsell -->
             <s-switch checked data-action="upsell">
+              <span class="be-drag-handle"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
               <div class="switch-left">
                 <s-icon><svg viewBox="0 0 20 20"><path d="M3.25 3a.75.75 0 0 0 0 1.5h1.612a.25.25 0 0 1 .248.22l1.04 8.737a1.75 1.75 0 0 0 1.738 1.543h6.362a.75.75 0 0 0 0-1.5h-6.362a.25.25 0 0 1-.248-.22l-.093-.78h6.35a2.75 2.75 0 0 0 2.743-2.54l.358-4.652a.75.75 0 0 0-1.496-.116l-.358 4.654a1.25 1.25 0 0 1-1.246 1.154h-6.53l-.768-6.457a1.75 1.75 0 0 0-1.738-1.543h-1.612Z"/><path d="M12 9.25a.75.75 0 0 1-1.5 0v-3.69l-1.22 1.22a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0l2.5 2.5a.75.75 0 0 1-1.06 1.06l-1.22-1.22v3.69Z"/><path d="M10 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M15 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg></s-icon>
                 <span class="switch-label">Upsell</span>
@@ -2547,7 +2559,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           </div>
         </div>
         <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>Apple Wallet Order Tracking</span><span class="add-btn">⊕</span></div>
-        <div class="section-label">(Test) AfterShip</div>
+        <div class="section-label">Other Apps</div>
         <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>Apple Wallet Order Tracking</span><span class="add-btn">⊕</span></div>
         <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>PayPal Package tracking</span><span class="add-btn">⊕</span></div>
       </div>
