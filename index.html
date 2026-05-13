@@ -2018,7 +2018,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                   <div class="rules-card-sub">For downstream systems that pull orders by fulfillment status. AfterShip holds fulfillment until the editing window closes</div>
                 </div>
                 <div class="rules-toggle">
-                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                  <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
@@ -2029,7 +2029,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                   <div class="rules-card-sub">For downstream systems that pull orders by payment status. AfterShip auto-captures your payment after the editing window closes.</div>
                 </div>
                 <div class="rules-toggle">
-                  <div class="track" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                  <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
@@ -2050,7 +2050,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                   <div class="rules-card-sub">When edits reduce order amount, initiate refund process automatically.</div>
                 </div>
                 <div class="rules-toggle">
-                  <div class="track checked" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                  <div class="track checked" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
@@ -2081,7 +2081,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                   <div class="rules-card-sub">Auto-validate whether applied discounts still qualify when some edits change</div>
                 </div>
                 <div class="rules-toggle">
-                  <div class="track checked" onclick="toggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                  <div class="track checked" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
@@ -2231,7 +2231,6 @@ s-button.af-btn { font-weight:500; position:relative; }
     </div>
     <div class="be-sep"></div>
     <span class="be-title">Order edits block</span>
-    <span class="be-badge-notlived" id="beLiveBadge">Not lived</span>
     <span class="be-spacer"></span>
     <s-button variant="primary" onclick="beClickSave()">Save</s-button>
   </div>
@@ -3159,9 +3158,6 @@ function setBlockLive() {
   if (txt) txt.textContent = 'Live';
   var status = document.getElementById('blockLiveStatus');
   if (status) { status.style.color = '#008060'; status.style.display = 'inline-flex'; }
-  // Sync block editor badge
-  var beBadge = document.getElementById('beLiveBadge');
-  if (beBadge) { beBadge.textContent = 'Live'; beBadge.classList.add('is-live'); }
   // Both pages installed
   var badgeTY = document.getElementById('badgeThankYou');
   if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
@@ -3188,9 +3184,6 @@ function unpublishBlock() {
   if (txt) txt.textContent = 'Not live';
   var status = document.getElementById('blockLiveStatus');
   if (status) status.style.color = '#616161';
-  // Sync block editor badge back to Not lived
-  var beBadge = document.getElementById('beLiveBadge');
-  if (beBadge) { beBadge.textContent = 'Not lived'; beBadge.classList.remove('is-live'); }
   // Switch buttons back
   var btnsNotLive = document.getElementById('blockBtnsNotLive');
   if (btnsNotLive) btnsNotLive.style.display = 'flex';
@@ -3280,22 +3273,7 @@ function beUpdatePreview() {
   });
 }
 function beClickSave() {
-  // Visual feedback
-  var badge = document.getElementById('beLiveBadge');
-  if (!badge) return;
-  var isLive = badge.classList.contains('is-live');
-  badge.textContent = 'Saved';
-  badge.style.background = '#aee9d1';
-  badge.style.color = '#0c5132';
-  setTimeout(function() {
-    if (isLive) {
-      badge.textContent = 'Live';
-      badge.style.background = ''; badge.style.color = '';
-    } else {
-      badge.textContent = 'Not lived';
-      badge.style.background = ''; badge.style.color = '';
-    }
-  }, 2000);
+  // no-op visual feedback (badge removed)
 }
 
 // ---- Block-editor drag-and-drop (mirrors onboarding) ----
