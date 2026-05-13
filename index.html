@@ -579,7 +579,7 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 }
 .stepper-panel-desc a { color:#005bd3; text-decoration:underline; }
 .stepper-panel-gif {
-  width:100%; height:280px; background:#e8e8e8; border-radius:10px;
+  width:100%; height:340px; background:#e8e8e8; border-radius:10px;
   display:flex; align-items:center; justify-content:center;
   color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px;
   overflow:hidden;
@@ -1440,21 +1440,21 @@ s-button.af-btn { font-weight:500; position:relative; }
                         </div>
                         <div class="mini-add-grid">
                           <div class="mini-add-item">
-                            <div class="mini-add-img" style="background-image:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=120&h=120&fit=crop');"></div>
+                            <div class="mini-add-img"></div>
                             <div class="mini-add-name">Cedar &amp; Moss</div>
                             <div class="mini-add-meta">6 colors · 4 sizes</div>
                             <div class="mini-add-price">$12.00</div>
                             <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
                           </div>
                           <div class="mini-add-item">
-                            <div class="mini-add-img" style="background-image:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=120&h=120&fit=crop');"></div>
+                            <div class="mini-add-img"></div>
                             <div class="mini-add-name">Brew Brew Kit</div>
                             <div class="mini-add-meta">6 colors · 4 sizes</div>
                             <div class="mini-add-price">$24.00</div>
                             <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
                           </div>
                           <div class="mini-add-item">
-                            <div class="mini-add-img" style="background-image:url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=120&h=120&fit=crop');"></div>
+                            <div class="mini-add-img"></div>
                             <div class="mini-add-name">Concrete Valet</div>
                             <div class="mini-add-meta">6 colors · 4 sizes</div>
                             <div class="mini-add-price">$48.00</div>
@@ -2228,12 +2228,197 @@ s-button.af-btn { font-weight:500; position:relative; }
             <h4>Need to make a change?</h4>
             <div class="timer">There is still time to make updates <b>29:00</b></div>
             <div id="bePreviewActions">
-              <div class="be-preview-action" data-for="shipping"><span>Edit shipping address</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
-              <div class="be-preview-action" data-for="contact"><span>Edit contact info</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
-              <div class="be-preview-action" data-for="products"><span>Edit Products</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
-              <div class="be-preview-action" data-for="addproduct"><span>Add Product</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
-              <div class="be-preview-action" data-for="discount"><span>Add discount code</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
-              <div class="be-preview-action" data-for="cancel"><span>Cancel order</span><span class="be-chevron"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M5.72 8.47a.75.75 0 0 1 1.06 0L10 11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L5.72 9.53a.75.75 0 0 1 0-1.06Z"/></svg></span></div>
+              <!-- Edit shipping address -->
+              <div class="preview-action" data-for="shipping">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Edit shipping address</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                      <span style="font-size:11px; font-weight:600; color:var(--text);">Address details</span>
+                      <span class="mini-link">Select from address book ›</span>
+                    </div>
+                    <div class="mini-form-group"><label>Country</label><input class="mini-input" value="United States"></div>
+                    <div class="mini-row">
+                      <div class="mini-form-group"><label>First name</label><input class="mini-input" value="Yuka"></div>
+                      <div class="mini-form-group"><label>Last name</label><input class="mini-input" value="Kara"></div>
+                    </div>
+                    <div class="mini-form-group"><label>Phone</label><input class="mini-input" value="+1 (555) 000-0000"></div>
+                    <div class="mini-form-group"><label>Address</label><input class="mini-input" value="123 Main Street"></div>
+                    <div class="mini-form-group"><label>Apartment, suite, etc. (optional)</label><input class="mini-input" value="Apt 4B"></div>
+                    <div class="mini-row">
+                      <div class="mini-form-group"><label>State</label><input class="mini-input" value="California"></div>
+                    </div>
+                    <div class="mini-row">
+                      <div class="mini-form-group"><label>City</label><input class="mini-input" value="San Francisco"></div>
+                      <div class="mini-form-group"><label>ZIP code</label><input class="mini-input" value="94102"></div>
+                    </div>
+                    <div class="mini-btn-row">
+                      <s-button variant="plain" size="micro">Clear</s-button>
+                      <s-button size="micro">Discard</s-button>
+                      <s-button variant="primary" size="micro">Save</s-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Edit Products -->
+              <div class="preview-action" data-for="products">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Edit Products</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <div class="mini-product">
+                      <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=80&h=80&fit=crop');"></div>
+                      <div class="mini-product-info">
+                        <div class="mini-product-name">Cedar &amp; Moss Candle</div>
+                        <div class="mini-product-variant">Large ›</div>
+                      </div>
+                      <div class="mini-product-qty">
+                        <span class="mini-qty-btn trash" title="Remove"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3.994c0-.55.446-.994.996-.994h2.008c.55 0 .996.445.996.994v1.006h3.25a.75.75 0 0 1 0 1.5h-.295l-.707 9.193a2 2 0 0 1-1.995 1.807h-4.506a2 2 0 0 1-1.995-1.807l-.707-9.193h-.295a.75.75 0 0 1 0-1.5h3.25v-1.006Zm1.5.006v1h1v-1h-1Zm-3.247 2.5.69 8.953a.5.5 0 0 0 .498.547h4.506a.5.5 0 0 0 .499-.452l.69-9.048h-6.883Z"/></svg></span>
+                        <span class="mini-qty-num">1</span>
+                        <span class="mini-qty-btn plus" title="Add">+</span>
+                      </div>
+                      <div class="mini-product-price">$12.00</div>
+                    </div>
+                    <div class="mini-product">
+                      <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=80&h=80&fit=crop');"></div>
+                      <div class="mini-product-info">
+                        <div class="mini-product-name">Leather Care Kit</div>
+                        <div class="mini-product-variant">Classic / Standard Size ›</div>
+                      </div>
+                      <div class="mini-product-qty">
+                        <span class="mini-qty-btn minus" title="Decrease">&minus;</span>
+                        <span class="mini-qty-num">2</span>
+                        <span class="mini-qty-btn plus" title="Add">+</span>
+                      </div>
+                      <div class="mini-product-price">$12.00</div>
+                    </div>
+                    <div class="mini-product">
+                      <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1586105251261-72a756497a31?w=80&h=80&fit=crop');"></div>
+                      <div class="mini-product-info">
+                        <div class="mini-product-name">Artisan Stoneware Vase</div>
+                        <div class="mini-product-variant">Small ›</div>
+                      </div>
+                      <div class="mini-product-qty">
+                        <span class="mini-qty-btn trash" title="Remove"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3.994c0-.55.446-.994.996-.994h2.008c.55 0 .996.445.996.994v1.006h3.25a.75.75 0 0 1 0 1.5h-.295l-.707 9.193a2 2 0 0 1-1.995 1.807h-4.506a2 2 0 0 1-1.995-1.807l-.707-9.193h-.295a.75.75 0 0 1 0-1.5h3.25v-1.006Zm1.5.006v1h1v-1h-1Zm-3.247 2.5.69 8.953a.5.5 0 0 0 .498.547h4.506a.5.5 0 0 0 .499-.452l.69-9.048h-6.883Z"/></svg></span>
+                        <span class="mini-qty-num">1</span>
+                        <span class="mini-qty-btn plus" title="Add">+</span>
+                      </div>
+                      <div class="mini-product-price">$37.00</div>
+                    </div>
+                    <div class="mini-summary">
+                      <div style="display:flex; justify-content:space-between; font-weight:500; color:var(--text); margin-bottom:4px;">
+                        <span>Payment details</span><span>Remaining $50.00</span>
+                      </div>
+                      <div class="mini-summary-row"><span>Subtotal · 4 items</span><span>$61.00</span></div>
+                      <div class="mini-summary-row"><span>Shipping</span><span>$10.00</span></div>
+                      <div class="mini-summary-row"><span>Tax</span><span>$10.00</span></div>
+                      <div class="mini-summary-row"><span>Order total</span><span>$200.00</span></div>
+                      <div class="mini-summary-row"><span>Paid</span><span>-$200.00</span></div>
+                      <div class="mini-summary-row total"><span>Remaining</span><span>USD $50.00</span></div>
+                    </div>
+                    <div class="mini-btn-row" style="margin-top:10px;">
+                      <s-button variant="plain" size="micro">Reset</s-button>
+                      <s-button size="micro">Discard</s-button>
+                      <s-button variant="primary" size="micro">Continue to pay</s-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Add Product -->
+              <div class="preview-action" data-for="addproduct">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Add Product</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <div class="mini-add-search">
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="#8c9196"><path d="M8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM2 8a6 6 0 1 1 10.69 3.76l3.525 3.53a.75.75 0 1 1-1.06 1.06l-3.53-3.525A6 6 0 0 1 2 8Z"/></svg>
+                      <span>Search products</span>
+                    </div>
+                    <div class="mini-add-grid">
+                      <div class="mini-add-item">
+                        <div class="mini-add-img"></div>
+                        <div class="mini-add-name">Cedar &amp; Moss</div>
+                        <div class="mini-add-meta">6 colors · 4 sizes</div>
+                        <div class="mini-add-price">$12.00</div>
+                        <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                      </div>
+                      <div class="mini-add-item">
+                        <div class="mini-add-img"></div>
+                        <div class="mini-add-name">Brew Brew Kit</div>
+                        <div class="mini-add-meta">6 colors · 4 sizes</div>
+                        <div class="mini-add-price">$24.00</div>
+                        <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                      </div>
+                      <div class="mini-add-item">
+                        <div class="mini-add-img"></div>
+                        <div class="mini-add-name">Concrete Valet</div>
+                        <div class="mini-add-meta">6 colors · 4 sizes</div>
+                        <div class="mini-add-price">$48.00</div>
+                        <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Edit contact info -->
+              <div class="preview-action" data-for="contact" style="display:none;">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Edit contact info</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <div class="mini-form-group"><label>Name</label><input class="mini-input" value="Katherine"></div>
+                    <div class="mini-form-group"><label>Email</label><input class="mini-input" value="342342342@gmail.com"></div>
+                    <div class="mini-btn-row">
+                      <s-button variant="plain" size="micro">Clear</s-button>
+                      <s-button size="micro">Discard</s-button>
+                      <s-button variant="primary" size="micro">Save</s-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Add discount code -->
+              <div class="preview-action" data-for="discount" style="display:none;">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Add discount code</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <p style="margin-bottom:8px; color:var(--text-sub); font-size:11px;">Enter a valid discount code to apply to your order.</p>
+                    <div class="mini-form-group"><input class="mini-input" placeholder="Discount code"></div>
+                    <div class="mini-btn-row">
+                      <s-button size="micro">Discard</s-button>
+                      <s-button variant="primary" size="micro">Apply</s-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Cancel order -->
+              <div class="preview-action" data-for="cancel" style="display:none;">
+                <div class="preview-action-header" onclick="togglePanel(this)">
+                  <span>Cancel order</span>
+                  <span class="chevron">&#9662;</span>
+                </div>
+                <div class="preview-action-panel">
+                  <div class="preview-action-panel-inner">
+                    <p style="margin-bottom:8px; color:var(--text); font-size:11px;">Wait, before you cancel, could you choose the reason for cancellation (optional)</p>
+                    <select class="mini-select"><option>Select reason</option><option>Changed my mind</option><option>Found a better price</option><option>Ordered by mistake</option></select>
+                    <div class="mini-btn-row" style="margin-top:10px;">
+                      <s-button size="micro">Keep order</s-button>
+                      <s-button variant="primary" tone="critical" size="micro">Cancel order</s-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="be-upsell-section" id="beUpsellSection">
               <h5>Grab one to this order</h5>
@@ -2365,14 +2550,6 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="section-label">(Test) AfterShip</div>
         <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>Apple Wallet Order Tracking</span><span class="add-btn">⊕</span></div>
         <div class="block-row"><span class="block-icon" style="background:#e55b37;"></span><span>PayPal Package tracking</span><span class="add-btn">⊕</span></div>
-        <div class="section-label">Order Editing</div>
-        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-1 4h2v5h-2V6zm0 6h2v2h-2v-2z"/></svg><span>Address Validation</span></div>
-        <div class="block-row"><span class="block-icon" style="background:#5b6af0;"></span><span>Edit Shipping Address</span><span class="add-btn">⊕</span></div>
-        <div class="section-label">Recommended Upsells</div>
-        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M4 4h2v12H4V4zm5 0h2v12H9V4zm5 0h2v12h-2V4z"/></svg><span>Products</span><span class="add-btn">⊕</span></div>
-        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><rect x="3" y="5" width="14" height="10" rx="2" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Order Status Offers</span><span class="add-btn">⊕</span></div>
-        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><path d="M4 8l6-4 6 4v8H4V8z" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Shipping Rates</span><span class="add-btn">⊕</span></div>
-        <div class="block-row"><svg width="16" height="16" viewBox="0 0 20 20" fill="#5c5f62"><circle cx="10" cy="10" r="7" fill="none" stroke="#5c5f62" stroke-width="1.5"/></svg><span>Personalized Upsells</span><span class="add-btn">⊕</span></div>
       </div>
       <!-- Tree view (after adding block) -->
       <div class="sidebar-tree" id="editorTreeView">
@@ -2880,27 +3057,15 @@ function beUpdatePreview() {
   switches.forEach(function(sw) {
     var actionName = sw.getAttribute('data-action');
     var isOn = sw.hasAttribute('checked');
-    var previewAction = document.querySelector('.be-preview-action[data-for="' + actionName + '"]');
+    var previewAction = document.querySelector('#bePreviewActions .preview-action[data-for="' + actionName + '"]');
     if (previewAction) {
-      previewAction.style.display = isOn ? 'flex' : 'none';
+      previewAction.style.display = isOn ? 'block' : 'none';
     }
     // Handle upsell section separately
     if (actionName === 'upsell') {
       var upsellSection = document.getElementById('beUpsellSection');
       if (upsellSection) upsellSection.style.display = isOn ? 'block' : 'none';
     }
-  });
-  // Re-apply border-radius to visible actions
-  var va = [];
-  document.querySelectorAll('#bePreviewActions .be-preview-action').forEach(function(a) {
-    if (a.style.display !== 'none') va.push(a);
-  });
-  va.forEach(function(a, i) {
-    a.style.borderRadius = '0';
-    a.style.borderBottom = 'none';
-    if (i === 0) a.style.borderRadius = '10px 10px 0 0';
-    if (i === va.length - 1) { a.style.borderRadius = (i === 0 ? '10px' : '0 0 10px 10px'); a.style.borderBottom = '1px solid #e3e3e3'; }
-    if (va.length === 1) { a.style.borderRadius = '10px'; a.style.borderBottom = '1px solid #e3e3e3'; }
   });
 }
 function beClickSave() {
@@ -3192,8 +3357,9 @@ function syncPreviewOrder() {
 function togglePanel(headerEl) {
   const action = headerEl.closest('.preview-action');
   const wasOpen = action.classList.contains('open');
-  // Close all panels first
-  document.querySelectorAll('#previewActions .preview-action').forEach(a => a.classList.remove('open'));
+  // Close all panels in the same container
+  const container = action.parentElement;
+  container.querySelectorAll('.preview-action').forEach(a => a.classList.remove('open'));
   // Toggle clicked one
   if (!wasOpen) action.classList.add('open');
 }
