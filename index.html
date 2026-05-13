@@ -495,7 +495,7 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 .onboarding-tooltip p { font-size:13px; color:var(--text-sub); line-height:1.5; margin-bottom:12px; }
 /* .onboarding-tooltip .got-it now uses s-button */
 
-/* ===== INSTALL MODAL ===== */
+/* ===== INSTALL MODAL (Stepper) ===== */
 .install-modal-overlay {
   display:none; position:fixed; inset:0; z-index:200;
   background:rgba(0,0,0,.5); align-items:center; justify-content:center;
@@ -503,90 +503,110 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 .install-modal-overlay.open { display:flex; }
 .install-modal {
   background:#fff; border-radius:16px;
-  width:480px; max-height:85vh; overflow-y:auto;
-  box-shadow:0 26px 80px rgba(0,0,0,.2), 0 0 1px rgba(0,0,0,.2);
+  width:620px; max-height:85vh; display:flex; flex-direction:column;
+  box-shadow:0 20px 20px -8px rgba(26,26,26,0.28), inset 0 0 0 1px rgba(0,0,0,.08);
+  overflow:hidden;
 }
+/* Title bar */
 .install-modal-header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:20px 20px 16px;
+  position:relative; background:#f3f3f3;
+  border-bottom:1px solid #e3e3e3; padding:12px 16px;
 }
 .install-modal-header h2 {
-  font-size:16px; font-weight:600; color:#303030; margin:0;
+  font-size:14px; font-weight:650; color:#303030; margin:0;
 }
 .install-modal-close {
-  width:32px; height:32px; border:none; background:none; cursor:pointer;
+  position:absolute; right:12px; top:8px;
+  width:28px; height:28px; border:none; background:none; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   border-radius:8px; color:#5c5f62;
 }
 .install-modal-close svg { width:20px; height:20px; }
 .install-modal-close:hover { background:rgba(0,0,0,.05); }
-.install-modal-body { padding:0 20px 20px; }
+/* Scrollable content area */
+.install-modal-body { padding:0 16px; flex:1; overflow-y:auto; }
 
-/* Setup steps container */
-.setup-steps-list { list-style:none; margin:0; padding:0; }
-.setup-step { border-bottom:1px solid #e1e3e5; }
-.setup-step:last-child { border-bottom:none; }
-.setup-step-header {
-  display:flex; align-items:center; gap:12px;
-  padding:14px 0; cursor:pointer; user-select:none;
+/* --- Horizontal stepper bar --- */
+.stepper-bar {
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:20px; padding-bottom:8px; gap:0;
 }
-.setup-step-circle {
-  width:20px; height:20px; border-radius:50%; border:2px solid #c9cccf;
-  flex-shrink:0; display:flex; align-items:center; justify-content:center;
-  transition:all .15s;
+.stepper-step {
+  display:flex; flex-direction:column; align-items:center; position:relative;
+  z-index:1;
 }
-.setup-step.actionable .setup-step-circle { border-color:#8c9196; }
-.setup-step.completed .setup-step-circle,
-.setup-step.skipped .setup-step-circle {
-  border-color:#303030; background:#303030;
+.stepper-circle {
+  width:32px; height:32px; border-radius:50%; border:2px solid #ccc;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:600; color:#b5b5b5; background:#fff;
+  transition:all .2s; flex-shrink:0; box-sizing:border-box;
 }
-.setup-step.completed .setup-step-circle::after,
-.setup-step.skipped .setup-step-circle::after {
-  content:''; display:block; width:6px; height:10px;
-  border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); margin-top:-2px;
+.stepper-label {
+  margin-top:6px; font-size:12px; font-weight:450; color:#b5b5b5;
+  transition:all .2s; white-space:nowrap;
 }
-.setup-step-title {
-  font-size:13px; font-weight:600; color:#303030; flex:1;
+/* Active step */
+.stepper-step.active .stepper-circle {
+  border-color:#303030; border-width:2.5px; color:#303030;
 }
-.setup-step.completed .setup-step-title { color:#303030; }
-.setup-step-body {
-  padding:0 0 14px 32px; display:none;
+.stepper-step.active .stepper-label { font-weight:650; color:#303030; }
+/* Completed step */
+.stepper-step.completed .stepper-circle {
+  border-color:#303030; background:#303030; color:transparent;
 }
-.setup-step.expanded .setup-step-body { display:block; }
-.setup-step-desc {
-  font-size:13px; color:#6d7175; line-height:1.5; margin-bottom:12px;
+.stepper-step.completed .stepper-circle::after {
+  content:''; display:block; width:7px; height:12px;
+  border:solid #fff; border-width:0 2px 2px 0;
+  transform:rotate(45deg); margin-top:-2px;
 }
-.setup-step-desc a { color:#005bd3; text-decoration:underline; }
-.setup-step-gif {
+.stepper-step.completed .stepper-label { font-weight:650; color:#303030; }
+/* Connecting line */
+.stepper-line {
+  width:100px; height:2px; background:#ccc; margin-top:15px; flex-shrink:0;
+  transition:background .2s;
+}
+.stepper-line.completed { background:#303030; }
+
+/* --- Step content panels --- */
+.stepper-content { padding:4px 16px 20px 4px; }
+.stepper-panel { display:none; }
+.stepper-panel.active { display:block; }
+.stepper-panel-title {
+  font-size:14px; font-weight:600; color:#303030; margin:0 0 8px;
+}
+.stepper-panel-desc {
+  font-size:13px; color:#616161; line-height:1.5; margin-bottom:12px;
+}
+.stepper-panel-desc a { color:#005bd3; text-decoration:underline; }
+.stepper-panel-gif {
   width:100%; height:180px; background:#e8e8e8; border-radius:10px;
   display:flex; align-items:center; justify-content:center;
   color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px;
   overflow:hidden;
 }
-.setup-step-gif img { width:100%; height:100%; object-fit:cover; }
-.setup-step-actions { display:flex; gap:8px; flex-wrap:wrap; }
-/* .setup-step-btn, .setup-step-btn-secondary now use s-button */
+.stepper-panel-gif img { width:100%; height:100%; object-fit:cover; }
 /* Success banner */
-.setup-step-banner {
-  background:#e4f6ee; border-radius:10px; padding:14px 16px;
+.stepper-banner {
+  background:#cdfee1; border-radius:10px; padding:14px 16px;
   margin-bottom:12px; display:none; font-size:13px; line-height:1.7; color:#303030;
 }
-.setup-step-banner.show { display:block; }
-.setup-step-banner .banner-title {
+.stepper-banner.show { display:block; }
+.stepper-banner .banner-title {
   font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:4px;
 }
-.setup-step-banner .banner-title svg { flex-shrink:0; }
-.setup-step-banner .banner-links { margin-top:6px; }
-.setup-step-banner .banner-links a {
+.stepper-banner .banner-title svg { flex-shrink:0; }
+.stepper-banner .banner-links { margin-top:6px; }
+.stepper-banner .banner-links a {
   color:#005bd3; text-decoration:underline; margin-right:12px; font-size:13px;
 }
-/* Skip badge */
-.setup-step-skip-badge {
-  display:none; background:#e4e5e7; color:#6d7175; font-size:11px;
-  padding:2px 8px; border-radius:4px; font-weight:500; margin-left:8px;
+.stepper-panel-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* --- Footer --- */
+.stepper-footer {
+  height:60px; border-top:1px solid #e3e3e3; padding:0 16px;
+  display:flex; align-items:center; justify-content:flex-end; gap:8px;
+  flex-shrink:0;
 }
-.setup-step.skipped .setup-step-skip-badge { display:inline-block; }
-.setup-step.skipped .setup-step-title { text-decoration:none; color:#303030; }
 /* Install status badges */
 .install-badge {
   display:inline-block; margin-left:6px; font-size:11px; font-weight:500;
@@ -655,6 +675,165 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 }
 /* .back-btn now uses s-button */
 .editor-sidebar .block-info s-button { margin-top:10px; }
+
+/* ===== CUSTOMIZE BLOCK EDITOR ===== */
+#page-blockeditor { position:fixed; inset:0; z-index:350; background:#f1f1f1; display:flex; flex-direction:column; }
+/* --- Toolbar (kept from Figma) --- */
+#page-blockeditor .be-toolbar {
+  display:flex; align-items:center; background:#fff; border-bottom:1px solid #e3e3e3;
+  height:56px; padding:0 12px; gap:8px; font-size:13px; flex-shrink:0;
+}
+#page-blockeditor .be-toolbar .be-back {
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; border-radius:8px; color:#303030; flex-shrink:0;
+}
+#page-blockeditor .be-toolbar .be-back:hover { background:#f1f1f1; }
+#page-blockeditor .be-toolbar .be-sep { width:1px; height:20px; background:#e3e3e3; margin:0 4px; }
+#page-blockeditor .be-toolbar .be-title { font-size:13px; font-weight:500; color:#303030; white-space:nowrap; }
+#page-blockeditor .be-toolbar .be-badge-notlived {
+  display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600;
+  padding:2px 8px; border-radius:10px; background:#e4e5e7; color:#616161;
+}
+#page-blockeditor .be-toolbar .be-badge-notlived::before { content:''; width:6px; height:6px; background:#8a8a8a; border-radius:50%; }
+#page-blockeditor .be-toolbar .be-spacer { flex:1; }
+#page-blockeditor .be-toolbar .be-icon-btn {
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; border-radius:8px; color:#8c9196;
+}
+#page-blockeditor .be-toolbar .be-icon-btn:hover { background:#f1f1f1; color:#303030; }
+
+/* --- Body: same two-column layout as config page --- */
+#page-blockeditor .be-body { display:flex; flex:1; min-height:0; overflow:hidden; }
+#page-blockeditor .be-left-wrap {
+  width:520px; flex-shrink:0; padding:32px 32px 40px 28px; overflow-y:auto;
+}
+#page-blockeditor .be-right-wrap {
+  flex:1; min-width:0; background:#e5e5e5; padding:32px 28px 40px; overflow-y:auto;
+}
+/* Welcome header — same as config-welcome */
+#page-blockeditor .be-welcome h2 { font-size:22px; font-weight:600; margin-bottom:6px; }
+#page-blockeditor .be-welcome .subtitle { font-size:14px; font-weight:600; margin-bottom:4px; }
+#page-blockeditor .be-welcome .desc { font-size:13px; color:var(--text-sub); margin-bottom:28px; }
+
+/* --- Panels (left side, stacked) --- */
+.be-panel { display:none; }
+.be-panel.active { display:block; }
+.be-panel-header {
+  display:flex; align-items:center; gap:8px; padding:0 0 12px; font-size:14px; font-weight:600;
+}
+.be-panel-header .be-panel-back {
+  cursor:pointer; display:flex; align-items:center; color:#303030;
+}
+.be-panel-header .be-panel-back:hover { color:#005bd3; }
+
+/* --- Shopper action rows: reuse s-switch pattern --- */
+#page-blockeditor s-switch { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid #f0f0f0; }
+#page-blockeditor s-switch:last-child { border-bottom:none; }
+#page-blockeditor s-switch:hover { background:rgba(0,0,0,.02); border-radius:8px; }
+#page-blockeditor s-switch .switch-left { display:flex; align-items:center; gap:10px; flex:1; }
+#page-blockeditor s-switch .switch-label { font-size:13px; flex:1; }
+#page-blockeditor s-switch .switch-right { display:flex; align-items:center; gap:8px; }
+#page-blockeditor s-switch .be-action-gear {
+  width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+  color:#8c9196; cursor:pointer; border-radius:6px; flex-shrink:0;
+}
+#page-blockeditor s-switch .be-action-gear:hover { background:#e3e3e3; color:#303030; }
+
+/* --- Sub-panel: checkboxes --- */
+.be-checkbox-list { padding:8px 0; }
+.be-checkbox-item {
+  display:flex; align-items:center; gap:10px; padding:6px 0; font-size:13px; cursor:pointer;
+}
+.be-checkbox-item .be-check {
+  width:18px; height:18px; border:2px solid #8c9196; border-radius:4px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; transition:all .15s;
+}
+.be-checkbox-item .be-check.checked { background:#303030; border-color:#303030; }
+.be-checkbox-item .be-check.checked::after {
+  content:''; display:block; width:5px; height:9px;
+  border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); margin-top:-2px;
+}
+/* --- Sub-panel: Upsell strategy --- */
+.be-radio-group { padding:0; }
+.be-radio-item {
+  display:flex; align-items:center; gap:10px; padding:8px 0; font-size:13px; cursor:pointer;
+}
+.be-radio-item .be-radio {
+  width:18px; height:18px; border:2px solid #8c9196; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; transition:all .15s;
+}
+.be-radio-item .be-radio.selected { border-color:#303030; }
+.be-radio-item .be-radio.selected::after { content:''; width:8px; height:8px; background:#303030; border-radius:50%; }
+.be-radio-item .be-ai-badge {
+  display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:600;
+  color:#7c3aed; background:#f3e8ff; padding:1px 6px; border-radius:6px; margin-left:4px;
+}
+.be-section-title { font-size:14px; font-weight:600; color:#303030; margin:20px 0 8px; }
+.be-section-title:first-child { margin-top:0; }
+.be-text-input-wrap { margin-bottom:12px; }
+.be-text-input {
+  width:100%; padding:6px 10px; border:1px solid #c9cccf; border-radius:8px; font-size:13px;
+  font-family:inherit; outline:none; transition:border-color .15s; box-sizing:border-box;
+}
+.be-text-input:focus { border-color:#005bd3; }
+.be-input-counter { font-size:11px; color:#8c9196; text-align:right; margin-top:2px; }
+/* Product info drag items */
+.be-drag-item { display:flex; align-items:center; gap:8px; padding:8px 0; font-size:13px; cursor:grab; }
+.be-drag-item:hover { background:#f6f6f7; border-radius:6px; }
+.be-drag-item .be-drag-handle { color:#c9cccf; flex-shrink:0; }
+.be-drag-item .be-info-icon { color:#8c9196; margin-left:auto; cursor:help; }
+.be-powered-by { padding:16px 0; font-size:11px; color:#8c9196; border-top:1px solid #f1f1f1; margin-top:8px; }
+/* Learn more link */
+.be-learn-more { color:#005bd3; font-size:12px; cursor:pointer; text-decoration:none; display:flex; align-items:center; gap:3px; }
+
+/* --- Right: Preview (same as config-right) --- */
+#page-blockeditor .be-preview-container { position:sticky; top:0; max-width:80%; }
+#page-blockeditor .be-preview-toggle-bar { display:flex; justify-content:flex-end; gap:4px; margin-bottom:8px; }
+
+/* Preview frame — reuse preview-frame styling */
+#page-blockeditor .be-preview-frame {
+  background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,.08);
+  transition:max-width .3s;
+}
+#page-blockeditor .be-preview-frame.mobile-mode { max-width:375px; margin:0 auto; }
+#page-blockeditor .be-preview-frame.mobile-mode .be-preview-inner { padding:12px 14px; }
+#page-blockeditor .be-preview-frame.mobile-mode .be-preview-inner h4 { font-size:12px; }
+#page-blockeditor .be-preview-frame.mobile-mode .be-upsell-card:nth-child(n+3) { display:none; }
+
+.be-preview-mac-bar {
+  display:flex; align-items:center; gap:6px; padding:10px 14px; background:#f6f6f7;
+}
+.be-preview-mac-bar .mac-dot { width:10px; height:10px; border-radius:50%; }
+.be-preview-mac-bar .mac-dot.r { background:#ff5f57; }
+.be-preview-mac-bar .mac-dot.y { background:#febc2e; }
+.be-preview-mac-bar .mac-dot.g { background:#28c840; }
+.be-preview-inner { padding:20px; }
+.be-preview-inner h4 { font-size:16px; font-weight:700; margin:0 0 4px; color:#303030; }
+.be-preview-inner .timer { font-size:13px; color:#6d7175; margin-bottom:16px; }
+.be-preview-inner .timer b { color:#303030; font-weight:600; }
+/* Preview action rows */
+.be-preview-action {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 16px; border:1px solid #e3e3e3; border-bottom:none; font-size:14px;
+  font-weight:450; color:#303030; cursor:pointer;
+}
+.be-preview-action:first-of-type { border-radius:10px 10px 0 0; }
+.be-preview-action:last-of-type { border-bottom:1px solid #e3e3e3; border-radius:0 0 10px 10px; }
+.be-preview-action:only-of-type { border-radius:10px; border-bottom:1px solid #e3e3e3; }
+.be-preview-action .be-chevron { color:#8c9196; font-size:18px; }
+/* Upsell carousel in preview */
+.be-upsell-section { margin-top:20px; }
+.be-upsell-section h5 { font-size:14px; font-weight:600; margin:0 0 12px; color:#303030; }
+.be-upsell-row { display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; }
+.be-upsell-card {
+  min-width:140px; flex-shrink:0; border:1px solid #e3e3e3; border-radius:10px;
+  overflow:hidden; background:#fff;
+}
+.be-upsell-card img { width:100%; height:120px; object-fit:cover; display:block; }
+.be-upsell-card .be-upsell-info { padding:8px 10px; }
+.be-upsell-card .be-upsell-name { font-size:12px; font-weight:500; color:#303030; margin-bottom:2px; }
+.be-upsell-card .be-upsell-meta { font-size:10px; color:#6d7175; margin-bottom:6px; }
+.be-upsell-card .be-upsell-add { font-size:12px; font-weight:500; color:#005bd3; cursor:pointer; }
 
 /* ===== PREVIEW ACCORDION ===== */
 .preview-action {
@@ -906,20 +1085,18 @@ s-button.af-btn { font-weight:500; position:relative; }
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar" id="sidebar">
-  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2.5l7 5.5v8.5a1.5 1.5 0 01-1.5 1.5H12v-5a1 1 0 00-1-1H9a1 1 0 00-1 1v5H4.5A1.5 1.5 0 013 16.5V8l7-5.5z"/></svg>Home</a>
-  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 5.5A1.5 1.5 0 013.5 4h13A1.5 1.5 0 0118 5.5V7H2V5.5zM2 9h16v7.5a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5V9z"/></svg>Orders<span class="count">15</span></a>
-  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M7 2h6a2 2 0 012 2v1h1.5A1.5 1.5 0 0118 6.5v10a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 16.5v-10A1.5 1.5 0 013.5 5H5V4a2 2 0 012-2z"/></svg>Products</a>
-  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM3 17.5a7 7 0 0114 0"/></svg>Customers</a>
-  <a class="nav-item" href="#">Content</a>
-  <a class="nav-item" href="#">Finances</a>
-  <a class="nav-item" href="#">Analytics</a>
-  <a class="nav-item" href="#">Marketing</a>
-  <a class="nav-item" href="#">Discounts</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M14 16h-2a1 1 0 0 1-1-1v-2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2.5a1 1 0 0 1-1 1h-2a2 2 0 0 1-2-2v-4.257a3 3 0 0 1 .879-2.122l3.707-3.707a2 2 0 0 1 2.828 0l3.707 3.707a3 3 0 0 1 .879 2.122v4.257a2 2 0 0 1-2 2Z"/></svg>Home</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.255 5.847a2.75 2.75 0 0 1 2.72-2.347h6.05a2.75 2.75 0 0 1 2.72 2.347l.66 4.46c.063.425.095.853.095 1.282v1.661a3.25 3.25 0 0 1-3.25 3.25h-6.5a3.25 3.25 0 0 1-3.25-3.25v-1.66c0-.43.032-.858.094-1.283l.661-4.46Zm2.72-.847a1.25 1.25 0 0 0-1.236 1.067l-.583 3.933h2.484a1.25 1.25 0 0 1 1.185.855l.159.474a.25.25 0 0 0 .237.171h1.558a.25.25 0 0 0 .237-.17l.159-.475a1.25 1.25 0 0 1 1.185-.855h2.484l-.583-3.933a1.25 1.25 0 0 0-1.236-1.067h-6.05Z"/></svg>Orders<span class="count">15</span></a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.575 4.649a3.75 3.75 0 0 1 2.7-1.149h1.975a3.25 3.25 0 0 1 3.25 3.25v2.187a3.25 3.25 0 0 1-.996 2.34l-4.747 4.572a2.5 2.5 0 0 1-3.502-.033l-2.898-2.898a2.75 2.75 0 0 1-.036-3.852l4.254-4.417Zm4.425 3.351a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>Products</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 9.75a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z"/><path d="M10 11.5c-1.968 0-3.815.95-4.959 2.552l-.561.786a1.05 1.05 0 0 0 .855 1.662h9.33a1.05 1.05 0 0 0 .855-1.662l-.561-.786a6.094 6.094 0 0 0-4.959-2.552Z"/></svg>Customers</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M12 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M7.42 3.5h5.16c.535 0 .98 0 1.345.03.38.03.736.098 1.073.27a2.75 2.75 0 0 1 1.202 1.202c.172.337.24.693.27 1.073.03.365.03.81.03 1.345v1.91c0 .535 0 .98-.03 1.345-.03.38-.098.736-.27 1.073a2.751 2.751 0 0 1-1.201 1.202c-.338.172-.694.24-1.074.27-.365.03-.81.03-1.345.03h-5.16c-.535 0-.98 0-1.345-.03-.38-.03-.736-.098-1.073-.27a2.75 2.75 0 0 1-1.202-1.201c-.172-.338-.24-.694-.27-1.074-.03-.365-.03-.81-.03-1.345v-1.91c0-.535 0-.98.03-1.345.03-.38.098-.736.27-1.073a2.75 2.75 0 0 1 1.202-1.202c.337-.172.693-.24 1.073-.27.365-.03.81-.03 1.345-.03Zm-1.223 1.525c-.287.023-.424.065-.514.111a1.25 1.25 0 0 0-.547.547c-.046.09-.088.227-.111.514-.024.296-.025.68-.025 1.253v1.548l.908-1.073a1.75 1.75 0 0 1 2.68.01l2.412 2.894 1.086-1.304a1.75 1.75 0 0 1 2.778.116l.135.192.001-.533v-1.85c0-.572 0-.957-.025-1.253-.023-.287-.065-.424-.111-.514a1.25 1.25 0 0 0-.546-.547c-.091-.046-.228-.088-.515-.111-.296-.024-.68-.025-1.253-.025h-5.1c-.572 0-.957 0-1.253.025Zm-.514 6.589a1.25 1.25 0 0 1-.516-.49l1.886-2.23a.25.25 0 0 1 .383.001l2.38 2.855h-2.366c-.572 0-.957 0-1.253-.025-.287-.023-.424-.065-.514-.111Zm6.867.136h-.365l1.054-1.265a.25.25 0 0 1 .397.017l.751 1.073a1.274 1.274 0 0 1-.07.039c-.09.046-.227.088-.514.111-.296.024-.68.025-1.253.025Z"/><path d="M4 15.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Z"/><path d="M12.75 15a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5h-2.5Z"/></svg>Content</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="m15.066 7.322-.808-2.25-.417-.999c-.45-1.077-1.651-1.63-2.763-1.274l-4.76 1.527c-1.25.401-1.892 1.784-1.393 2.998-.964.254-1.675 1.132-1.675 2.176v5c0 1.243 1.007 2.25 2.25 2.25h9c1.243 0 2.25-1.007 2.25-2.25v-5c0-1.047-.715-1.927-1.684-2.178Zm-8.754-.568c-.166-.405.048-.866.465-1l4.759-1.526c.37-.12.77.065.921.424l.094.225-6.198 1.976-.04-.099Zm7.135.496-.35-.973-3.052.973h3.402Zm-8.697 2.25c0-.414.336-.75.75-.75h9c.414 0 .75.336.75.75v5c0 .414-.336.75-.75.75h-9c-.414 0-.75-.336-.75-.75v-5Z"/></svg>Finances</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.971 4c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v9.058c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982 2.5 2.5 0 0 0 .024-.465v-9.058c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/><path d="M5.471 9.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v3.558c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-3.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.503 2.503 0 0 0-.465-.024h-.058Z"/><path d="M14.471 6.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v6.558c0 .204 0 .344.024.465.099.496.486.883.982.982.121.024.26.024.465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-6.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/></svg>Analytics</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.451 12.354a2.61 2.61 0 0 1 0-5.208l4.01-.244a.25.25 0 0 0 .137-.05l3.097-2.34c1.153-.872 2.805-.05 2.805 1.395v7.608c0 1.437-1.637 2.261-2.792 1.406l-2.572-1.906-.287 2.44a1.75 1.75 0 0 1-1.738 1.545h-.361a1.75 1.75 0 0 1-1.75-1.75v-2.862l-.549-.034Zm-.951-2.604a1.11 1.11 0 0 0 1.042 1.107l4.056.246c.338.02.664.139.936.34l3.067 2.273a.25.25 0 0 0 .399-.201v-7.608a.25.25 0 0 0-.4-.199l-3.098 2.341a1.75 1.75 0 0 1-.95.35l-4.01.244a1.11 1.11 0 0 0-1.042 1.107Zm3 2.729 1.18.071-.321 2.73a.25.25 0 0 1-.248.22h-.361a.25.25 0 0 1-.25-.25v-2.771Z"/><path d="M17.5 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0v-2.5Z"/></svg>Marketing</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M12.78 8.28a.75.75 0 0 0-1.06-1.06l-4.5 4.5a.75.75 0 1 0 1.06 1.06l4.5-4.5Z"/><path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Zm-2.825.626a.804.804 0 0 1 1.462 0 2.304 2.304 0 0 0 2.896 1.2.804.804 0 0 1 1.034 1.034 2.304 2.304 0 0 0 1.199 2.895.804.804 0 0 1 0 1.462 2.304 2.304 0 0 0-1.2 2.896.805.805 0 0 1-1.034 1.034 2.304 2.304 0 0 0-2.895 1.199.804.804 0 0 1-1.462 0 2.304 2.304 0 0 0-2.896-1.2.804.804 0 0 1-1.033-1.034 2.305 2.305 0 0 0-1.2-2.895.804.804 0 0 1 0-1.462 2.304 2.304 0 0 0 1.2-2.896.804.804 0 0 1 1.033-1.033 2.304 2.304 0 0 0 2.896-1.2Z"/></svg>Discounts</a>
   <div class="nav-divider"></div>
   <div class="nav-section-label">Sales channels</div>
-  <a class="nav-item" href="#">Online Store</a>
-  <a class="nav-item" href="#">Point of Sale</a>
-  <a class="nav-item" href="#">Shop</a>
+  <a class="nav-item" href="#"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.278 3a2.75 2.75 0 0 1 2.162 1.051l2.087 2.656c.073.093.136.193.19.298l.079.159c.662 1.324.103 2.824-1.052 3.488a.75.75 0 0 1 .006.098v.75a2.75 2.75 0 0 1-2.75 2.75h-.5v1.25h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.25h-.5a2.75 2.75 0 0 1-2.75-2.75v-.75c0-.033.002-.066.006-.098-1.155-.664-1.714-2.164-1.051-3.488l.079-.159a1.75 1.75 0 0 1 .189-.298l2.087-2.656a2.75 2.75 0 0 1 2.162-1.051h4.556Zm-6.528 7.994v.506c0 .69.56 1.25 1.25 1.25h6c.69 0 1.25-.56 1.25-1.25v-.506a2.651 2.651 0 0 1-1.955-1.066 2.99 2.99 0 0 1-4.59 0 2.651 2.651 0 0 1-1.955 1.066Zm2.602-3.192a.747.747 0 0 0-.855-.258.747.747 0 0 0-.418.37l-.474.95a1.15 1.15 0 1 1-2.059-1.03l.08-.158a.25.25 0 0 1 .026-.042l2.087-2.656c.237-.302.6-.478.983-.478h4.556c.383 0 .746.176.983.478l2.087 2.656c.01.013.019.027.027.042l.079.159a1.15 1.15 0 0 1-2.059 1.029l-.474-.95a.746.746 0 0 0-1.006-.335.747.747 0 0 0-.394.496l-.074.295a1.491 1.491 0 0 1-2.894 0l-.074-.295a.75.75 0 0 0-.127-.273Zm.648 6.448v1.25h2v-1.25h-2Z"/></svg>Online Store</a>
   <div class="nav-divider"></div>
   <div class="nav-section-label">Apps</div>
   <a class="nav-item" href="#" style="font-weight:600; color:var(--text);">AfterShip Tracking</a>
@@ -1424,13 +1601,13 @@ s-button.af-btn { font-weight:500; position:relative; }
           </div>
           <!-- Buttons: not-live state -->
           <div id="blockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
-            <s-button>Customize</s-button>
+            <s-button onclick="openBlockEditor()">Customize</s-button>
             <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Install</s-button>
           </div>
           <!-- Buttons: live state -->
           <div id="blockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
             <s-button icon-only onclick="toggleMoreMenu(event)">⋯</s-button>
-            <s-button>Customize</s-button>
+            <s-button onclick="openBlockEditor()">Customize</s-button>
             <!-- More dropdown -->
             <div id="moreMenuDropdown" style="display:none; position:absolute; bottom:42px; right:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
               <div style="padding:10px 16px; font-size:13px; cursor:default; display:flex; align-items:center; gap:8px;">Unpublish</div>
@@ -1704,74 +1881,339 @@ s-button.af-btn { font-weight:500; position:relative; }
   </div>
 </div>
 
-<!-- ===== INSTALL MODAL ===== -->
+<!-- ===== INSTALL MODAL (Stepper) ===== -->
 <div class="install-modal-overlay" id="installModal" onclick="closeInstallModal(event)">
   <div class="install-modal" onclick="event.stopPropagation()">
+    <!-- Title bar -->
     <div class="install-modal-header">
       <h2>How to install and go live</h2>
       <button class="install-modal-close" onclick="closeInstallModal()" aria-label="Close">
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.414 10l4.293-4.293a.999.999 0 10-1.414-1.414L10 8.586 5.707 4.293a.999.999 0 10-1.414 1.414L8.586 10l-4.293 4.293a.999.999 0 101.414 1.414L10 11.414l4.293 4.293a.999.999 0 101.414-1.414L11.414 10z"/></svg>
       </button>
     </div>
+    <!-- Content area -->
     <div class="install-modal-body">
-      <ul class="setup-steps-list">
+      <!-- Horizontal stepper -->
+      <div class="stepper-bar" id="stepperBar">
+        <div class="stepper-step active" data-stepper="1">
+          <div class="stepper-circle">01</div>
+          <div class="stepper-label">Install</div>
+        </div>
+        <div class="stepper-line" data-line="1"></div>
+        <div class="stepper-step" data-stepper="2">
+          <div class="stepper-circle">02</div>
+          <div class="stepper-label">Test order</div>
+        </div>
+        <div class="stepper-line" data-line="2"></div>
+        <div class="stepper-step" data-stepper="3">
+          <div class="stepper-circle">03</div>
+          <div class="stepper-label">Go live</div>
+        </div>
+      </div>
+      <!-- Step content panels -->
+      <div class="stepper-content">
         <!-- Step 1 -->
-        <li class="setup-step expanded actionable" data-step="1">
-          <div class="setup-step-header" onclick="toggleSetupStep(1)">
-            <span class="setup-step-circle"></span>
-            <span class="setup-step-title">Step 1: Install AfterShip Order Edits block</span>
+        <div class="stepper-panel active" id="stepPanel1">
+          <div class="stepper-panel-title">Step 1: Install AfterShip Order Edits block</div>
+          <div class="stepper-panel-desc">Click "Go to editor" below to open the Shopify Checkout Editor, choose which page to add the block to, and save your changes.</div>
+          <div class="stepper-panel-gif">
+            <img src="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg" alt="Checkout editor" onerror="this.parentElement.textContent='GIF'">
           </div>
-          <div class="setup-step-body">
-            <div class="setup-step-desc">Click "Go to editor" below to open the Shopify Checkout Editor, choose which page to add the block to, and save your changes.</div>
-            <div class="setup-step-gif">
-              <img src="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg" alt="Checkout editor" onerror="this.parentElement.textContent='GIF'">
-            </div>
-            <div class="setup-step-actions">
-              <s-button variant="primary" onclick="goToEditor()">Go to editor</s-button>
-            </div>
-          </div>
-        </li>
+        </div>
         <!-- Step 2 -->
-        <li class="setup-step" data-step="2">
-          <div class="setup-step-header" onclick="toggleSetupStep(2)">
-            <span class="setup-step-circle"></span>
-            <span class="setup-step-title">Step 2: Test the block with a test order</span>
-            <span class="setup-step-skip-badge">Skip</span>
-          </div>
-          <div class="setup-step-body">
-            <div class="setup-step-desc">Test order edits via a test order. Didn't sync the edited order to your ERP? <a href="#">Learn more</a></div>
-            <div class="setup-step-banner" id="testOrderBanner">
-              <div class="banner-title">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="#008060"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
-                Test order created successfully on May 6 at 10:11 AM.
-              </div>
-              Order no.: #TEST-7336<br>
-              Order tag: AS.OrderEdits.Test<br>
-              Email: yvette@aftership.com
-              <div class="banner-links">
-                <a href="#">View order status page</a>
-                <a href="#">Generate another</a>
-              </div>
+        <div class="stepper-panel" id="stepPanel2">
+          <div class="stepper-panel-title">Step 2: Test the block with a test order</div>
+          <div class="stepper-panel-desc">Test order edits via an test order. Didn't sync the edited order to your Shipping platform or ERP? <a href="#">Learn more</a></div>
+          <div class="stepper-banner" id="testOrderBanner">
+            <div class="banner-title">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="#008060"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+              Test order created successfully on May 6 at 10:11 AM.
             </div>
-            <div class="setup-step-actions" id="step2Actions">
-              <s-button variant="primary" onclick="createTestOrder()">Create a test order</s-button>
-              <s-button onclick="skipTest()">Skip test</s-button>
+            Order no.: #TEST-7336<br>
+            Order tag: AS.OrderEdits.Test<br>
+            Email: yvette@aftership.com
+            <div class="banner-links">
+              <a href="#">View order status page</a>
             </div>
           </div>
-        </li>
+          <div class="stepper-panel-actions" id="step2Actions">
+            <s-button onclick="createTestOrder()">Create a test order</s-button>
+          </div>
+        </div>
         <!-- Step 3 -->
-        <li class="setup-step" data-step="3">
-          <div class="setup-step-header" onclick="toggleSetupStep(3)">
-            <span class="setup-step-circle"></span>
-            <span class="setup-step-title">Step 3: Go live</span>
+        <div class="stepper-panel" id="stepPanel3">
+          <div class="stepper-panel-title">Step 3: Go live</div>
+          <div class="stepper-panel-desc">Go live now, your customers will see.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="stepper-footer" id="stepperFooter">
+      <s-button id="stepperBackBtn" onclick="stepperBack()" style="display:none">Cancel</s-button>
+      <s-button id="stepperNextBtn" variant="primary" onclick="stepperNext()">Go to editor</s-button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CUSTOMIZE BLOCK EDITOR ===== -->
+<div id="page-blockeditor" style="display:none;">
+  <!-- Toolbar -->
+  <div class="be-toolbar">
+    <div class="be-back" onclick="closeBlockEditor()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M17 9H5.414l3.293-3.293a1 1 0 00-1.414-1.414l-5 5a1 1 0 000 1.414l5 5a1 1 0 001.414-1.414L5.414 11H17a1 1 0 100-2z"/></svg>
+    </div>
+    <div class="be-sep"></div>
+    <span class="be-title">Order edits block</span>
+    <span class="be-badge-notlived">Not lived</span>
+    <span class="be-spacer"></span>
+    <s-button variant="primary" onclick="beClickSave()">Save</s-button>
+  </div>
+  <!-- Body: two-column layout matching config page -->
+  <div class="be-body">
+    <!-- LEFT: Settings panels -->
+    <div class="be-left-wrap">
+      <div class="be-welcome">
+        <h2>Welcome to AfterShip Order Edits</h2>
+        <p class="subtitle">Let's tailor the experience for your shoppers.</p>
+        <p class="desc">Preview on the right panel. You can change later before go live.</p>
+      </div>
+
+      <!-- Panel: Main (Editing time + Shopper actions) -->
+      <div class="be-panel active" id="bePanelMain">
+        <!-- Editing time window card -->
+        <s-section>
+          <s-stack gap="small">
+            <s-text variant="headingMd">Editing time window</s-text>
+            <s-text variant="bodySm" tone="subdued">Many sellers start with 30 minutes. It depends on your fulfillment speed and when downstream systems pick up orders.</s-text>
+            <div class="time-row">
+              <input type="number" class="time-input" value="30">
+              <select class="time-select"><option value="minutes" selected>minutes</option><option value="hours">hours</option><option value="days">days</option></select>
+            </div>
+          </s-stack>
+        </s-section>
+
+        <!-- Shopper actions card -->
+        <s-section>
+          <s-stack gap="small">
+            <s-text variant="headingMd">Shopper actions</s-text>
+            <s-text variant="bodySm" tone="subdued">Select which actions shoppers can perform.</s-text>
+          </s-stack>
+          <div id="beActionsList" style="margin-top:12px;">
+            <!-- Edit shipping address -->
+            <s-switch checked data-action="shipping">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm0-1.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Zm1.173-11.75c-2.35 0-4 1.646-4 3.977 0 1.846 1.049 3.618 2.2 4.99a15.919 15.919 0 0 0 1.8 1.816 15.92 15.92 0 0 0 1.8-1.817c1.151-1.371 2.2-3.143 2.2-4.99 0-2.33-1.65-3.976-4-3.976Z"/></svg></s-icon>
+                <span class="switch-label">Edit shipping address</span>
+              </div>
+              <div class="switch-right">
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Edit Products -->
+            <s-switch checked data-action="products">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Zm-4.409 2.72-5.88 5.88a1.25 1.25 0 0 0-.366.884v1.172h1.172c.331 0 .65-.132.883-.366l5.88-5.88-1.689-1.69Zm2.75.629.599-.599a1.195 1.195 0 1 0-1.69-1.689l-.598.599 1.69 1.689Z"/></svg></s-icon>
+                <span class="switch-label">Edit Products</span>
+              </div>
+              <div class="switch-right">
+                <div class="be-action-gear" onclick="beOpenPanel('products',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Add Product -->
+            <s-switch checked data-action="addproduct">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path d="M11.276 3.5a3.75 3.75 0 0 0-2.701 1.149l-4.254 4.417a2.75 2.75 0 0 0 .036 3.852l2.898 2.898a2.5 2.5 0 0 0 3.502.033l.45-.434a.75.75 0 1 0-1.04-1.08l-.45.434a1 1 0 0 1-1.401-.014l-2.898-2.898a1.25 1.25 0 0 1-.016-1.75l4.253-4.418a2.25 2.25 0 0 1 1.62-.689h1.975c.966 0 1.75.784 1.75 1.75v2.371c0 .358-.146.7-.403.948a.75.75 0 1 0 1.04 1.08 2.81 2.81 0 0 0 .863-2.028v-2.371a3.25 3.25 0 0 0-3.25-3.25h-1.974Z"/><path d="M13 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M14.75 12a.75.75 0 0 1 .75.75v1.25h1.25a.75.75 0 0 1 0 1.5h-1.25v1.25a.75.75 0 0 1-1.5 0v-1.25h-1.25a.75.75 0 0 1 0-1.5h1.25v-1.25a.75.75 0 0 1 .75-.75Z"/></svg></s-icon>
+                <span class="switch-label">Add Product</span>
+              </div>
+              <div class="switch-right">
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Edit contact info -->
+            <s-switch data-action="contact">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 3a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-2 3.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Z"/><path fill-rule="evenodd" d="M15.484 14.227a6.274 6.274 0 0 0-10.968 0l-.437.786a1.338 1.338 0 0 0 1.17 1.987h9.502a1.338 1.338 0 0 0 1.17-1.987l-.437-.786Zm-9.657.728a4.773 4.773 0 0 1 8.346 0l.302.545h-8.95l.302-.545Z"/></svg></s-icon>
+                <span class="switch-label">Edit contact info</span>
+              </div>
+              <div class="switch-right">
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Add discount code -->
+            <s-switch data-action="discount">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path d="M12.78 8.28a.75.75 0 0 0-1.06-1.06l-4.5 4.5a.75.75 0 1 0 1.06 1.06l4.5-4.5Z"/><path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Zm-2.825.626a.804.804 0 0 1 1.462 0 2.304 2.304 0 0 0 2.896 1.2.804.804 0 0 1 1.034 1.034 2.304 2.304 0 0 0 1.199 2.895.804.804 0 0 1 0 1.462 2.304 2.304 0 0 0-1.2 2.896.805.805 0 0 1-1.034 1.034 2.304 2.304 0 0 0-2.895 1.199.804.804 0 0 1-1.462 0 2.304 2.304 0 0 0-2.896-1.2.804.804 0 0 1-1.033-1.034 2.305 2.305 0 0 0-1.2-2.895.804.804 0 0 1 0-1.462 2.304 2.304 0 0 0 1.2-2.896.804.804 0 0 1 1.033-1.033 2.304 2.304 0 0 0 2.896-1.2Z"/></svg></s-icon>
+                <span class="switch-label">Add discount code</span>
+              </div>
+              <div class="switch-right">
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Cancel order -->
+            <s-switch data-action="cancel">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path d="M13.03 6.97a.75.75 0 0 1 0 1.06l-1.97 1.97 1.97 1.97a.75.75 0 1 1-1.06 1.06l-1.97-1.97-1.97 1.97a.75.75 0 0 1-1.06-1.06l1.97-1.97-1.97-1.97a.75.75 0 0 1 1.06-1.06l1.97 1.97 1.97-1.97a.75.75 0 0 1 1.06 0Z"/><path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg></s-icon>
+                <span class="switch-label">Cancel order</span>
+              </div>
+              <div class="switch-right">
+                <div class="be-action-gear" onclick="beOpenPanel('cancel',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
+            <!-- Upsell -->
+            <s-switch checked data-action="upsell">
+              <div class="switch-left">
+                <s-icon><svg viewBox="0 0 20 20"><path d="M3.25 3a.75.75 0 0 0 0 1.5h1.612a.25.25 0 0 1 .248.22l1.04 8.737a1.75 1.75 0 0 0 1.738 1.543h6.362a.75.75 0 0 0 0-1.5h-6.362a.25.25 0 0 1-.248-.22l-.093-.78h6.35a2.75 2.75 0 0 0 2.743-2.54l.358-4.652a.75.75 0 0 0-1.496-.116l-.358 4.654a1.25 1.25 0 0 1-1.246 1.154h-6.53l-.768-6.457a1.75 1.75 0 0 0-1.738-1.543h-1.612Z"/><path d="M12 9.25a.75.75 0 0 1-1.5 0v-3.69l-1.22 1.22a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0l2.5 2.5a.75.75 0 0 1-1.06 1.06l-1.22-1.22v3.69Z"/><path d="M10 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M15 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg></s-icon>
+                <span class="switch-label">Upsell</span>
+              </div>
+              <div class="switch-right">
+                <div class="be-action-gear" onclick="beOpenPanel('upsell',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
+              </div>
+            </s-switch>
           </div>
-          <div class="setup-step-body">
-            <div class="setup-step-actions">
-              <s-button variant="primary" onclick="completeSetupStep(3)">Go live</s-button>
+        </s-section>
+      </div>
+
+      <!-- Panel: Edit Products config -->
+      <div class="be-panel" id="bePanelProducts">
+        <s-section>
+          <div class="be-panel-header">
+            <span class="be-panel-back" onclick="beBackToMain()"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z"/></svg></span>
+            Edit Products
+          </div>
+          <div class="be-checkbox-list">
+            <label class="be-checkbox-item"><div class="be-check checked"></div><span>Change Product Variant</span></label>
+            <label class="be-checkbox-item"><div class="be-check checked"></div><span>Increase product quantity</span></label>
+            <label class="be-checkbox-item"><div class="be-check checked"></div><span>Reduce product quantity</span></label>
+          </div>
+        </s-section>
+      </div>
+
+      <!-- Panel: Cancel order config -->
+      <div class="be-panel" id="bePanelCancel">
+        <s-section>
+          <div class="be-panel-header">
+            <span class="be-panel-back" onclick="beBackToMain()"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z"/></svg></span>
+            Cancel order
+          </div>
+          <div style="font-size:13px; color:#616161; padding-top:4px;">
+            No additional configuration required for cancel order.
+          </div>
+        </s-section>
+      </div>
+
+      <!-- Panel: Upsell strategy config -->
+      <div class="be-panel" id="bePanelUpsell">
+        <s-section>
+          <div class="be-panel-header">
+            <span class="be-panel-back" onclick="beBackToMain()"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z"/></svg></span>
+            Upsell strategy
+          </div>
+          <div class="be-section-title">Recommendation strategy</div>
+          <div class="be-radio-group">
+            <label class="be-radio-item" onclick="beSelectRadio(this)">
+              <div class="be-radio selected"></div>
+              <span>Next LLM</span>
+              <span class="be-ai-badge">✦ AI</span>
+            </label>
+            <div style="padding-left:28px; margin-top:-4px; margin-bottom:8px;">
+              <a class="be-learn-more" href="#" onclick="event.preventDefault()">Learn more <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg></a>
+            </div>
+            <label class="be-radio-item" onclick="beSelectRadio(this)"><div class="be-radio"></div><span>Best sellers</span></label>
+            <label class="be-radio-item" onclick="beSelectRadio(this)"><div class="be-radio"></div><span>Frequently bought together</span></label>
+            <label class="be-radio-item" onclick="beSelectRadio(this)"><div class="be-radio"></div><span>Same product upsell</span></label>
+            <label class="be-radio-item" onclick="beSelectRadio(this)"><div class="be-radio"></div><span>Custom strategy</span></label>
+          </div>
+          <div class="be-powered-by">Powered by <span style="font-weight:600; color:#303030; margin-left:3px;"><span style="color:#e55b37;">●</span> aftership</span> personalization</div>
+        </s-section>
+        <s-section>
+          <s-text variant="headingMd">Content</s-text>
+          <div style="margin-top:8px; margin-bottom:4px; font-size:12px; font-weight:500; color:#303030;">Title</div>
+          <div class="be-text-input-wrap">
+            <input class="be-text-input" type="text" value="Recommended for you" maxlength="48" oninput="this.nextElementSibling.textContent=this.value.length+'/48'">
+            <div class="be-input-counter">0/48</div>
+          </div>
+        </s-section>
+        <s-section>
+          <s-text variant="headingMd">Product info</s-text>
+          <div style="margin-top:8px;">
+            <div class="be-drag-item">
+              <span class="be-drag-handle"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
+              <div class="be-check" onclick="this.classList.toggle('checked')"></div>
+              <span>Product name</span>
+              <span class="be-info-icon" title="Always visible"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11a1 1 0 11-2 0V9a1 1 0 112 0v4zm-1-6a1 1 0 110-2 1 1 0 010 2z"/></svg></span>
+            </div>
+            <div class="be-drag-item">
+              <span class="be-drag-handle"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
+              <div class="be-check" onclick="this.classList.toggle('checked')"></div>
+              <span>Price</span>
+            </div>
+            <div class="be-drag-item">
+              <span class="be-drag-handle"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
+              <div class="be-check" onclick="this.classList.toggle('checked')"></div>
+              <span>Product description</span>
+              <span class="be-info-icon" title="Optional"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11a1 1 0 11-2 0V9a1 1 0 112 0v4zm-1-6a1 1 0 110-2 1 1 0 010 2z"/></svg></span>
+            </div>
+            <div class="be-drag-item">
+              <span class="be-drag-handle"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm6 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg></span>
+              <div class="be-check" onclick="this.classList.toggle('checked')"></div>
+              <span>Product review</span>
             </div>
           </div>
-        </li>
-      </ul>
+        </s-section>
+      </div>
+    </div>
+
+    <!-- RIGHT: Live Preview (same as config-right) -->
+    <div class="be-right-wrap">
+      <div class="be-preview-container">
+        <div class="be-preview-toggle-bar">
+          <s-button class="preview-toggle-btn active" icon-only title="Desktop" onclick="beSetDevice('desktop',this)"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 6.25a2.75 2.75 0 0 1 2.75-2.75h7.5a2.75 2.75 0 0 1 2.75 2.75v4.5a2.75 2.75 0 0 1-2.75 2.75h-1.25v1.5h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.5h-1.25a2.75 2.75 0 0 1-2.75-2.75v-4.5Zm5.5 7.25h2v1.5h-2v-1.5Zm-2.75-8.5c-.69 0-1.25.56-1.25 1.25v3.25h10v-3.25c0-.69-.56-1.25-1.25-1.25h-7.5Zm8.725 6c-.116.57-.62 1-1.225 1h-7.5a1.25 1.25 0 0 1-1.225-1h9.95Z"/></svg></s-button>
+          <s-button class="preview-toggle-btn" icon-only title="Mobile" onclick="beSetDevice('mobile',this)"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M7.75 13.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/><path fill-rule="evenodd" d="M4.75 5.75a2.75 2.75 0 0 1 2.75-2.75h5a2.75 2.75 0 0 1 2.75 2.75v8.5a2.75 2.75 0 0 1-2.75 2.75h-5a2.75 2.75 0 0 1-2.75-2.75v-8.5Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v8.5c0 .69.56 1.25 1.25 1.25h5c.69 0 1.25-.56 1.25-1.25v-8.5c0-.69-.56-1.25-1.25-1.25h-.531a1 1 0 0 1-.969.75h-2a1 1 0 0 1-.969-.75h-.531Z"/></svg></s-button>
+        </div>
+        <div class="be-preview-frame" id="bePreviewFrame">
+          <div class="be-preview-mac-bar">
+            <span class="mac-dot r"></span>
+            <span class="mac-dot y"></span>
+            <span class="mac-dot g"></span>
+          </div>
+          <div class="be-preview-inner">
+            <h4>Need to make a change?</h4>
+            <div class="timer">There is still time to make updates <b>29:00</b></div>
+            <div id="bePreviewActions">
+              <div class="be-preview-action" data-for="shipping"><span>Edit shipping address</span><span class="be-chevron">&#8250;</span></div>
+              <div class="be-preview-action" data-for="contact"><span>Edit contact info</span><span class="be-chevron">&#8250;</span></div>
+              <div class="be-preview-action" data-for="products"><span>Edit Products</span><span class="be-chevron">&#8250;</span></div>
+              <div class="be-preview-action" data-for="addproduct"><span>Add Product</span><span class="be-chevron">&#8250;</span></div>
+              <div class="be-preview-action" data-for="discount"><span>Add discount code</span><span class="be-chevron">&#8250;</span></div>
+              <div class="be-preview-action" data-for="cancel"><span>Cancel order</span><span class="be-chevron">&#8250;</span></div>
+            </div>
+            <div class="be-upsell-section" id="beUpsellSection">
+              <h5>Grab one to this order</h5>
+              <div class="be-upsell-row">
+                <div class="be-upsell-card">
+                  <img src="https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=280&h=280&fit=crop" alt="Cedar & Moss" onerror="this.style.background='#ddd';this.style.height='120px';">
+                  <div class="be-upsell-info"><div class="be-upsell-name">Cedar & Moss</div><div class="be-upsell-meta">6 colors · 4 sizes</div><span class="be-upsell-add">+ Add £56</span></div>
+                </div>
+                <div class="be-upsell-card">
+                  <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=280&h=280&fit=crop" alt="Brew Brew Kit" onerror="this.style.background='#ddd';this.style.height='120px';">
+                  <div class="be-upsell-info"><div class="be-upsell-name">Brew Brew Kit</div><div class="be-upsell-meta">6 colors · 4 sizes</div><span class="be-upsell-add">+ Add £56</span></div>
+                </div>
+                <div class="be-upsell-card">
+                  <img src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=280&h=280&fit=crop" alt="Concrete Valet" onerror="this.style.background='#ddd';this.style.height='120px';">
+                  <div class="be-upsell-info"><div class="be-upsell-name">Concrete Valet</div><div class="be-upsell-meta">6 colors · 4 sizes</div><span class="be-upsell-add">+ Add £48</span></div>
+                </div>
+                <div class="be-upsell-card">
+                  <img src="https://images.unsplash.com/photo-1543512214-318c7553f230?w=280&h=280&fit=crop" alt="Amber Glass" onerror="this.style.background='#ddd';this.style.height='120px';">
+                  <div class="be-upsell-info"><div class="be-upsell-name">Amber Glass</div><div class="be-upsell-meta">3 colors · 2 sizes</div><span class="be-upsell-add">+ Add £32</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -2058,7 +2500,7 @@ function saveSetupState() {
     sessionStorage.setItem('setupState', JSON.stringify({
       completedSteps: completedSteps,
       editorSaved: editorSaved,
-      skippedStep2: !!document.querySelector('.setup-step[data-step="2"].skipped'),
+      currentStepperStep: currentStepperStep,
       testOrderCreated: !!document.querySelector('#testOrderBanner.show'),
       blockLive: document.getElementById('blockLiveText') && document.getElementById('blockLiveText').textContent === 'Live'
     }));
@@ -2079,46 +2521,41 @@ function saveSetupState() {
       state = JSON.parse(state);
       completedSteps = state.completedSteps || {};
       editorSaved = state.editorSaved || false;
-      // Restore completed steps visually
+      // Restore completed stepper circles and lines
       for (var key in completedSteps) {
-        var stepEl = document.querySelector('.setup-step[data-step="' + key + '"]');
-        if (stepEl) {
-          stepEl.classList.add('completed', 'actionable');
-          stepEl.classList.remove('expanded');
+        var stepEl = document.querySelector('.stepper-step[data-stepper="' + key + '"]');
+        if (stepEl) { stepEl.classList.add('completed'); stepEl.classList.remove('active'); }
+        if (parseInt(key) < 3) {
+          var lineEl = document.querySelector('.stepper-line[data-line="' + key + '"]');
+          if (lineEl) lineEl.classList.add('completed');
         }
-      }
-      // Restore step 2 skipped state
-      if (state.skippedStep2) {
-        var s2 = document.querySelector('.setup-step[data-step="2"]');
-        if (s2) s2.classList.add('skipped');
       }
       // Restore test order banner
       if (state.testOrderCreated) {
         var banner = document.getElementById('testOrderBanner');
         if (banner) banner.classList.add('show');
         var actions = document.getElementById('step2Actions');
-        if (actions) actions.style.display = 'none';
-        // Keep step 2 body visible for banner
-        var s2b = document.querySelector('.setup-step[data-step="2"]');
-        if (s2b) { var body = s2b.querySelector('.setup-step-body'); if (body) body.style.display = 'block'; }
+        if (actions) {
+          actions.querySelector('s-button').textContent = 'Create another';
+        }
       }
-      // Determine which step should be expanded
+      // Determine current step
       var maxCompleted = 0;
       for (var k in completedSteps) { if (parseInt(k) > maxCompleted) maxCompleted = parseInt(k); }
-      var nextStep = maxCompleted + 1;
-      if (nextStep <= 3 && !completedSteps[nextStep]) {
-        var nextEl = document.querySelector('.setup-step[data-step="' + nextStep + '"]');
-        if (nextEl) nextEl.classList.add('expanded', 'actionable');
-      }
-      // Step 1 always actionable
-      var s1 = document.querySelector('.setup-step[data-step="1"]');
-      if (s1) s1.classList.add('actionable');
+      currentStepperStep = state.currentStepperStep || Math.min(maxCompleted + 1, 3);
+      // Set active step visually
+      var curEl = document.querySelector('.stepper-step[data-stepper="' + currentStepperStep + '"]');
+      if (curEl && !curEl.classList.contains('completed')) curEl.classList.add('active');
+      // Show correct panel
+      document.querySelectorAll('.stepper-panel').forEach(function(p) { p.classList.remove('active'); });
+      var curPanel = document.getElementById('stepPanel' + currentStepperStep);
+      if (curPanel) curPanel.classList.add('active');
       // Restore badges
       if (completedSteps[1]) {
         var badgeTY = document.getElementById('badgeThankYou');
         if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
         var actionBtn = document.getElementById('blockActionBtn');
-        if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); actionBtn.setAttribute('tone','success'); }
+        if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); }
         updateLiveStatusVisibility();
       }
       // Restore live state
@@ -2135,36 +2572,83 @@ function enterSetup() {
 }
 
 // ---- Install Modal ----
-function openInstallModal() {
-  document.getElementById('installModal').classList.add('open');
-}
-function closeInstallModal() {
-  document.getElementById('installModal').classList.remove('open');
-}
-// ---- Setup Guide Step Toggle & Completion ----
+var currentStepperStep = 1;
 var completedSteps = {};
 
-function toggleSetupStep(n) {
-  var step = document.querySelector('.setup-step[data-step="' + n + '"]');
-  if (!step) return;
-  // Only allow expanding if this step or a previous step is completed, or it's the next actionable step
-  var prevCompleted = (n === 1) || completedSteps[n - 1];
-  if (!step.classList.contains('completed') && !step.classList.contains('expanded') && !prevCompleted) return;
-  // Toggle expanded state
-  if (step.classList.contains('expanded')) {
-    step.classList.remove('expanded');
+function openInstallModal() {
+  document.getElementById('installModal').classList.add('open');
+  goToStep(currentStepperStep);
+}
+function closeInstallModal(evt) {
+  if (evt && evt.target !== document.getElementById('installModal')) return;
+  document.getElementById('installModal').classList.remove('open');
+}
+
+// ---- Stepper Navigation ----
+function goToStep(n) {
+  currentStepperStep = n;
+  // Update step circles
+  document.querySelectorAll('.stepper-step').forEach(function(el) {
+    var sn = parseInt(el.getAttribute('data-stepper'));
+    el.classList.remove('active');
+    if (sn === n && !el.classList.contains('completed')) el.classList.add('active');
+  });
+  // Update panels
+  document.querySelectorAll('.stepper-panel').forEach(function(p) { p.classList.remove('active'); });
+  var panel = document.getElementById('stepPanel' + n);
+  if (panel) panel.classList.add('active');
+  // Update footer buttons
+  updateStepperFooter(n);
+}
+
+function updateStepperFooter(n) {
+  var backBtn = document.getElementById('stepperBackBtn');
+  var nextBtn = document.getElementById('stepperNextBtn');
+  // Back button
+  if (n === 1) {
+    backBtn.textContent = 'Cancel';
+    backBtn.style.display = '';
   } else {
-    document.querySelectorAll('.setup-step').forEach(function(s) { s.classList.remove('expanded'); });
-    step.classList.add('expanded');
+    backBtn.textContent = 'Back';
+    backBtn.style.display = '';
+  }
+  // Next button
+  if (n === 1) {
+    nextBtn.textContent = 'Go to editor';
+  } else if (n === 2) {
+    nextBtn.textContent = 'Next';
+  } else if (n === 3) {
+    nextBtn.textContent = 'Go live';
+  }
+}
+
+function stepperBack() {
+  if (currentStepperStep === 1) {
+    closeInstallModal();
+  } else {
+    goToStep(currentStepperStep - 1);
+  }
+}
+
+function stepperNext() {
+  if (currentStepperStep === 1) {
+    goToEditor();
+  } else if (currentStepperStep === 2) {
+    goToStep(3);
+  } else if (currentStepperStep === 3) {
+    completeSetupStep(3);
   }
 }
 
 function completeSetupStep(n) {
   completedSteps[n] = true;
-  var step = document.querySelector('.setup-step[data-step="' + n + '"]');
-  if (step) {
-    step.classList.add('completed');
-    step.classList.remove('expanded');
+  // Mark stepper circle as completed
+  var stepEl = document.querySelector('.stepper-step[data-stepper="' + n + '"]');
+  if (stepEl) { stepEl.classList.remove('active'); stepEl.classList.add('completed'); }
+  // Mark connecting line as completed (line before next step)
+  if (n < 3) {
+    var line = document.querySelector('.stepper-line[data-line="' + n + '"]');
+    if (line) line.classList.add('completed');
   }
   // Step 1 complete → update Thank you page badge + change Install → Verify and go live
   if (n === 1) {
@@ -2174,7 +2658,7 @@ function completeSetupStep(n) {
     if (actionBtn) {
       actionBtn.textContent = 'Verify and go live';
       actionBtn.setAttribute('variant','primary');
-      actionBtn.setAttribute('tone','success');
+      /* tone left as default (dark) */
     }
     updateLiveStatusVisibility();
   }
@@ -2184,13 +2668,10 @@ function completeSetupStep(n) {
     setBlockLive();
   }
   saveSetupState();
-  // Expand next step and make it actionable
+  // Advance to next step
   var nextN = n + 1;
   if (nextN <= 3) {
-    var next = document.querySelector('.setup-step[data-step="' + nextN + '"]');
-    if (next && !next.classList.contains('completed')) {
-      next.classList.add('expanded', 'actionable');
-    }
+    goToStep(nextN);
   }
 }
 
@@ -2235,7 +2716,7 @@ function unpublishBlock() {
   if (btnsLive) btnsLive.style.display = 'none';
   // Update action button to Verify and go live
   var actionBtn = document.getElementById('blockActionBtn');
-  if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); actionBtn.setAttribute('tone','success'); }
+  if (actionBtn) { actionBtn.textContent = 'Verify and go live'; actionBtn.setAttribute('variant','primary'); }
   // Close dropdown
   var dd = document.getElementById('moreMenuDropdown');
   if (dd) dd.style.display = 'none';
@@ -2250,27 +2731,90 @@ document.addEventListener('click', function(e) {
 });
 
 function createTestOrder() {
-  // Show success banner, hide buttons, complete step 2, expand step 3
+  // Show success banner, change button to "Create another"
   var banner = document.getElementById('testOrderBanner');
   if (banner) banner.classList.add('show');
   var actions = document.getElementById('step2Actions');
-  if (actions) actions.style.display = 'none';
-  completeSetupStep(2);
-  // Keep step 2 body visible to show the banner
-  var step2 = document.querySelector('.setup-step[data-step="2"]');
-  if (step2) {
-    var body = step2.querySelector('.setup-step-body');
-    if (body) body.style.display = 'block';
+  if (actions) {
+    var btn = actions.querySelector('s-button');
+    if (btn) btn.textContent = 'Create another';
   }
   saveSetupState();
 }
 
 function skipTest() {
-  // Mark step 2 as skipped with badge, complete it, expand step 3
-  var step2 = document.querySelector('.setup-step[data-step="2"]');
-  if (step2) step2.classList.add('skipped');
   completeSetupStep(2);
   saveSetupState();
+}
+
+// ---- Customize Block Editor ----
+function openBlockEditor() {
+  var el = document.getElementById('page-blockeditor');
+  el.style.display = 'block';
+  beUpdatePreview();
+}
+function closeBlockEditor() {
+  document.getElementById('page-blockeditor').style.display = 'none';
+}
+function beSetDevice(mode, btn) {
+  var bar = btn.parentElement;
+  bar.querySelectorAll('.preview-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  var frame = document.getElementById('bePreviewFrame');
+  if (mode === 'mobile') { frame.classList.add('mobile-mode'); }
+  else { frame.classList.remove('mobile-mode'); }
+}
+function beOpenPanel(panel, event) {
+  event.stopPropagation();
+  var panels = document.querySelectorAll('#page-blockeditor .be-panel');
+  panels.forEach(function(p) { p.classList.remove('active'); });
+  var target = document.getElementById('bePanel' + panel.charAt(0).toUpperCase() + panel.slice(1));
+  if (target) target.classList.add('active');
+}
+function beBackToMain() {
+  var panels = document.querySelectorAll('#page-blockeditor .be-panel');
+  panels.forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('bePanelMain').classList.add('active');
+}
+function beSelectRadio(item) {
+  var group = item.closest('.be-radio-group');
+  group.querySelectorAll('.be-radio').forEach(function(r) { r.classList.remove('selected'); });
+  item.querySelector('.be-radio').classList.add('selected');
+}
+function beUpdatePreview() {
+  var switches = document.querySelectorAll('#beActionsList s-switch');
+  switches.forEach(function(sw) {
+    var actionName = sw.getAttribute('data-action');
+    var isOn = sw.hasAttribute('checked');
+    var previewAction = document.querySelector('.be-preview-action[data-for="' + actionName + '"]');
+    if (previewAction) {
+      previewAction.style.display = isOn ? 'flex' : 'none';
+    }
+    // Handle upsell section separately
+    if (actionName === 'upsell') {
+      var upsellSection = document.getElementById('beUpsellSection');
+      if (upsellSection) upsellSection.style.display = isOn ? 'block' : 'none';
+    }
+  });
+  // Re-apply border-radius to visible actions
+  var va = [];
+  document.querySelectorAll('#bePreviewActions .be-preview-action').forEach(function(a) {
+    if (a.style.display !== 'none') va.push(a);
+  });
+  va.forEach(function(a, i) {
+    a.style.borderRadius = '0';
+    a.style.borderBottom = 'none';
+    if (i === 0) a.style.borderRadius = '10px 10px 0 0';
+    if (i === va.length - 1) { a.style.borderRadius = (i === 0 ? '10px' : '0 0 10px 10px'); a.style.borderBottom = '1px solid #e3e3e3'; }
+    if (va.length === 1) { a.style.borderRadius = '10px'; a.style.borderBottom = '1px solid #e3e3e3'; }
+  });
+}
+function beClickSave() {
+  // Visual feedback
+  var toolbar = document.querySelector('#page-blockeditor .be-toolbar');
+  var badge = toolbar.querySelector('.be-badge-notlived');
+  if (badge) { badge.textContent = 'Saved'; badge.style.background = '#aee9d1'; badge.style.color = '#0c5132'; }
+  setTimeout(function() { if (badge) { badge.textContent = 'Not lived'; badge.style.background = '#e4e5e7'; badge.style.color = '#616161'; } }, 2000);
 }
 
 // ---- Full-Screen Checkout Editor ----
@@ -2285,7 +2829,7 @@ function goToEditor() {
   var dropdown = document.getElementById('editorDropdownFull');
   if (dropdown) dropdown.classList.remove('open');
   var saveBtn = document.getElementById('editorSaveBtnFull');
-  if (saveBtn) { saveBtn.disabled = true; saveBtn.removeAttribute('variant'); }
+  if (saveBtn) { saveBtn.setAttribute('disabled',''); saveBtn.removeAttribute('variant'); }
   // Hide the Order Edits block preview
   var oeBlock = document.getElementById('editorOEBlock');
   if (oeBlock) oeBlock.style.display = 'none';
@@ -2296,21 +2840,21 @@ var editorSaved = false;
 function saveEditor() {
   var saveBtn = document.getElementById('editorSaveBtnFull');
   if (saveBtn) {
-    saveBtn.disabled = true;
+    saveBtn.setAttribute('disabled','');
     saveBtn.removeAttribute('variant');
   }
   editorSaved = true;
   saveSetupState();
+  // Stay on editor page — user must click the back arrow to return
 }
 
 function goBackFromEditor() {
-  // Hide editor, reopen modal with step 1 completed
+  // Hide editor, reopen modal
   document.getElementById('page-editor').style.display = 'none';
-  if (editorSaved) {
+  if (editorSaved && !completedSteps[1]) {
     completeSetupStep(1);
-    // Also directly update the button in case DOM wasn't ready
     var btn = document.getElementById('blockActionBtn');
-    if (btn) { btn.textContent = 'Verify and go live'; btn.setAttribute('variant','primary'); btn.setAttribute('tone','success'); }
+    if (btn) { btn.textContent = 'Verify and go live'; btn.setAttribute('variant','primary'); }
   }
   document.getElementById('installModal').classList.add('open');
 }
@@ -2333,7 +2877,7 @@ function addBlockToPage(page) {
   if (oeBlock) oeBlock.style.display = 'block';
   // Enable save button
   var saveBtn = document.getElementById('editorSaveBtnFull');
-  if (saveBtn) { saveBtn.disabled = false; saveBtn.setAttribute('variant', 'primary'); }
+  if (saveBtn) { saveBtn.removeAttribute('disabled'); saveBtn.setAttribute('variant', 'primary'); }
 }
 
 // Close dropdown when clicking outside
@@ -2349,23 +2893,31 @@ document.addEventListener('click', function(e) {
 // Reset to landing (not enabled) state
 function resetToLanding() {
   try { sessionStorage.removeItem('currentPage'); sessionStorage.removeItem('setupState'); sessionStorage.removeItem('onboardingDismissed'); } catch(e) {}
-  // Reset all setup steps
+  // Reset all stepper steps
   completedSteps = {};
   editorSaved = false;
-  document.querySelectorAll('.setup-step').forEach(function(s) {
-    s.classList.remove('completed', 'expanded', 'skipped', 'actionable');
+  currentStepperStep = 1;
+  document.querySelectorAll('.stepper-step').forEach(function(s) {
+    s.classList.remove('completed', 'active');
   });
-  // Expand step 1 by default
-  var step1 = document.querySelector('.setup-step[data-step="1"]');
-  if (step1) step1.classList.add('expanded', 'actionable');
+  document.querySelectorAll('.stepper-line').forEach(function(l) {
+    l.classList.remove('completed');
+  });
+  // Set step 1 as active
+  var step1 = document.querySelector('.stepper-step[data-stepper="1"]');
+  if (step1) step1.classList.add('active');
+  // Show step 1 panel
+  document.querySelectorAll('.stepper-panel').forEach(function(p) { p.classList.remove('active'); });
+  var panel1 = document.getElementById('stepPanel1');
+  if (panel1) panel1.classList.add('active');
   // Reset test order banner
   var banner = document.getElementById('testOrderBanner');
   if (banner) banner.classList.remove('show');
   var step2Actions = document.getElementById('step2Actions');
-  if (step2Actions) step2Actions.style.display = '';
-  // Reset step 2 body display
-  var step2 = document.querySelector('.setup-step[data-step="2"]');
-  if (step2) { var body = step2.querySelector('.setup-step-body'); if (body) body.style.display = ''; }
+  if (step2Actions) {
+    var btn = step2Actions.querySelector('s-button');
+    if (btn) btn.textContent = 'Create a test order';
+  }
   // Reset install badges
   var badgeTY = document.getElementById('badgeThankYou');
   if (badgeTY) { badgeTY.textContent = 'Not installed'; badgeTY.classList.remove('installed'); }
