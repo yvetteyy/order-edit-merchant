@@ -533,8 +533,9 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 }
 .stepper-step {
   display:flex; flex-direction:column; align-items:center; position:relative;
-  z-index:1;
+  z-index:1; cursor:pointer;
 }
+.stepper-step.completed:hover .stepper-circle, .stepper-step.active:hover .stepper-circle { opacity:.8; }
 .stepper-circle {
   width:32px; height:32px; border-radius:50%; border:2px solid #ccc;
   display:flex; align-items:center; justify-content:center;
@@ -560,6 +561,8 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
   transform:rotate(45deg); margin-top:-2px;
 }
 .stepper-step.completed .stepper-label { font-weight:650; color:#303030; }
+/* Viewing a completed step — subtle ring to show current focus */
+.stepper-step.completed.viewing .stepper-circle { box-shadow:0 0 0 3px rgba(48,48,48,.25); }
 /* Connecting line */
 .stepper-line {
   width:100px; height:2px; background:#ccc; margin-top:15px; flex-shrink:0;
@@ -2162,17 +2165,17 @@ s-button.af-btn { font-weight:500; position:relative; }
     <div class="install-modal-body">
       <!-- Horizontal stepper -->
       <div class="stepper-bar" id="stepperBar">
-        <div class="stepper-step active" data-stepper="1">
+        <div class="stepper-step active" data-stepper="1" onclick="clickStep(1)">
           <div class="stepper-circle">01</div>
           <div class="stepper-label">Install</div>
         </div>
         <div class="stepper-line" data-line="1"></div>
-        <div class="stepper-step" data-stepper="2">
+        <div class="stepper-step" data-stepper="2" onclick="clickStep(2)">
           <div class="stepper-circle">02</div>
           <div class="stepper-label">Test order</div>
         </div>
         <div class="stepper-line" data-line="2"></div>
-        <div class="stepper-step" data-stepper="3">
+        <div class="stepper-step" data-stepper="3" onclick="clickStep(3)">
           <div class="stepper-circle">03</div>
           <div class="stepper-label">Go live</div>
         </div>
@@ -3052,21 +3055,43 @@ function closeInstallModal(evt) {
 }
 
 // ---- Stepper Navigation ----
+function clickStep(n) {
+  // Allow clicking: 1) any completed step, 2) the current step, 3) next step after highest completed
+  if (completedSteps[n] || n === currentStepperStep) {
+    goToStep(n);
+    return;
+  }
+  // Also allow the next uncompleted step (e.g. step 2 after step 1 is done)
+  for (var i = n - 1; i >= 1; i--) {
+    if (completedSteps[i]) { goToStep(n); return; }
+  }
+}
 function goToStep(n) {
   currentStepperStep = n;
-  // Update step circles — mark all steps before current as completed
+  // Determine the furthest reachable step based on completedSteps
+  var maxCompleted = 0;
+  for (var k in completedSteps) { if (completedSteps[k] && parseInt(k) > maxCompleted) maxCompleted = parseInt(k); }
+
   document.querySelectorAll('.stepper-step').forEach(function(el) {
     var sn = parseInt(el.getAttribute('data-stepper'));
-    el.classList.remove('active');
-    if (sn < n) {
+    el.classList.remove('active', 'viewing');
+    // Mark completed steps
+    if (completedSteps[sn]) {
       el.classList.add('completed');
     }
-    if (sn === n && !el.classList.contains('completed')) el.classList.add('active');
+    // Mark the step we're currently viewing
+    if (sn === n) {
+      if (el.classList.contains('completed')) {
+        el.classList.add('viewing'); // viewing a completed step
+      } else {
+        el.classList.add('active');
+      }
+    }
   });
-  // Update connecting lines — mark lines before current step as completed
+  // Update connecting lines
   document.querySelectorAll('.stepper-line').forEach(function(line) {
     var ln = parseInt(line.getAttribute('data-line'));
-    if (ln < n) line.classList.add('completed');
+    if (ln <= maxCompleted) line.classList.add('completed');
   });
   // Update panels
   document.querySelectorAll('.stepper-panel').forEach(function(p) { p.classList.remove('active'); });
@@ -3087,11 +3112,11 @@ function updateStepperFooter(n) {
     backBtn.textContent = 'Back';
     backBtn.style.display = '';
   }
-  // Next button
+  // Next button — if viewing a completed step, show "Next" to advance
   if (n === 1) {
-    nextBtn.textContent = 'Go to editor';
+    nextBtn.textContent = completedSteps[1] ? 'Next' : 'Go to editor';
   } else if (n === 2) {
-    nextBtn.textContent = 'Next';
+    nextBtn.textContent = completedSteps[2] ? 'Next' : 'Next';
   } else if (n === 3) {
     nextBtn.textContent = 'Go live';
   }
@@ -3107,9 +3132,18 @@ function stepperBack() {
 
 function stepperNext() {
   if (currentStepperStep === 1) {
-    goToEditor();
+    if (completedSteps[1]) {
+      // Already completed — just move to step 2
+      goToStep(2);
+    } else {
+      goToEditor();
+    }
   } else if (currentStepperStep === 2) {
-    completeSetupStep(2);
+    if (completedSteps[2]) {
+      goToStep(3);
+    } else {
+      completeSetupStep(2);
+    }
   } else if (currentStepperStep === 3) {
     completeSetupStep(3);
   }
