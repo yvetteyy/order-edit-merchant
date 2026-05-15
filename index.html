@@ -2026,13 +2026,13 @@ s-button.af-btn { font-weight:500; position:relative; }
           </div>
           <!-- Buttons: not-live state -->
           <div id="blockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
-            <s-button onclick="openBlockEditor()">Customize</s-button>
-            <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Install</s-button>
+            <s-button onclick="openBlockEditor('shopify')">Customize</s-button>
+            <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Get started</s-button>
           </div>
           <!-- Buttons: live state -->
           <div id="blockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
             <s-button icon-only onclick="toggleMoreMenu(event)">⋯</s-button>
-            <s-button onclick="openBlockEditor()">Customize</s-button>
+            <s-button onclick="openBlockEditor('shopify')">Customize</s-button>
             <!-- More dropdown -->
             <div id="moreMenuDropdown" style="display:none; position:absolute; bottom:42px; right:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
               <div style="padding:10px 16px; font-size:13px; cursor:default; display:flex; align-items:center; gap:8px;">Unpublish</div>
@@ -2575,7 +2575,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                 <span class="switch-label">Edit Products</span>
               </div>
               <div class="switch-right">
-                <div class="be-action-gear" onclick="beOpenPanel('products',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="be-action-gear" onclick="beOpenPanel('products',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 14 15" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.50024 7.5C9.50024 8.88071 8.38096 10 7.00024 10C5.61953 10 4.50024 8.88071 4.50024 7.5C4.50024 6.11929 5.61953 5 7.00024 5C8.38096 5 9.50024 6.11929 9.50024 7.5ZM8.00024 7.5C8.00024 8.05228 7.55253 8.5 7.00024 8.5C6.44796 8.5 6.00024 8.05228 6.00024 7.5C6.00024 6.94772 6.44796 6.5 7.00024 6.5C7.55253 6.5 8.00024 6.94772 8.00024 7.5Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.37686 0C5.45122 0 4.70085 0.750377 4.70085 1.67601V2.36371C4.70085 2.42017 4.65861 2.53405 4.50364 2.61502C4.34979 2.6954 4.20034 2.78295 4.05573 2.87722C3.90802 2.97352 3.78677 2.95337 3.73739 2.92486L3.13758 2.57856C2.33595 2.11574 1.31092 2.3904 0.848101 3.19202L0.224823 4.27157C-0.237995 5.07319 0.0366617 6.09823 0.838286 6.56105L1.48577 6.93487C1.53442 6.96296 1.61065 7.05468 1.60516 7.2258C1.60328 7.28431 1.60233 7.34302 1.60233 7.40193C1.60233 7.49837 1.60487 7.5943 1.60988 7.68964C1.61914 7.86544 1.54112 7.96036 1.49164 7.98893L0.838293 8.36614C0.0366685 8.82896 -0.237988 9.85399 0.22483 10.6556L0.848108 11.7352C1.31093 12.5368 2.33596 12.8114 3.13758 12.3486L3.83803 11.9442C3.88655 11.9162 4.00426 11.8959 4.15016 11.9868C4.26514 12.0584 4.38304 12.1258 4.50364 12.1888C4.65861 12.2698 4.70085 12.3837 4.70085 12.4401V13.2512C4.70085 14.1768 5.45122 14.9272 6.37686 14.9272H7.62342C8.54905 14.9272 9.29943 14.1768 9.29943 13.2512V12.4402C9.29943 12.3837 9.34167 12.2699 9.49664 12.1889C9.61726 12.1259 9.73517 12.0585 9.85017 11.9868C9.99608 11.896 10.1138 11.9163 10.1623 11.9443L10.8627 12.3486C11.6643 12.8114 12.6893 12.5368 13.1521 11.7352L13.7754 10.6556C14.2382 9.85399 13.9636 8.82896 13.162 8.36614L12.5088 7.98901C12.4593 7.96044 12.3813 7.86552 12.3905 7.68972C12.3955 7.59435 12.3981 7.4984 12.3981 7.40193C12.3981 7.34299 12.3971 7.28425 12.3952 7.22572C12.3897 7.0546 12.466 6.96288 12.5146 6.93479L13.162 6.56105C13.9636 6.09823 14.2382 5.07319 13.7754 4.27157L13.1521 3.19202C12.6893 2.3904 11.6643 2.11574 10.8627 2.57856L10.2629 2.92481C10.2136 2.95332 10.0923 2.97347 9.94461 2.87718C9.79998 2.7829 9.65051 2.69534 9.49664 2.61496C9.34167 2.53399 9.29943 2.42011 9.29943 2.36364V1.67601C9.29943 0.750376 8.54905 0 7.62342 0H6.37686ZM6.20085 1.67601C6.20085 1.5788 6.27965 1.5 6.37686 1.5H7.62342C7.72062 1.5 7.79943 1.5788 7.79943 1.67601V2.36364C7.79943 3.0921 8.26133 3.66196 8.80207 3.94446C8.91307 4.00245 9.02098 4.06566 9.12546 4.13377C9.6424 4.47075 10.3752 4.59204 11.0129 4.22385L11.6127 3.8776C11.6969 3.82899 11.8045 3.85784 11.8531 3.94202L12.4764 5.02157C12.525 5.10576 12.4961 5.2134 12.412 5.26201L11.7646 5.63575C11.1414 5.99556 10.8766 6.66964 10.896 7.27392C10.8974 7.3164 10.8981 7.35907 10.8981 7.40193C10.8981 7.47209 10.8962 7.54174 10.8926 7.61085C10.8602 8.2264 11.122 8.92039 11.7588 9.28805L12.412 9.66518C12.4961 9.71378 12.525 9.82143 12.4764 9.90561L11.8531 10.9852C11.8045 11.0693 11.6969 11.0982 11.6127 11.0496L10.9123 10.6452C10.288 10.2848 9.57085 10.3937 9.05725 10.7136C8.9742 10.7653 8.88909 10.8139 8.80207 10.8594C8.26133 11.1419 7.79943 11.7117 7.79943 12.4402V13.2512C7.79943 13.3484 7.72063 13.4272 7.62342 13.4272H6.37686C6.27965 13.4272 6.20085 13.3484 6.20085 13.2512V12.4401C6.20085 11.7117 5.73896 11.1419 5.19825 10.8593C5.11124 10.8139 5.02614 10.7652 4.9431 10.7135C4.4295 10.3937 3.71236 10.2847 3.08803 10.6452L2.38758 11.0496C2.3034 11.0982 2.19575 11.0693 2.14715 10.9852L1.52387 9.90561C1.47526 9.82143 1.50411 9.71378 1.58829 9.66518L2.24164 9.28797C2.87843 8.92031 3.14021 8.22634 3.10781 7.6108C3.10417 7.5417 3.10233 7.47207 3.10233 7.40193C3.10233 7.35909 3.10302 7.31643 3.10438 7.27398C3.1238 6.66971 2.85898 5.99564 2.23577 5.63583L1.58829 5.26201C1.5041 5.2134 1.47526 5.10576 1.52386 5.02157L2.14714 3.94202C2.19574 3.85784 2.30339 3.82899 2.38758 3.8776L2.98739 4.2239C3.62512 4.59209 4.35795 4.47079 4.87489 4.1338C4.97936 4.06569 5.08725 4.00249 5.19825 3.9445C5.73896 3.662 6.20085 3.09215 6.20085 2.36371V1.67601Z"/></svg></div>
                 <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
               </div>
             </s-switch>
@@ -2620,7 +2620,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                 <span class="switch-label">Cancel order</span>
               </div>
               <div class="switch-right">
-                <div class="be-action-gear" onclick="beOpenPanel('cancel',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="be-action-gear" onclick="beOpenPanel('cancel',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 14 15" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.50024 7.5C9.50024 8.88071 8.38096 10 7.00024 10C5.61953 10 4.50024 8.88071 4.50024 7.5C4.50024 6.11929 5.61953 5 7.00024 5C8.38096 5 9.50024 6.11929 9.50024 7.5ZM8.00024 7.5C8.00024 8.05228 7.55253 8.5 7.00024 8.5C6.44796 8.5 6.00024 8.05228 6.00024 7.5C6.00024 6.94772 6.44796 6.5 7.00024 6.5C7.55253 6.5 8.00024 6.94772 8.00024 7.5Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.37686 0C5.45122 0 4.70085 0.750377 4.70085 1.67601V2.36371C4.70085 2.42017 4.65861 2.53405 4.50364 2.61502C4.34979 2.6954 4.20034 2.78295 4.05573 2.87722C3.90802 2.97352 3.78677 2.95337 3.73739 2.92486L3.13758 2.57856C2.33595 2.11574 1.31092 2.3904 0.848101 3.19202L0.224823 4.27157C-0.237995 5.07319 0.0366617 6.09823 0.838286 6.56105L1.48577 6.93487C1.53442 6.96296 1.61065 7.05468 1.60516 7.2258C1.60328 7.28431 1.60233 7.34302 1.60233 7.40193C1.60233 7.49837 1.60487 7.5943 1.60988 7.68964C1.61914 7.86544 1.54112 7.96036 1.49164 7.98893L0.838293 8.36614C0.0366685 8.82896 -0.237988 9.85399 0.22483 10.6556L0.848108 11.7352C1.31093 12.5368 2.33596 12.8114 3.13758 12.3486L3.83803 11.9442C3.88655 11.9162 4.00426 11.8959 4.15016 11.9868C4.26514 12.0584 4.38304 12.1258 4.50364 12.1888C4.65861 12.2698 4.70085 12.3837 4.70085 12.4401V13.2512C4.70085 14.1768 5.45122 14.9272 6.37686 14.9272H7.62342C8.54905 14.9272 9.29943 14.1768 9.29943 13.2512V12.4402C9.29943 12.3837 9.34167 12.2699 9.49664 12.1889C9.61726 12.1259 9.73517 12.0585 9.85017 11.9868C9.99608 11.896 10.1138 11.9163 10.1623 11.9443L10.8627 12.3486C11.6643 12.8114 12.6893 12.5368 13.1521 11.7352L13.7754 10.6556C14.2382 9.85399 13.9636 8.82896 13.162 8.36614L12.5088 7.98901C12.4593 7.96044 12.3813 7.86552 12.3905 7.68972C12.3955 7.59435 12.3981 7.4984 12.3981 7.40193C12.3981 7.34299 12.3971 7.28425 12.3952 7.22572C12.3897 7.0546 12.466 6.96288 12.5146 6.93479L13.162 6.56105C13.9636 6.09823 14.2382 5.07319 13.7754 4.27157L13.1521 3.19202C12.6893 2.3904 11.6643 2.11574 10.8627 2.57856L10.2629 2.92481C10.2136 2.95332 10.0923 2.97347 9.94461 2.87718C9.79998 2.7829 9.65051 2.69534 9.49664 2.61496C9.34167 2.53399 9.29943 2.42011 9.29943 2.36364V1.67601C9.29943 0.750376 8.54905 0 7.62342 0H6.37686ZM6.20085 1.67601C6.20085 1.5788 6.27965 1.5 6.37686 1.5H7.62342C7.72062 1.5 7.79943 1.5788 7.79943 1.67601V2.36364C7.79943 3.0921 8.26133 3.66196 8.80207 3.94446C8.91307 4.00245 9.02098 4.06566 9.12546 4.13377C9.6424 4.47075 10.3752 4.59204 11.0129 4.22385L11.6127 3.8776C11.6969 3.82899 11.8045 3.85784 11.8531 3.94202L12.4764 5.02157C12.525 5.10576 12.4961 5.2134 12.412 5.26201L11.7646 5.63575C11.1414 5.99556 10.8766 6.66964 10.896 7.27392C10.8974 7.3164 10.8981 7.35907 10.8981 7.40193C10.8981 7.47209 10.8962 7.54174 10.8926 7.61085C10.8602 8.2264 11.122 8.92039 11.7588 9.28805L12.412 9.66518C12.4961 9.71378 12.525 9.82143 12.4764 9.90561L11.8531 10.9852C11.8045 11.0693 11.6969 11.0982 11.6127 11.0496L10.9123 10.6452C10.288 10.2848 9.57085 10.3937 9.05725 10.7136C8.9742 10.7653 8.88909 10.8139 8.80207 10.8594C8.26133 11.1419 7.79943 11.7117 7.79943 12.4402V13.2512C7.79943 13.3484 7.72063 13.4272 7.62342 13.4272H6.37686C6.27965 13.4272 6.20085 13.3484 6.20085 13.2512V12.4401C6.20085 11.7117 5.73896 11.1419 5.19825 10.8593C5.11124 10.8139 5.02614 10.7652 4.9431 10.7135C4.4295 10.3937 3.71236 10.2847 3.08803 10.6452L2.38758 11.0496C2.3034 11.0982 2.19575 11.0693 2.14715 10.9852L1.52387 9.90561C1.47526 9.82143 1.50411 9.71378 1.58829 9.66518L2.24164 9.28797C2.87843 8.92031 3.14021 8.22634 3.10781 7.6108C3.10417 7.5417 3.10233 7.47207 3.10233 7.40193C3.10233 7.35909 3.10302 7.31643 3.10438 7.27398C3.1238 6.66971 2.85898 5.99564 2.23577 5.63583L1.58829 5.26201C1.5041 5.2134 1.47526 5.10576 1.52386 5.02157L2.14714 3.94202C2.19574 3.85784 2.30339 3.82899 2.38758 3.8776L2.98739 4.2239C3.62512 4.59209 4.35795 4.47079 4.87489 4.1338C4.97936 4.06569 5.08725 4.00249 5.19825 3.9445C5.73896 3.662 6.20085 3.09215 6.20085 2.36371V1.67601Z"/></svg></div>
                 <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
               </div>
             </s-switch>
@@ -2632,7 +2632,7 @@ s-button.af-btn { font-weight:500; position:relative; }
                 <span class="switch-label">Upsell</span>
               </div>
               <div class="switch-right">
-                <div class="be-action-gear" onclick="beOpenPanel('upsell',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></div>
+                <div class="be-action-gear" onclick="beOpenPanel('upsell',event)" title="Configure"><svg width="16" height="16" viewBox="0 0 14 15" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.50024 7.5C9.50024 8.88071 8.38096 10 7.00024 10C5.61953 10 4.50024 8.88071 4.50024 7.5C4.50024 6.11929 5.61953 5 7.00024 5C8.38096 5 9.50024 6.11929 9.50024 7.5ZM8.00024 7.5C8.00024 8.05228 7.55253 8.5 7.00024 8.5C6.44796 8.5 6.00024 8.05228 6.00024 7.5C6.00024 6.94772 6.44796 6.5 7.00024 6.5C7.55253 6.5 8.00024 6.94772 8.00024 7.5Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M6.37686 0C5.45122 0 4.70085 0.750377 4.70085 1.67601V2.36371C4.70085 2.42017 4.65861 2.53405 4.50364 2.61502C4.34979 2.6954 4.20034 2.78295 4.05573 2.87722C3.90802 2.97352 3.78677 2.95337 3.73739 2.92486L3.13758 2.57856C2.33595 2.11574 1.31092 2.3904 0.848101 3.19202L0.224823 4.27157C-0.237995 5.07319 0.0366617 6.09823 0.838286 6.56105L1.48577 6.93487C1.53442 6.96296 1.61065 7.05468 1.60516 7.2258C1.60328 7.28431 1.60233 7.34302 1.60233 7.40193C1.60233 7.49837 1.60487 7.5943 1.60988 7.68964C1.61914 7.86544 1.54112 7.96036 1.49164 7.98893L0.838293 8.36614C0.0366685 8.82896 -0.237988 9.85399 0.22483 10.6556L0.848108 11.7352C1.31093 12.5368 2.33596 12.8114 3.13758 12.3486L3.83803 11.9442C3.88655 11.9162 4.00426 11.8959 4.15016 11.9868C4.26514 12.0584 4.38304 12.1258 4.50364 12.1888C4.65861 12.2698 4.70085 12.3837 4.70085 12.4401V13.2512C4.70085 14.1768 5.45122 14.9272 6.37686 14.9272H7.62342C8.54905 14.9272 9.29943 14.1768 9.29943 13.2512V12.4402C9.29943 12.3837 9.34167 12.2699 9.49664 12.1889C9.61726 12.1259 9.73517 12.0585 9.85017 11.9868C9.99608 11.896 10.1138 11.9163 10.1623 11.9443L10.8627 12.3486C11.6643 12.8114 12.6893 12.5368 13.1521 11.7352L13.7754 10.6556C14.2382 9.85399 13.9636 8.82896 13.162 8.36614L12.5088 7.98901C12.4593 7.96044 12.3813 7.86552 12.3905 7.68972C12.3955 7.59435 12.3981 7.4984 12.3981 7.40193C12.3981 7.34299 12.3971 7.28425 12.3952 7.22572C12.3897 7.0546 12.466 6.96288 12.5146 6.93479L13.162 6.56105C13.9636 6.09823 14.2382 5.07319 13.7754 4.27157L13.1521 3.19202C12.6893 2.3904 11.6643 2.11574 10.8627 2.57856L10.2629 2.92481C10.2136 2.95332 10.0923 2.97347 9.94461 2.87718C9.79998 2.7829 9.65051 2.69534 9.49664 2.61496C9.34167 2.53399 9.29943 2.42011 9.29943 2.36364V1.67601C9.29943 0.750376 8.54905 0 7.62342 0H6.37686ZM6.20085 1.67601C6.20085 1.5788 6.27965 1.5 6.37686 1.5H7.62342C7.72062 1.5 7.79943 1.5788 7.79943 1.67601V2.36364C7.79943 3.0921 8.26133 3.66196 8.80207 3.94446C8.91307 4.00245 9.02098 4.06566 9.12546 4.13377C9.6424 4.47075 10.3752 4.59204 11.0129 4.22385L11.6127 3.8776C11.6969 3.82899 11.8045 3.85784 11.8531 3.94202L12.4764 5.02157C12.525 5.10576 12.4961 5.2134 12.412 5.26201L11.7646 5.63575C11.1414 5.99556 10.8766 6.66964 10.896 7.27392C10.8974 7.3164 10.8981 7.35907 10.8981 7.40193C10.8981 7.47209 10.8962 7.54174 10.8926 7.61085C10.8602 8.2264 11.122 8.92039 11.7588 9.28805L12.412 9.66518C12.4961 9.71378 12.525 9.82143 12.4764 9.90561L11.8531 10.9852C11.8045 11.0693 11.6969 11.0982 11.6127 11.0496L10.9123 10.6452C10.288 10.2848 9.57085 10.3937 9.05725 10.7136C8.9742 10.7653 8.88909 10.8139 8.80207 10.8594C8.26133 11.1419 7.79943 11.7117 7.79943 12.4402V13.2512C7.79943 13.3484 7.72063 13.4272 7.62342 13.4272H6.37686C6.27965 13.4272 6.20085 13.3484 6.20085 13.2512V12.4401C6.20085 11.7117 5.73896 11.1419 5.19825 10.8593C5.11124 10.8139 5.02614 10.7652 4.9431 10.7135C4.4295 10.3937 3.71236 10.2847 3.08803 10.6452L2.38758 11.0496C2.3034 11.0982 2.19575 11.0693 2.14715 10.9852L1.52387 9.90561C1.47526 9.82143 1.50411 9.71378 1.58829 9.66518L2.24164 9.28797C2.87843 8.92031 3.14021 8.22634 3.10781 7.6108C3.10417 7.5417 3.10233 7.47207 3.10233 7.40193C3.10233 7.35909 3.10302 7.31643 3.10438 7.27398C3.1238 6.66971 2.85898 5.99564 2.23577 5.63583L1.58829 5.26201C1.5041 5.2134 1.47526 5.10576 1.52386 5.02157L2.14714 3.94202C2.19574 3.85784 2.30339 3.82899 2.38758 3.8776L2.98739 4.2239C3.62512 4.59209 4.35795 4.47079 4.87489 4.1338C4.97936 4.06569 5.08725 4.00249 5.19825 3.9445C5.73896 3.662 6.20085 3.09215 6.20085 2.36371V1.67601Z"/></svg></div>
                 <div class="track" onclick="toggleTrack(this); beUpdatePreview()"><div class="track-bg"></div><div class="track-knob"></div></div>
               </div>
             </s-switch>
@@ -3078,28 +3078,10 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="tree-item"><svg class="tree-icon" viewBox="0 0 20 20" fill="#8c9196"><path d="M3 5h14v2H3V5zm0 4h14v2H3V9zm0 4h14v2H3v-2z"/></svg> Order details</div>
         <!-- Block info panel -->
         <div class="block-info">
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
-            <span class="block-icon" style="background:#e55b37; width:18px; height:18px; border-radius:4px;"></span>
-            <span style="font-weight:600; flex:1;">AfterShip Order Edits</span>
-            <span style="color:#6d7175; cursor:pointer;">⋯</span>
-            <span style="color:#6d7175; cursor:pointer; margin-left:4px;">✕</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px; font-size:12px; white-space:nowrap;">
-            <span>AfterShip Order Edits block</span>
-            <span class="not-live">Not live</span>
-          </div>
-          <div style="font-size:13px; margin-bottom:4px;">To activate it:</div>
-          <div style="font-size:12px; color:#6d7175; line-height:1.6; margin-bottom:12px;">
-            1. Return to AfterShip Order Edits<br>
-            2. Click "Verify and go live" to publish
-          </div>
-          <s-button variant="tertiary" onclick="goBackFromEditor()">Back to set up</s-button>
-          <div style="border-top:1px solid #e1e3e5; padding-top:10px; margin-top:14px;">
-            <div style="color:#005bd3; cursor:pointer; margin-bottom:8px;">Manage app</div>
-            <div style="color:#d72c0d; display:flex; align-items:center; gap:4px; cursor:pointer;">
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="#d72c0d"><path d="M8 4h4v1H8V4zM5 6v1h1v9a2 2 0 002 2h4a2 2 0 002-2V7h1V6H5zm3 2h1v7H8V8zm3 0h1v7h-1V8z"/></svg>
-              Remove block
-            </div>
+          <div style="color:#005bd3; cursor:pointer; margin-bottom:8px;" onclick="goBackFromEditor()">Manage app</div>
+          <div style="color:#d72c0d; display:flex; align-items:center; gap:4px; cursor:pointer;">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="#d72c0d"><path d="M8 4h4v1H8V4zM5 6v1h1v9a2 2 0 002 2h4a2 2 0 002-2V7h1V6H5zm3 2h1v7H8V8zm3 0h1v7h-1V8z"/></svg>
+            Remove block
           </div>
         </div>
       </div>
@@ -3841,13 +3823,13 @@ s-button.af-btn { font-weight:500; position:relative; }
                 </div>
                 <!-- Buttons: not-live state -->
                 <div id="adminBlockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
-                  <button class="admin-btn-secondary" onclick="adminShowOnboarding()">Customize</button>
+                  <button class="admin-btn-secondary" onclick="openBlockEditor('admin')">Customize</button>
                   <button class="admin-btn-primary" id="adminBlockActionBtn" onclick="adminShowOnboarding()">Go live</button>
                 </div>
                 <!-- Buttons: live state -->
                 <div id="adminBlockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
                   <button class="admin-btn-secondary" style="padding:6px 8px; min-width:auto;" onclick="adminToggleMoreMenu(event)"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="5" cy="10" r="2"/><circle cx="10" cy="10" r="2"/><circle cx="15" cy="10" r="2"/></svg></button>
-                  <button class="admin-btn-secondary" onclick="adminShowOnboarding()">Customize</button>
+                  <button class="admin-btn-secondary" onclick="openBlockEditor('admin')">Customize</button>
                   <!-- More dropdown -->
                   <div id="adminMoreMenuDropdown" style="display:none; position:absolute; bottom:42px; left:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
                     <div onclick="adminUnpublish()" style="padding:10px 16px; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:8px;">Unpublish</div>
@@ -3879,89 +3861,334 @@ s-button.af-btn { font-weight:500; position:relative; }
         </div><!-- end adminTabAppBlock -->
 
         <!-- Tab: Analytics (simplified) -->
+        <!-- Analytics tab (identical to Shopify) -->
         <div id="adminTabAnalytics" style="display:none;">
-          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:24px;">
-            <div style="font-size:14px; font-weight:600; color:#303030; margin-bottom:8px;">Analytics</div>
-            <p style="font-size:13px; color:#616161; margin:0 0 20px;">Track how customers interact with order editing -- monitor edit volume, rescued revenue, and upsell performance over time.</p>
-            <!-- KPI Cards -->
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;">
-              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Total edited orders</div>
-                <div style="font-size:22px; font-weight:700; color:#303030;">2,123</div>
-                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 12.5%</div>
-              </div>
-              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Rescue revenue</div>
-                <div style="font-size:22px; font-weight:700; color:#303030;">$18,432</div>
-                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 5.7%</div>
-              </div>
-              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Upsell revenue</div>
-                <div style="font-size:22px; font-weight:700; color:#303030;">$6,280</div>
-                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 18.3%</div>
+        <p style="font-size:13px; color:#616161; margin:0 0 16px;">Track how customers interact with order editing — monitor edit volume, rescued revenue, and upsell performance over time. <a href="#" style="color:#005bd3;">Learn more</a></p>
+
+        <!-- Filter bar -->
+        <div class="analytics-filter-bar">
+          <s-button class="af-btn" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'adminDdDateRange')">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z"/></svg>
+            Date range: <span id="adminDateRangeLabel">Last 30 days</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+            <div class="analytics-dropdown" id="adminDdDateRange">
+              <div class="analytics-dropdown-item" onclick="adminChangeDateRange(event,'7')">Last 7 days</div>
+              <div class="analytics-dropdown-item active" onclick="adminChangeDateRange(event,'30')">Last 30 days</div>
+              <div class="analytics-dropdown-item" onclick="adminChangeDateRange(event,'90')">Last 90 days</div>
+            </div>
+          </s-button>
+          <s-button class="af-btn">Compare: Previous period <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <s-button class="af-btn">Order tag <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <s-button class="af-btn">Store <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg></s-button>
+          <div class="analytics-filter-spacer"></div>
+          <s-button class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+            Email dashboard
+          </s-button>
+          <s-button variant="primary" class="af-btn">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/></svg>
+            Export PDF
+          </s-button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="analytics-kpi-row">
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Total edited order</div>
+              <div>
+                <span id="adminKpiTotalEdited" class="analytics-kpi-value">2,123</span>
+                <span id="adminKpiTotalEditedChange" class="analytics-kpi-change up">&#9650; 12.5%</span>
               </div>
             </div>
-            <!-- Chart placeholder -->
-            <div style="height:200px; background:#f8f6f4; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#8c9196; font-size:13px;">
-              Order edits over time chart
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Rescue revenue</div>
+              <div>
+                <span id="adminKpiRescue" class="analytics-kpi-value">$18,432</span>
+                <span id="adminKpiRescueChange" class="analytics-kpi-change up">&#9650; 5.7%</span>
+              </div>
+            </div>
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+          <div class="analytics-kpi-card">
+            <div class="analytics-kpi-info">
+              <div class="analytics-kpi-label">Upsell revenue</div>
+              <div>
+                <span id="adminKpiUpsell" class="analytics-kpi-value">$6,280</span>
+                <span id="adminKpiUpsellChange" class="analytics-kpi-change up">&#9650; 18.3%</span>
+              </div>
+            </div>
+            <div class="analytics-kpi-arrow"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg></div>
+          </div>
+        </div>
+
+        <!-- Order edits over time (full width) -->
+        <div class="analytics-chart-card">
+          <div class="analytics-chart-header">
+            <div class="analytics-chart-title">Order edits over time</div>
+            <div class="analytics-chart-actions">
+              <s-button class="af-btn" size="micro" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'adminDdMainGran')">
+                <span id="adminMainGranLabel">Day</span>
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+                <div class="analytics-dropdown" id="adminDdMainGran">
+                  <div class="analytics-dropdown-item active" onclick="adminChangeGranularity(event,'mainChart','Day')">Day</div>
+                  <div class="analytics-dropdown-item" onclick="adminChangeGranularity(event,'mainChart','Week')">Week</div>
+                  <div class="analytics-dropdown-item" onclick="adminChangeGranularity(event,'mainChart','Month')">Month</div>
+                </div>
+              </s-button>
+              <s-button class="af-btn" size="micro" title="View details">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+              </s-button>
+            </div>
+          </div>
+          <div style="position:relative;">
+            <svg id="adminChartMain" class="analytics-chart-svg" viewBox="0 0 920 240"></svg>
+            <div id="adminTooltipMain" class="analytics-tooltip" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- Row of 2 charts -->
+        <div class="analytics-chart-row">
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Upsell revenue over time</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" style="position:relative;" onclick="toggleAnalyticsDropdown(event,'adminDdUpsellGran')">
+                  <span id="adminUpsellGranLabel">Day</span>
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><path d="M3 5l3 3 3-3"/></svg>
+                  <div class="analytics-dropdown" id="adminDdUpsellGran">
+                    <div class="analytics-dropdown-item active" onclick="adminChangeGranularity(event,'upsellChart','Day')">Day</div>
+                    <div class="analytics-dropdown-item" onclick="adminChangeGranularity(event,'upsellChart','Week')">Week</div>
+                    <div class="analytics-dropdown-item" onclick="adminChangeGranularity(event,'upsellChart','Month')">Month</div>
+                  </div>
+                </s-button>
+                <s-button class="af-btn" size="micro" title="View details">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="adminChartUpsellRev" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="adminTooltipUpsell" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+          </div>
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Top 5 upsell product revenue</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="adminChartTopProducts" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="adminTooltipTopProducts" class="analytics-tooltip" style="display:none;"></div>
             </div>
           </div>
         </div>
 
-        <!-- Tab: Rules (simplified) -->
+        <!-- Row of 2 charts: Edited order by type + Top 5 cancellation reason -->
+        <div class="analytics-chart-row" style="margin-top:12px;">
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Edited order by type over time</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="adminChartStackedBar" class="analytics-chart-svg" viewBox="0 0 440 220"></svg>
+              <div id="adminTooltipStacked" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+            <div class="analytics-legend">
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#5AC8FA;"></div> Shipping address change</div>
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#4CD964;"></div> Product variant change</div>
+              <div class="analytics-legend-item"><div class="analytics-legend-dot" style="background:#FF9500;"></div> Upsell</div>
+            </div>
+            <div class="analytics-pagination">
+              <s-button icon-only size="micro" onclick="adminChangeStackedPage(-1)">&#8249;</s-button>
+              <span id="adminStackedPageLabel">1 / 3</span>
+              <s-button icon-only size="micro" onclick="adminChangeStackedPage(1)">&#8250;</s-button>
+            </div>
+          </div>
+          <div class="analytics-chart-card" style="margin-bottom:0;">
+            <div class="analytics-chart-header">
+              <div class="analytics-chart-title">Top 5 order cancellation reason</div>
+              <div class="analytics-chart-actions">
+                <s-button class="af-btn" size="micro" title="View details">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M3 3h5V1H2a1 1 0 00-1 1v6h2V3zm14 0h-5V1h6a1 1 0 011 1v6h-2V3zM3 17h5v2H2a1 1 0 01-1-1v-6h2v5zm14 0h-5v2h6a1 1 0 001-1v-6h-2v5z"/></svg>
+                </s-button>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <svg id="adminChartCancelReasons" class="analytics-chart-svg" viewBox="0 0 440 200"></svg>
+              <div id="adminTooltipCancelReasons" class="analytics-tooltip" style="display:none;"></div>
+            </div>
+          </div>
+        </div>
+
+        </div><!-- end adminTabAnalytics -->
+
+        <!-- Rules tab (identical to Shopify) -->
         <div id="adminTabRules" style="display:none;">
-          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:24px;">
-            <div style="font-size:14px; font-weight:600; color:#303030; margin-bottom:16px;">Rules</div>
-            <!-- Tax recalculation -->
-            <div style="display:flex; gap:40px; padding:16px 0; border-bottom:1px solid #e3e3e3;">
-              <div style="width:240px; flex-shrink:0;">
-                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Tax recalculation</div>
-                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Automatically recalculate taxes when the customer edits their shipping address.</p>
+
+        <!-- Editing Deadlines -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Editing Deadlines</h3>
+            <p>Control when customers can make changes to their orders</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Editing time window</div>
+              <div class="rules-card-sub">Set how long after placing an order shoppers can make changes.</div>
+              <div class="rules-input-row">
+                <input class="rules-input" type="number" value="30" />
+                <select class="rules-select">
+                  <option>minutes</option>
+                  <option>hours</option>
+                  <option>days</option>
+                </select>
               </div>
-              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-size:13px; font-weight:600; color:#303030;">Auto-recalculate tax</span>
-                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
-                    <div style="position:absolute; inset:0; border-radius:12px; background:#303030;"></div>
-                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; right:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
-                  </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order hold -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Order hold</h3>
+            <p>Block orders from flowing into downstream systems while the editing window is open</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Fulfillment hold</div>
+                  <div class="rules-card-sub">For downstream systems that pull orders by fulfillment status. AfterShip holds fulfillment until the editing window closes</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
-            <!-- Auto-refund -->
-            <div style="display:flex; gap:40px; padding:16px 0; border-bottom:1px solid #e3e3e3;">
-              <div style="width:240px; flex-shrink:0;">
-                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Auto-refund</div>
-                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Automatically refund price differences when products are swapped or removed.</p>
-              </div>
-              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-size:13px; font-weight:600; color:#303030;">Auto-refund difference</span>
-                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
-                    <div style="position:absolute; inset:0; border-radius:12px; background:#babec3;"></div>
-                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; left:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
-                  </div>
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Auto payment capture</div>
+                  <div class="rules-card-sub">For downstream systems that pull orders by payment status. AfterShip auto-captures your payment after the editing window closes.</div>
                 </div>
-              </div>
-            </div>
-            <!-- Upsell strategy -->
-            <div style="display:flex; gap:40px; padding:16px 0;">
-              <div style="width:240px; flex-shrink:0;">
-                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Upsell strategy</div>
-                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Configure product recommendations shown during the order edit flow.</p>
-              </div>
-              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-size:13px; font-weight:600; color:#303030;">Show upsell recommendations</span>
-                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
-                    <div style="position:absolute; inset:0; border-radius:12px; background:#303030;"></div>
-                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; right:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
-                  </div>
+                <div class="rules-toggle">
+                  <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Order recalculation & Refund -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Order recalculation & Refund</h3>
+            <p>Auto-recalculate and refund the order value when some certain edits change</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Auto Refund</div>
+                  <div class="rules-card-sub">When edits reduce order amount, initiate refund process automatically.</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track checked" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="rules-card">
+              <div class="rules-card-title">Tax Recalculation</div>
+              <div class="rules-card-sub">Auto recalculate tax when edits change the shipping address.</div>
+              <div class="rules-radio-group">
+                <label class="rules-radio">
+                  <input type="radio" name="adminTaxRecalc" checked />
+                  <div>
+                    <div class="rules-radio-label">Shopify default</div>
+                    <div class="rules-radio-help">Help text</div>
+                  </div>
+                </label>
+                <label class="rules-radio">
+                  <input type="radio" name="adminTaxRecalc" />
+                  <div>
+                    <div class="rules-radio-label">Tax recalculation</div>
+                    <div class="rules-radio-help">Help text</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="rules-card">
+              <div class="rules-card-row">
+                <div>
+                  <div class="rules-card-title">Discount eligibility validation</div>
+                  <div class="rules-card-sub">Auto-validate whether applied discounts still qualify when some edits change</div>
+                </div>
+                <div class="rules-toggle">
+                  <div class="track checked" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prevent order editing -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Prevent order editing</h3>
+            <p>Control when customers can make changes to their orders</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Prevent order editing</div>
+              <div class="rules-card-sub">Block specific orders or products from being edited by customers. Orders or products matching these tags will not show editing options.</div>
+              <div class="rules-tag-section">
+                <div class="rules-tag-label">Exclude orders with tags</div>
+                <input class="rules-tag-input" placeholder="Input value" />
+              </div>
+              <div class="rules-tag-section">
+                <div class="rules-tag-label">Exclude products with tags</div>
+                <input class="rules-tag-input" placeholder="Input value" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email engagement -->
+        <div class="rules-section">
+          <div class="rules-desc">
+            <h3>Email engagement</h3>
+            <p>Choose which email notifications are sent to customers during order editing.</p>
+          </div>
+          <div class="rules-cards">
+            <div class="rules-card">
+              <div class="rules-card-title">Email notifications</div>
+              <div class="rules-card-sub">Choose which email notifications are sent to customers during order editing.</div>
+              <div class="rules-check-group">
+                <label class="rules-check"><input type="checkbox" checked /> Order canceled after edited</label>
+                <label class="rules-check"><input type="checkbox" checked /> Order refunded after edited</label>
+                <label class="rules-check"><input type="checkbox" /> Order edited success</label>
+                <label class="rules-check"><input type="checkbox" /> Order edited reverted</label>
+                <label class="rules-check"><input type="checkbox" /> Order paid after edited</label>
+                <label class="rules-check"><input type="checkbox" /> Order has outstanding balance after edited</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div><!-- end adminTabRules -->
 
       </div>
     </div><!-- end admin-page-homepage -->
@@ -4392,13 +4619,25 @@ function skipTest() {
 }
 
 // ---- Customize Block Editor ----
-function openBlockEditor() {
+var _beOpenedFrom = 'shopify'; // track who opened the block editor
+function openBlockEditor(source) {
+  _beOpenedFrom = source || 'shopify';
   var el = document.getElementById('page-blockeditor');
+  if (source === 'admin') {
+    // Move block editor out of shopifyShell so it's visible in admin mode
+    document.body.appendChild(el);
+  }
   el.style.display = 'block';
   beUpdatePreview();
 }
 function closeBlockEditor() {
-  document.getElementById('page-blockeditor').style.display = 'none';
+  var el = document.getElementById('page-blockeditor');
+  el.style.display = 'none';
+  if (_beOpenedFrom === 'admin') {
+    // Move block editor back into shopifyShell
+    var shell = document.getElementById('shopifyShell');
+    if (shell) shell.appendChild(el);
+  }
 }
 function beSetDevice(mode, btn) {
   var bar = btn.parentElement;
@@ -4616,7 +4855,7 @@ function resetToLanding() {
   if (badgeOS) { badgeOS.textContent = 'Not installed'; badgeOS.classList.remove('installed'); }
   // Reset action button
   var actionBtn = document.getElementById('blockActionBtn');
-  if (actionBtn) { actionBtn.textContent = 'Install'; actionBtn.setAttribute('variant','primary'); actionBtn.removeAttribute('tone'); }
+  if (actionBtn) { actionBtn.textContent = 'Get started'; actionBtn.setAttribute('variant','primary'); actionBtn.removeAttribute('tone'); }
   // Reset live state
   var dot = document.getElementById('blockLiveDot');
   if (dot) dot.style.background = '#8a8a8a';
@@ -5797,6 +6036,271 @@ function adminSwitchTab(tab) {
   document.getElementById('adminTabAppBlock').style.display = (tab === 'appblock') ? '' : 'none';
   document.getElementById('adminTabAnalytics').style.display = (tab === 'analytics') ? '' : 'none';
   document.getElementById('adminTabRules').style.display = (tab === 'rules') ? '' : 'none';
+  if (tab === 'analytics') {
+    adminRenderAllCharts();
+  }
+}
+
+// --- Admin Analytics chart rendering ---
+var adminCurrentDateRange = '30';
+var adminStackedPage = 0;
+
+function adminChangeDateRange(e, range) {
+  e.stopPropagation();
+  adminCurrentDateRange = range;
+  var d = analyticsData[range];
+  document.getElementById('adminKpiTotalEdited').textContent = d.totalEdited;
+  document.getElementById('adminKpiTotalEditedChange').innerHTML = '&#9650; ' + d.totalPct + '%';
+  document.getElementById('adminKpiRescue').textContent = d.rescue;
+  document.getElementById('adminKpiRescueChange').innerHTML = '&#9650; ' + d.rescuePct + '%';
+  document.getElementById('adminKpiUpsell').textContent = d.upsell;
+  document.getElementById('adminKpiUpsellChange').innerHTML = '&#9650; ' + d.upsellPct + '%';
+  document.getElementById('adminDateRangeLabel').textContent = range === '7' ? 'Last 7 days' : range === '30' ? 'Last 30 days' : 'Last 90 days';
+  document.querySelectorAll('#adminDdDateRange .analytics-dropdown-item').forEach(function(item) {
+    item.classList.toggle('active', item.textContent.indexOf(range) > -1);
+  });
+  closeAllAnalyticsDropdowns();
+  adminRenderAllCharts();
+}
+
+function adminRenderMainChart() {
+  var svg = document.getElementById('adminChartMain');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 920, H = 240, padL = 40, padR = 20, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var numPoints = adminCurrentDateRange === '7' ? 7 : adminCurrentDateRange === '30' ? 31 : 13;
+  var data = generateData(numPoints, 10, 85);
+  var maxVal = 90;
+  var yTicks = [0, 30, 60, 90];
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = v;
+  });
+  var labels = [];
+  if (adminCurrentDateRange === '7') labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  else if (adminCurrentDateRange === '30') { for (var i = 1; i <= 31; i++) labels.push('Mar ' + i); }
+  else { labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan']; }
+  var step = Math.max(1, Math.floor(numPoints / 7));
+  for (var i = 0; i < numPoints; i += step) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    svg.appendChild(svgEl('text', { x:x, y:H-4, 'text-anchor':'middle', class:'axis-label' })).textContent = labels[i] || '';
+  }
+  var points = [];
+  for (var i = 0; i < numPoints; i++) {
+    var x = padL + (i / (numPoints - 1)) * chartW;
+    var y = padT + chartH - (data[i] / maxVal) * chartH;
+    points.push([x, y]);
+  }
+  var pathD = smoothPath(points);
+  var areaD = pathD + ' L' + points[points.length-1][0] + ',' + (padT+chartH) + ' L' + points[0][0] + ',' + (padT+chartH) + ' Z';
+  svg.appendChild(svgEl('path', { d:areaD, fill:'#5AC8FA', class:'chart-area' }));
+  svg.appendChild(svgEl('path', { d:pathD, stroke:'#5AC8FA', class:'chart-line' }));
+  addLineChartHover(svg, W, H, padL, padR, padT, padB, points, labels, data, 'adminTooltipMain', '#5AC8FA', '', ' edits');
+}
+
+function adminRenderUpsellChart() {
+  var svg = document.getElementById('adminChartUpsellRev');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200, padL = 45, padR = 15, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var data = [120, 210, 180, 340, 280, 160, 390];
+  var maxVal = 400;
+  var yTicks = [0, 100, 200, 300, 400];
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = '$' + v;
+  });
+  labels.forEach(function(l, i) {
+    var x = padL + (i / (labels.length - 1)) * chartW;
+    svg.appendChild(svgEl('text', { x:x, y:H-4, 'text-anchor':'middle', class:'axis-label' })).textContent = l;
+  });
+  var points = [];
+  data.forEach(function(v, i) {
+    var x = padL + (i / (data.length - 1)) * chartW;
+    var y = padT + chartH - (v / maxVal) * chartH;
+    points.push([x, y]);
+  });
+  var pathD = smoothPath(points);
+  var areaD = pathD + ' L' + points[points.length-1][0] + ',' + (padT+chartH) + ' L' + points[0][0] + ',' + (padT+chartH) + ' Z';
+  svg.appendChild(svgEl('path', { d:areaD, fill:'#5AC8FA', class:'chart-area' }));
+  svg.appendChild(svgEl('path', { d:pathD, stroke:'#5AC8FA', class:'chart-line' }));
+  addLineChartHover(svg, W, H, padL, padR, padT, padB, points, labels, data, 'adminTooltipUpsell', '#5AC8FA', '$', '');
+}
+
+function adminRenderTopProducts() {
+  var svg = document.getElementById('adminChartTopProducts');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200;
+  var products = [
+    { name:'Classic Tote Bag', value:2041 },
+    { name:'Wireless Charger', value:1513 },
+    { name:'Silk Pillowcase Set', value:1174 },
+    { name:'Bamboo Water Bottle', value:892 },
+    { name:'Organic Tea Sampler', value:659 }
+  ];
+  var maxVal = 2200;
+  var barH = 24, gap = 14, padL = 150, padR = 60, padT = 8;
+  var barW = W - padL - padR;
+  var tooltipEl = document.getElementById('adminTooltipTopProducts');
+  products.forEach(function(p, i) {
+    var y = padT + i * (barH + gap);
+    var w = (p.value / maxVal) * barW;
+    svg.appendChild(svgEl('text', { x:padL-10, y:y+barH/2+4, 'text-anchor':'end', class:'analytics-bar-label' })).textContent = p.name;
+    svg.appendChild(svgEl('rect', { x:padL, y:y, width:barW, height:barH, rx:4, fill:'#f3f3f3' }));
+    var barFill = svgEl('rect', { x:padL, y:y, width:w, height:barH, rx:4, fill:'#5AC8FA', style:'transition:opacity .12s' });
+    svg.appendChild(barFill);
+    svg.appendChild(svgEl('text', { x:padL+w+8, y:y+barH/2+4, class:'analytics-bar-value' })).textContent = '$' + p.value.toLocaleString();
+    var hoverRect = svgEl('rect', { x:0, y:y-gap/2, width:W, height:barH+gap, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barFill.setAttribute('fill', '#3db8f0');
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + p.name + '</div><div class="tt-value">$' + p.value.toLocaleString() + '</div>';
+        tooltipEl.style.display = 'block';
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((padL + w/2) / W * svgRect.width) + 'px';
+        tooltipEl.style.top = (y / H * svgRect.height - 8) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barFill.setAttribute('fill', '#5AC8FA');
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+function adminRenderStackedBar() {
+  var svg = document.getElementById('adminChartStackedBar');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 220, padL = 40, padR = 15, padT = 10, padB = 30;
+  var chartW = W - padL - padR, chartH = H - padT - padB;
+  var page = stackedPages[adminStackedPage];
+  var maxVal = 70;
+  var yTicks = [0, 20, 40, 60];
+  var tooltipEl = document.getElementById('adminTooltipStacked');
+  yTicks.forEach(function(v) {
+    var y = padT + chartH - (v / maxVal) * chartH;
+    svg.appendChild(svgEl('line', { x1:padL, y1:y, x2:W-padR, y2:y, class:'grid-line', 'stroke-dasharray': v === 0 ? 'none' : '4,3' }));
+    svg.appendChild(svgEl('text', { x:padL-8, y:y+4, 'text-anchor':'end', class:'axis-label' })).textContent = v;
+  });
+  var barCount = page.labels.length;
+  var groupW = chartW / barCount;
+  var barW = groupW * 0.5;
+  var barGroups = [];
+  page.labels.forEach(function(label, i) {
+    var x = padL + i * groupW + (groupW - barW) / 2;
+    var s = page.shipping[i], v = page.variant[i], u = page.upsell[i];
+    var baseY = padT + chartH;
+    var group = svgEl('g', { style:'transition:opacity .15s' });
+    var sH = (s / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH, width:barW, height:sH, rx:2, fill:'#5AC8FA' }));
+    var vH = (v / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH-vH, width:barW, height:vH, rx:0, fill:'#4CD964' }));
+    var uH = (u / maxVal) * chartH;
+    group.appendChild(svgEl('rect', { x:x, y:baseY-sH-vH-uH, width:barW, height:uH, rx:2, fill:'#FF9500' }));
+    svg.appendChild(group);
+    barGroups.push(group);
+    svg.appendChild(svgEl('text', { x:x+barW/2, y:H-6, 'text-anchor':'middle', class:'axis-label' })).textContent = label;
+  });
+  page.labels.forEach(function(label, i) {
+    var x = padL + i * groupW;
+    var s = page.shipping[i], v = page.variant[i], u = page.upsell[i];
+    var total = s + v + u;
+    var topY = padT + chartH - ((s + v + u) / maxVal) * chartH;
+    var hoverRect = svgEl('rect', { x:x, y:0, width:groupW, height:H, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barGroups.forEach(function(g, gi) { g.style.opacity = gi === i ? '1' : '0.35'; });
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + label + '</div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#5AC8FA"></div><div class="tt-seg-label">Shipping</div><div class="tt-seg-value">' + s + '</div></div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#4CD964"></div><div class="tt-seg-label">Variant</div><div class="tt-seg-value">' + v + '</div></div>' +
+          '<div class="tt-row"><div class="tt-dot" style="background:#FF9500"></div><div class="tt-seg-label">Upsell</div><div class="tt-seg-value">' + u + '</div></div>' +
+          '<div style="border-top:1px solid #e3e3e3;margin-top:6px;padding-top:6px;font-size:12px;font-weight:650;color:var(--text)">Total: ' + total + '</div>';
+        tooltipEl.style.display = 'block';
+        var bx = padL + i * groupW + groupW / 2;
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((bx / W) * svgRect.width) + 'px';
+        tooltipEl.style.top = ((topY / H) * svgRect.height - 14) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barGroups.forEach(function(g) { g.style.opacity = '1'; });
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+function adminChangeStackedPage(dir) {
+  adminStackedPage = (adminStackedPage + dir + stackedPages.length) % stackedPages.length;
+  document.getElementById('adminStackedPageLabel').textContent = (adminStackedPage + 1) + ' / ' + stackedPages.length;
+  adminRenderStackedBar();
+}
+
+function adminRenderCancelReasons() {
+  var svg = document.getElementById('adminChartCancelReasons');
+  if (!svg) return;
+  svg.innerHTML = '';
+  var W = 440, H = 200;
+  var reasons = [
+    { name:'Changed my mind', value:148 },
+    { name:'Found a better price', value:100 },
+    { name:'Other', value:74 },
+    { name:'Payment issues', value:59 },
+    { name:'Forgot to buy product', value:39 }
+  ];
+  var maxVal = 160;
+  var barH = 24, gap = 14, padL = 155, padR = 45, padT = 8;
+  var barW = W - padL - padR;
+  var tooltipEl = document.getElementById('adminTooltipCancelReasons');
+  reasons.forEach(function(r, i) {
+    var y = padT + i * (barH + gap);
+    var w = (r.value / maxVal) * barW;
+    svg.appendChild(svgEl('text', { x:padL-10, y:y+barH/2+4, 'text-anchor':'end', class:'analytics-bar-label' })).textContent = r.name;
+    svg.appendChild(svgEl('rect', { x:padL, y:y, width:barW, height:barH, rx:4, fill:'#f3f3f3' }));
+    var barFill = svgEl('rect', { x:padL, y:y, width:w, height:barH, rx:4, fill:'#5AC8FA', style:'transition:opacity .12s' });
+    svg.appendChild(barFill);
+    svg.appendChild(svgEl('text', { x:padL+w+8, y:y+barH/2+4, class:'analytics-bar-value' })).textContent = r.value;
+    var hoverRect = svgEl('rect', { x:0, y:y-gap/2, width:W, height:barH+gap, fill:'transparent', style:'cursor:pointer' });
+    hoverRect.addEventListener('mouseenter', function() {
+      barFill.setAttribute('fill', '#3db8f0');
+      if (tooltipEl) {
+        tooltipEl.innerHTML = '<div class="tt-label">' + r.name + '</div><div class="tt-value">' + r.value + ' orders</div>';
+        tooltipEl.style.display = 'block';
+        var svgRect = svg.getBoundingClientRect();
+        tooltipEl.style.left = ((padL + w/2) / W * svgRect.width) + 'px';
+        tooltipEl.style.top = (y / H * svgRect.height - 8) + 'px';
+      }
+    });
+    hoverRect.addEventListener('mouseleave', function() {
+      barFill.setAttribute('fill', '#5AC8FA');
+      if (tooltipEl) tooltipEl.style.display = 'none';
+    });
+    svg.appendChild(hoverRect);
+  });
+}
+
+function adminRenderAllCharts() {
+  adminRenderMainChart();
+  adminRenderUpsellChart();
+  adminRenderTopProducts();
+  adminRenderStackedBar();
+  adminRenderCancelReasons();
+}
+
+function adminChangeGranularity(e, chart, label) {
+  e.stopPropagation();
+  if (chart === 'mainChart') document.getElementById('adminMainGranLabel').textContent = label;
+  if (chart === 'upsellChart') document.getElementById('adminUpsellGranLabel').textContent = label;
+  closeAllAnalyticsDropdowns();
+  adminRenderAllCharts();
 }
 
 // Admin onboarding modal
