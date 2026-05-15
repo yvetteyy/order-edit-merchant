@@ -17,6 +17,28 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:var(--font); font-size:13px; color:var(--text); background:var(--bg); overflow:hidden; height:100vh; }
 
+/* ===== DEMO MODE SWITCHER (inline in topbar) ===== */
+.demo-mode-toggle {
+  display:inline-flex; align-items:center; gap:2px;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.12);
+  border-radius:8px; padding:3px;
+}
+.demo-mode-btn {
+  padding:4px 14px; border-radius:6px; cursor:pointer; transition:all .15s;
+  color:rgba(255,255,255,.55); font-size:12px; font-weight:500; user-select:none;
+  display:inline-flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.demo-mode-btn:hover { color:rgba(255,255,255,.85); background:rgba(255,255,255,.06); }
+.demo-mode-btn.active {
+  background:rgba(255,255,255,.18); color:#fff; font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.2);
+}
+.demo-mode-btn svg { flex-shrink:0; }
+body.mode-shopify #shopifyShell { display:block; }
+body.mode-shopify #adminShell { display:none; }
+body.mode-admin #shopifyShell { display:none; }
+body.mode-admin #adminShell { display:block; }
+
 /* ===== TOPBAR ===== */
 .topbar {
   position:fixed; top:0; left:0; right:0; height:52px; z-index:100;
@@ -1139,9 +1161,287 @@ s-button.af-btn { font-weight:500; position:relative; }
 }
 .detail-gran-tab:hover { background:rgba(0,0,0,.04); }
 .detail-gran-tab.active { color:#005bd3; border-color:#005bd3; background:rgba(0,91,211,.04); font-weight:600; }
+
+/* ========================================================
+   ADMIN SHELL CSS
+   ======================================================== */
+
+/* --- Icon Rail --- */
+.admin-icon-rail {
+  position:fixed; left:0; top:0; bottom:0; width:56px; z-index:110;
+  background:#1a1a2e; display:flex; flex-direction:column; align-items:center;
+  padding:12px 0 12px; gap:2px; overflow-y:auto;
+}
+.admin-icon-rail .admin-rail-logo {
+  width:36px; height:36px; margin-bottom:12px; flex-shrink:0; cursor:default;
+}
+.admin-rail-btn {
+  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.45); cursor:pointer; position:relative; flex-shrink:0; transition:all .12s;
+  border:none; background:none; padding:0;
+}
+.admin-rail-btn:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.06); }
+.admin-rail-btn.active { color:#fff; }
+.admin-rail-btn.active::before {
+  content:''; position:absolute; left:0; top:8px; bottom:8px; width:3px;
+  background:#f26b38; border-radius:0 3px 3px 0;
+}
+.admin-rail-btn svg { width:20px; height:20px; }
+.admin-rail-spacer { flex:1; }
+.admin-rail-divider { width:28px; height:1px; background:rgba(255,255,255,.1); margin:4px 0; flex-shrink:0; }
+
+/* --- Nav Panel --- */
+.admin-nav-panel {
+  position:fixed; left:56px; top:0; bottom:0; width:240px; z-index:105;
+  background:#fff; border-right:1px solid #e3e3e3; display:flex; flex-direction:column;
+  overflow-y:auto;
+}
+.admin-nav-header {
+  padding:16px 20px 12px; font-size:15px; font-weight:700; color:#303030;
+  border-bottom:1px solid #f0f0f0; flex-shrink:0;
+}
+.admin-nav-items { flex:1; padding:8px 8px 8px; overflow-y:auto; }
+.admin-nav-item {
+  display:flex; align-items:center; gap:10px; padding:7px 12px; border-radius:8px;
+  font-size:13px; color:#4a4a4a; cursor:default; position:relative; line-height:1.3;
+}
+.admin-nav-item:hover { background:rgba(0,0,0,.03); }
+.admin-nav-item.active {
+  color:#f26b38; font-weight:600; background:rgba(242,107,56,.04);
+}
+.admin-nav-item.active::before {
+  content:''; position:absolute; left:0; top:6px; bottom:6px; width:3px;
+  background:#f26b38; border-radius:0 3px 3px 0;
+}
+.admin-nav-item svg { width:18px; height:18px; flex-shrink:0; color:inherit; opacity:.65; }
+.admin-nav-item.active svg { opacity:1; }
+.admin-nav-item .admin-nav-eye {
+  margin-left:auto; opacity:.35; display:flex; align-items:center;
+}
+.admin-nav-section-label {
+  font-size:11px; font-weight:600; color:#8c8c8c; padding:16px 12px 6px;
+  text-transform:uppercase; letter-spacing:.6px;
+}
+.admin-nav-sub {
+  padding-left:18px;
+}
+.admin-nav-sub .admin-nav-item { font-size:12.5px; padding:5px 12px; }
+.admin-nav-bottom {
+  border-top:1px solid #f0f0f0; padding:8px; flex-shrink:0;
+}
+.admin-nav-bottom .admin-nav-item { font-size:12.5px; }
+
+/* --- Admin Topbar --- */
+.admin-topbar {
+  position:fixed; left:296px; top:0; right:0; height:52px; z-index:100;
+  background:#fff; border-bottom:1px solid #e3e3e3;
+  display:flex; align-items:center; padding:0 16px; gap:12px;
+}
+.admin-topbar-title { font-size:15px; font-weight:600; color:#303030; }
+.admin-topbar-right { display:flex; align-items:center; gap:10px; margin-left:auto; }
+.admin-topbar-right .admin-btn-outline {
+  padding:6px 14px; border:1px solid #d0d0d0; border-radius:8px; font-size:12px;
+  font-weight:500; color:#4a4a4a; cursor:pointer; background:#fff; font-family:var(--font);
+  transition:all .12s;
+}
+.admin-topbar-right .admin-btn-outline:hover { border-color:#999; background:#fafafa; }
+.admin-topbar-right .admin-icon-btn {
+  width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  color:#666; cursor:pointer;
+}
+.admin-topbar-right .admin-icon-btn:hover { background:#f5f5f5; }
+.admin-topbar-right .admin-avatar {
+  width:28px; height:28px; border-radius:50%; background:#e8b341;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:12px; font-weight:700;
+}
+.admin-topbar-right .admin-org {
+  font-size:12px; color:#666; max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+/* Override demo-mode-toggle for admin topbar (dark text) */
+.admin-topbar .demo-mode-toggle {
+  background:rgba(0,0,0,.04); border-color:rgba(0,0,0,.08);
+}
+.admin-topbar .demo-mode-btn {
+  color:rgba(0,0,0,.4); font-size:12px;
+}
+.admin-topbar .demo-mode-btn:hover { color:rgba(0,0,0,.7); background:rgba(0,0,0,.04); }
+.admin-topbar .demo-mode-btn.active {
+  background:rgba(0,0,0,.1); color:#303030; font-weight:600;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
+.admin-topbar .demo-mode-btn svg path { stroke:#303030; }
+
+/* --- Admin Main Content --- */
+.admin-main {
+  position:fixed; left:296px; top:52px; right:0; bottom:0;
+  overflow-y:auto; background:#f6f6f7;
+}
+.admin-main-inner { padding:16px 20px 40px; max-width:1000px; margin:0 auto; }
+.admin-screen { display:none; }
+.admin-screen.active { display:block; }
+
+/* --- Admin Homepage Tabs --- */
+.admin-home-tab {
+  padding:7px 14px; font-size:13px; font-weight:500; color:var(--text-sub);
+  cursor:pointer; border-radius:8px; transition:all .15s;
+}
+.admin-home-tab:hover { background:rgba(0,0,0,.04); }
+.admin-home-tab.active { font-weight:600; background:#303030; color:#fff; }
+
+/* --- Admin Landing Hero --- */
+.admin-hero {
+  background:#fff; border:1px solid #e3e3e3; border-radius:12px;
+  display:flex; overflow:hidden; margin-bottom:16px; min-height:280px;
+}
+.admin-hero-left {
+  flex:1; padding:40px 36px; display:flex; flex-direction:column; justify-content:center;
+}
+.admin-hero-left h1 { font-size:22px; font-weight:700; color:#303030; line-height:1.3; margin-bottom:12px; }
+.admin-hero-left p { font-size:14px; color:#616161; line-height:1.6; margin-bottom:20px; }
+.admin-hero-right {
+  width:360px; flex-shrink:0; background:linear-gradient(135deg,#ebebeb,#e0e0e0);
+  display:flex; align-items:center; justify-content:center;
+}
+.admin-hero-right .admin-hero-dots span {
+  display:inline-block; width:8px; height:8px; border-radius:50%; background:#8a8a8a; margin:0 3px; opacity:.3;
+}
+.admin-hero-right .admin-hero-dots span:first-child { opacity:.7; }
+.admin-btn-primary {
+  display:inline-flex; align-items:center; gap:6px; padding:9px 20px;
+  background:#303030; color:#fff; border:none; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
+  transition:background .12s;
+}
+.admin-btn-primary:hover { background:#1a1a1a; }
+.admin-btn-secondary {
+  display:inline-flex; align-items:center; gap:6px; padding:9px 20px;
+  background:#fff; color:#303030; border:1px solid #c9cccf; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:var(--font);
+  transition:background .12s;
+}
+.admin-btn-secondary:hover { background:#f7f7f7; }
+
+/* --- Admin Feature Cards --- */
+.admin-features { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px; }
+.admin-feature-card {
+  background:#fff; border:1px solid #e3e3e3; border-radius:12px; overflow:hidden;
+}
+.admin-feature-card-img { height:120px; background:#f0f0f0; }
+.admin-feature-card-body { padding:16px; }
+.admin-feature-card-body h3 { font-size:14px; font-weight:600; color:#303030; margin:0 0 6px; }
+.admin-feature-card-body p { font-size:12.5px; color:#616161; margin:0; line-height:1.5; }
+
+/* --- Admin Homepage Block Card --- */
+.admin-hp-block-card {
+  background:#fff; border:1px solid #e3e3e3; border-radius:12px; overflow:hidden; margin-bottom:16px;
+}
+.admin-hp-preview-section {
+  padding:24px; background:#f8f6f4; display:flex; gap:20px; justify-content:center; align-items:flex-start;
+}
+.admin-hp-block-info {
+  padding:16px 20px;
+}
+
+/* --- Admin Install Modal --- */
+.admin-install-modal-overlay {
+  display:none; position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,.5); align-items:center; justify-content:center;
+}
+.admin-install-modal-overlay.open { display:flex; }
+.admin-install-modal {
+  background:#fff; border-radius:16px;
+  width:620px; max-height:85vh; display:flex; flex-direction:column;
+  box-shadow:0 20px 20px -8px rgba(26,26,26,0.28), inset 0 0 0 1px rgba(0,0,0,.08);
+  overflow:hidden;
+}
+.admin-install-modal-header {
+  position:relative; background:#f3f3f3;
+  border-bottom:1px solid #e3e3e3; padding:12px 16px;
+}
+.admin-install-modal-header h2 { font-size:14px; font-weight:650; color:#303030; margin:0; }
+.admin-install-modal-close {
+  position:absolute; right:12px; top:8px;
+  width:28px; height:28px; border:none; background:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:8px; color:#5c5f62;
+}
+.admin-install-modal-close svg { width:20px; height:20px; }
+.admin-install-modal-close:hover { background:rgba(0,0,0,.05); }
+.admin-install-modal-body { padding:0 16px; flex:1; overflow-y:auto; }
+
+/* Admin stepper (reuse visual styles, scoped) */
+.admin-stepper-bar {
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:20px; padding-bottom:8px; gap:0;
+}
+.admin-stepper-step {
+  display:flex; flex-direction:column; align-items:center; position:relative;
+  z-index:1; cursor:pointer;
+}
+.admin-stepper-step:hover .admin-stepper-circle { opacity:.85; }
+.admin-stepper-circle {
+  width:32px; height:32px; border-radius:50%; border:2px solid #ccc;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:600; color:#b5b5b5; background:#fff;
+  transition:all .2s; flex-shrink:0; box-sizing:border-box;
+}
+.admin-stepper-label {
+  margin-top:6px; font-size:12px; font-weight:450; color:#b5b5b5;
+  transition:all .2s; white-space:nowrap;
+}
+.admin-stepper-step.active .admin-stepper-circle { border-color:#303030; border-width:2.5px; color:#303030; }
+.admin-stepper-step.active .admin-stepper-label { font-weight:650; color:#303030; }
+.admin-stepper-step.completed .admin-stepper-circle {
+  border-color:#303030; border-width:2.5px; color:#303030; background:transparent;
+}
+.admin-stepper-step.completed .admin-stepper-circle::after { display:none; }
+.admin-stepper-step.completed .admin-stepper-label { font-weight:650; color:#303030; }
+.admin-stepper-line {
+  width:100px; height:2px; background:#ccc; margin-top:15px; flex-shrink:0;
+  transition:background .2s;
+}
+.admin-stepper-line.completed { background:#303030; }
+
+.admin-stepper-content { padding:4px 16px 20px 4px; }
+.admin-stepper-panel { display:none; }
+.admin-stepper-panel.active { display:block; }
+.admin-stepper-panel-title { font-size:14px; font-weight:600; color:#303030; margin:0 0 8px; }
+.admin-stepper-panel-desc { font-size:13px; color:#616161; line-height:1.5; margin-bottom:12px; }
+.admin-stepper-panel-gif {
+  width:100%; height:340px; background:#e8e8e8; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px; overflow:hidden;
+}
+.admin-stepper-banner {
+  background:#cdfee1; border-radius:10px; padding:14px 16px;
+  margin-bottom:12px; display:none; font-size:13px; line-height:1.7; color:#303030;
+}
+.admin-stepper-banner.show { display:block; }
+.admin-stepper-banner .admin-banner-title {
+  font-weight:600; display:flex; align-items:center; gap:6px; margin-bottom:4px;
+}
+.admin-stepper-panel-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+.admin-stepper-footer {
+  height:60px; border-top:1px solid #e3e3e3; padding:0 16px;
+  display:flex; align-items:center; justify-content:flex-end; gap:8px;
+  flex-shrink:0;
+}
+
+/* Admin config page */
+.admin-config-card {
+  background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:24px; margin-bottom:16px;
+}
+.admin-config-card h2 { font-size:16px; font-weight:600; color:#303030; margin:0 0 6px; }
+.admin-config-card p { font-size:13px; color:#616161; line-height:1.5; margin:0 0 16px; }
+
 </style>
 </head>
-<body>
+<body class="mode-shopify">
+
+<!-- ===== SHOPIFY SHELL ===== -->
+<div id="shopifyShell">
 
 <!-- ===== TOPBAR ===== -->
 <div class="topbar">
@@ -1155,6 +1455,16 @@ s-button.af-btn { font-weight:500; position:relative; }
     <kbd>⌘K</kbd>
   </div>
   <div class="topbar-right">
+    <div class="demo-mode-toggle">
+      <div class="demo-mode-btn active" onclick="switchDemoMode('shopify')">
+        <svg width="14" height="14" viewBox="0 0 36 36" fill="none"><path d="M24.6 8.1c-.1-.1-.2-.1-.3-.1l-1.1-.2s-.9-1-.9-1c-.1-.1-.2-.1-.3-.1l-.5.1L20.3 4c-.4-.8-1-1.2-1.7-1.2h-.1c-.2-.2-.5-.3-.7-.3-1.7 0-3.4 2.2-4.2 5.3l-2 .6c-.6.2-.6.2-.7.8L9.5 18.5l8.7 1.6 4.7-1.2-1.6-6.8c0 .1.1.1.1.1L24.6 8.1z" fill="#95BF47"/><path d="M23.7 7.8c0 0-.4-.1-.9-.1-.3-1-.9-2-1.8-2.1h-.1c-.2-.2-.4-.3-.6-.3-1.5 0-2.2 1.9-2.5 3.1l-1.5.5c0 0 .4-2.1-.1-3.2-.5-1-1.3-1-1.3-1s-.3 1.7-.6 3.6l-1.1.3.7 9.3 8.7 1.6 4.7-1.2s-3.2-10-3.6-10.5z" fill="#5E8E3E"/></svg>
+        Shopify
+      </div>
+      <div class="demo-mode-btn" onclick="switchDemoMode('admin')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        AfterShip Admin
+      </div>
+    </div>
     <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 12v1" stroke="currentColor" stroke-width="1.5"/></svg></div>
     <div class="icon-btn"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3a4 4 0 014 4v2l2 3H4l2-3V7a4 4 0 014-4zM8 15a2 2 0 004 0"/></svg></div>
     <span class="store">Yvette shop</span>
@@ -1755,6 +2065,7 @@ s-button.af-btn { font-weight:500; position:relative; }
 
       <!-- === Tab: Analytics === -->
       <div id="tabAnalytics" style="display:none;">
+        <p style="font-size:13px; color:#616161; margin:0 0 16px;">Track how customers interact with order editing — monitor edit volume, rescued revenue, and upsell performance over time. <a href="#" style="color:#005bd3;">Learn more</a></p>
 
         <!-- Filter bar -->
         <div class="analytics-filter-bar">
@@ -2937,7 +3248,825 @@ s-button.af-btn { font-weight:500; position:relative; }
   </div>
 </div>
 
+</div><!-- end shopifyShell -->
+
+<!-- ===== AFTERSHIP ADMIN SHELL ===== -->
+<div id="adminShell">
+
+  <!-- Icon Rail -->
+  <div class="admin-icon-rail">
+    <!-- AfterShip Logo -->
+    <div class="admin-rail-logo">
+      <svg viewBox="0 0 36 36" width="36" height="36" fill="none">
+        <path d="M18 3L4 11v14l14 8 14-8V11L18 3z" fill="#f26b38"/>
+        <path d="M18 8l-8 4.5v9L18 26l8-4.5v-9L18 8z" fill="#fff" fill-opacity=".3"/>
+        <text x="18" y="21" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="sans-serif">A</text>
+      </svg>
+    </div>
+    <div class="admin-rail-divider"></div>
+    <!-- Module icons -->
+    <button class="admin-rail-btn" title="Home"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M14 16h-2a1 1 0 0 1-1-1v-2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2.5a1 1 0 0 1-1 1h-2a2 2 0 0 1-2-2v-4.257a3 3 0 0 1 .879-2.122l3.707-3.707a2 2 0 0 1 2.828 0l3.707 3.707a3 3 0 0 1 .879 2.122v4.257a2 2 0 0 1-2 2Z"/></svg></button>
+    <button class="admin-rail-btn" title="Tracking"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Z"/></svg></button>
+    <button class="admin-rail-btn" title="Shipping"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.255 5.847a2.75 2.75 0 0 1 2.72-2.347h6.05a2.75 2.75 0 0 1 2.72 2.347l.66 4.46c.063.425.095.853.095 1.282v1.661a3.25 3.25 0 0 1-3.25 3.25h-6.5a3.25 3.25 0 0 1-3.25-3.25v-1.66c0-.43.032-.858.094-1.283l.661-4.46Z"/></svg></button>
+    <button class="admin-rail-btn" title="Returns"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M17 9H5.414l3.293-3.293a1 1 0 00-1.414-1.414l-5 5a1 1 0 000 1.414l5 5a1 1 0 001.414-1.414L5.414 11H17a1 1 0 100-2z"/></svg></button>
+    <button class="admin-rail-btn" title="Warranty"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6v3.586l-1.707 1.707A1 1 0 003 15h14a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg></button>
+    <button class="admin-rail-btn active" title="Order Edits"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Z"/></svg></button>
+    <button class="admin-rail-btn" title="Protection"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 01.832.445l.112.19A4.987 4.987 0 0015.187 5H16a1 1 0 011 1v4.5a7.5 7.5 0 01-3.338 6.246l-3.1 2.067a1 1 0 01-1.124 0l-3.1-2.067A7.5 7.5 0 013 10.5V6a1 1 0 011-1h.813A4.987 4.987 0 009.056 2.635l.112-.19A1 1 0 0110 2z"/></svg></button>
+    <button class="admin-rail-btn" title="Marketing"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M5.451 12.354a2.61 2.61 0 0 1 0-5.208l4.01-.244a.25.25 0 0 0 .137-.05l3.097-2.34c1.153-.872 2.805-.05 2.805 1.395v7.608c0 1.437-1.637 2.261-2.792 1.406l-2.572-1.906Z"/></svg></button>
+    <button class="admin-rail-btn" title="Analytics"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.971 4c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v9.058c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982 2.5 2.5 0 0 0 .024-.465v-9.058c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/><path d="M5.471 9.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v3.558c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-3.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.503 2.503 0 0 0-.465-.024h-.058Z"/><path d="M14.471 6.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v6.558c0 .204 0 .344.024.465.099.496.486.883.982.982.121.024.26.024.465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-6.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/></svg></button>
+    <button class="admin-rail-btn" title="Integrations"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Z"/></svg></button>
+    <div class="admin-rail-spacer"></div>
+    <div class="admin-rail-divider"></div>
+    <button class="admin-rail-btn" title="Help"><svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 12v1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+    <button class="admin-rail-btn" title="Settings"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg></button>
+  </div>
+
+  <!-- Nav Panel -->
+  <div class="admin-nav-panel">
+    <div class="admin-nav-header">Tracking</div>
+    <div class="admin-nav-items">
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M14 16h-2a1 1 0 0 1-1-1v-2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2.5a1 1 0 0 1-1 1h-2a2 2 0 0 1-2-2v-4.257a3 3 0 0 1 .879-2.122l3.707-3.707a2 2 0 0 1 2.828 0l3.707 3.707a3 3 0 0 1 .879 2.122v4.257a2 2 0 0 1-2 2Z"/></svg>Home</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.971 4c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v9.058c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982 2.5 2.5 0 0 0 .024-.465v-9.058c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/></svg>Tracking dashboards</div>
+      <div class="admin-nav-item">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.42 3.5h5.16c.535 0 .98 0 1.345.03.38.03.736.098 1.073.27a2.75 2.75 0 0 1 1.202 1.202c.172.337.24.693.27 1.073.03.365.03.81.03 1.345v1.91c0 .535 0 .98-.03 1.345-.03.38-.098.736-.27 1.073a2.751 2.751 0 0 1-1.201 1.202c-.338.172-.694.24-1.074.27-.365.03-.81.03-1.345.03h-5.16c-.535 0-.98 0-1.345-.03-.38-.03-.736-.098-1.073-.27a2.75 2.75 0 0 1-1.202-1.201c-.172-.338-.24-.694-.27-1.074-.03-.365-.03-.81-.03-1.345v-1.91c0-.535 0-.98.03-1.345.03-.38.098-.736.27-1.073a2.75 2.75 0 0 1 1.202-1.202c.337-.172.693-.24 1.073-.27.365-.03.81-.03 1.345-.03Z"/></svg>
+        Tracking pages
+        <span class="admin-nav-eye"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" opacity=".5"><path d="M10 4.5C5.813 4.5 2.265 7.237 1 10c1.265 2.763 4.813 5.5 9 5.5s7.735-2.737 9-5.5c-1.265-2.763-4.813-5.5-9-5.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0-5.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></svg></span>
+      </div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a4 4 0 014 4v2l2 3H4l2-3V7a4 4 0 014-4zM8 15a2 2 0 004 0"/></svg>Notifications</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.971 4c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v9.058c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982 2.5 2.5 0 0 0 .024-.465v-9.058c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/><path d="M5.471 9.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v3.558c0 .204 0 .344.024.465.099.496.486.883.982.982a2.5 2.5 0 0 0 .465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-3.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.503 2.503 0 0 0-.465-.024h-.058Z"/><path d="M14.471 6.5c-.204 0-.344 0-.465.024a1.25 1.25 0 0 0-.982.982c-.024.121-.024.26-.024.465v6.558c0 .204 0 .344.024.465.099.496.486.883.982.982.121.024.26.024.465.024h.058c.204 0 .344 0 .465-.024a1.25 1.25 0 0 0 .982-.982c.024-.121.024-.26.024-.465v-6.558c0-.204 0-.344-.024-.465a1.25 1.25 0 0 0-.982-.982 2.504 2.504 0 0 0-.465-.024h-.058Z"/></svg>Analytics</div>
+      <div class="admin-nav-item active" onclick="adminNavClick('order-edits')"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Z"/></svg>Order edits</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 01.832.445l.112.19A4.987 4.987 0 0015.187 5H16a1 1 0 011 1v4.5a7.5 7.5 0 01-3.338 6.246l-3.1 2.067a1 1 0 01-1.124 0l-3.1-2.067A7.5 7.5 0 013 10.5V6a1 1 0 011-1h.813A4.987 4.987 0 009.056 2.635l.112-.19A1 1 0 0110 2z"/></svg>Protection</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Z"/></svg>Apps</div>
+
+      <div class="admin-nav-section-label">ADD-ONS</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zm0 2a1 1 0 011 1v3.586l2.207 2.207a1 1 0 01-1.414 1.414l-2.5-2.5A1 1 0 019 10V6a1 1 0 011-1z"/></svg>Estimated delivery dates</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-1 4h2v5h-2V6zm0 6h2v2h-2v-2z"/></svg>Carbon Footprint</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Z"/></svg>Tracking App</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M17 9.5a7 7 0 11-14 0 7 7 0 0114 0zM10 5.5a1 1 0 00-1 1v3a1 1 0 001 1h2.5a1 1 0 100-2H11V6.5a1 1 0 00-1-1z"/></svg>Apple Order Tracking</div>
+    </div>
+    <div class="admin-nav-bottom">
+      <div class="admin-nav-item" onclick="adminResetToLanding()" style="cursor:pointer; color:#9a6700; font-size:12px;">
+        <svg viewBox="0 0 20 20" fill="currentColor" style="width:16px; height:16px;"><path d="M7.707 4.293a1 1 0 0 1 0 1.414L5.414 8H13a5 5 0 0 1 0 10H8a1 1 0 1 1 0-2h5a3 3 0 1 0 0-6H5.414l2.293 2.293a1 1 0 1 1-1.414 1.414l-4-4a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0z"/></svg>
+        Back to not enabled
+      </div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 01.894.553l1.618 3.279 3.618.526a1 1 0 01.554 1.706l-2.618 2.553.618 3.602a1 1 0 01-1.45 1.054L10 13.573l-3.236 1.7a1 1 0 01-1.45-1.054l.618-3.602L3.314 8.064a1 1 0 01.554-1.706l3.618-.526L9.106 2.553A1 1 0 0110 2z"/></svg>Getting started</div>
+      <div class="admin-nav-item"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 13a3 3 0 100-6 3 3 0 000 6zm7.11-2.36l-1.12-.65a6.06 6.06 0 000-1.98l1.12-.65a.5.5 0 00.18-.68l-1-1.73a.5.5 0 00-.68-.18l-1.13.65a5.97 5.97 0 00-1.71-.99V3.5a.5.5 0 00-.5-.5h-2a.5.5 0 00-.5.5v1.3a5.97 5.97 0 00-1.71.99l-1.13-.65a.5.5 0 00-.68.18l-1 1.73a.5.5 0 00.18.68l1.12.65a6.06 6.06 0 000 1.98l-1.12.65a.5.5 0 00-.18.68l1 1.73a.5.5 0 00.68.18l1.13-.65c.51.42 1.09.76 1.71.99v1.3a.5.5 0 00.5.5h2a.5.5 0 00.5-.5v-1.3a5.97 5.97 0 001.71-.99l1.13.65a.5.5 0 00.68-.18l1-1.73a.5.5 0 00-.18-.68z"/></svg>Settings</div>
+    </div>
+  </div>
+
+  <!-- Topbar -->
+  <div class="admin-topbar">
+    <span class="admin-topbar-title">Tracking</span>
+    <div class="admin-topbar-right">
+      <div class="demo-mode-toggle">
+        <div class="demo-mode-btn" onclick="switchDemoMode('shopify')">
+          <svg width="14" height="14" viewBox="0 0 36 36" fill="none"><path d="M24.6 8.1c-.1-.1-.2-.1-.3-.1l-1.1-.2s-.9-1-.9-1c-.1-.1-.2-.1-.3-.1l-.5.1L20.3 4c-.4-.8-1-1.2-1.7-1.2h-.1c-.2-.2-.5-.3-.7-.3-1.7 0-3.4 2.2-4.2 5.3l-2 .6c-.6.2-.6.2-.7.8L9.5 18.5l8.7 1.6 4.7-1.2-1.6-6.8c0 .1.1.1.1.1L24.6 8.1z" fill="#95BF47"/><path d="M23.7 7.8c0 0-.4-.1-.9-.1-.3-1-.9-2-1.8-2.1h-.1c-.2-.2-.4-.3-.6-.3-1.5 0-2.2 1.9-2.5 3.1l-1.5.5c0 0 .4-2.1-.1-3.2-.5-1-1.3-1-1.3-1s-.3 1.7-.6 3.6l-1.1.3.7 9.3 8.7 1.6 4.7-1.2s-3.2-10-3.6-10.5z" fill="#5E8E3E"/></svg>
+          Shopify
+        </div>
+        <div class="demo-mode-btn active" onclick="switchDemoMode('admin')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          AfterShip Admin
+        </div>
+      </div>
+      <button class="admin-btn-outline">Request demo</button>
+      <div class="admin-icon-btn"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 12v1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+      <div class="admin-icon-btn"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3a4 4 0 014 4v2l2 3H4l2-3V7a4 4 0 014-4zM8 15a2 2 0 004 0"/></svg></div>
+      <div class="admin-avatar">Y</div>
+      <span class="admin-org">Organization / Wies warehouse</span>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="admin-main">
+
+    <!-- ===== Landing Screen ===== -->
+    <div class="admin-screen active" id="admin-page-landing">
+      <div class="admin-main-inner">
+        <div class="admin-hero">
+          <div class="admin-hero-left">
+            <h1>Empower shoppers with self-service order editing</h1>
+            <p>Allow customers to update addresses, swap products, or add items directly from their order status page -- reducing manual errors and logistics costs</p>
+            <div>
+              <button class="admin-btn-primary" onclick="adminGoTo('config')">Enable Order Editing</button>
+            </div>
+          </div>
+          <div class="admin-hero-right">
+            <div class="admin-hero-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="admin-features">
+          <div class="admin-feature-card"><div class="admin-feature-card-img"></div><div class="admin-feature-card-body"><h3>Optimize Support Efficiency</h3><p>Allow users to resolve common inquiries independently to balance team workload and improve satisfaction.</p></div></div>
+          <div class="admin-feature-card"><div class="admin-feature-card-img"></div><div class="admin-feature-card-body"><h3>Drive Strategic Growth</h3><p>Leverage built-in opportunities to increase value during key interaction points throughout the user journey.</p></div></div>
+          <div class="admin-feature-card"><div class="admin-feature-card-img"></div><div class="admin-feature-card-body"><h3>Streamline Operations</h3><p>Focus your resources on high-impact tasks by automating routine operational requirements.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Config/Setup Screen ===== -->
+    <div class="admin-screen" id="admin-page-config" style="position:relative;">
+      <div class="admin-main-inner" style="max-width:none; padding:0; display:flex; min-height:100%;">
+
+      <!-- LEFT: Settings (identical to Shopify) -->
+      <div class="config-left-wrap">
+        <div class="config-welcome">
+          <h2>Welcome to AfterShip Order Edits</h2>
+          <p class="subtitle">Let's tailor the experience for your shoppers.</p>
+          <p class="desc">Preview on the right panel. You can change later before go live.</p>
+        </div>
+
+        <div class="config-left">
+          <!-- Editing time window -->
+          <s-section>
+            <s-stack gap="small">
+              <s-text variant="headingMd">Editing time window</s-text>
+              <s-text variant="bodySm" tone="subdued">Many sellers start with 30 minutes. It depends on your fulfillment speed and when downstream systems pick up orders.</s-text>
+              <div class="time-row">
+                <input type="number" class="time-input" id="adminTimeValue" value="30">
+                <select class="time-select" id="adminTimeUnit"><option value="minutes" selected>minutes</option><option value="hours">hours</option><option value="days">days</option></select>
+              </div>
+            </s-stack>
+          </s-section>
+
+          <!-- Shopper actions -->
+          <s-section>
+            <s-stack gap="small">
+              <s-text variant="headingMd">Shopper actions</s-text>
+              <s-text variant="bodySm" tone="subdued">Select which actions shoppers can perform.</s-text>
+            </s-stack>
+            <div id="adminActionsList" style="margin-top:12px;">
+              <!-- Edit shipping address -->
+              <s-switch checked data-action="address" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm0-1.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M8.827 16h-3.077a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-3.077l.07-.061a17.427 17.427 0 0 0 1.707-1.758c1.224-1.46 2.55-3.574 2.55-5.954 0-3.167-2.328-5.477-5.5-5.477s-5.5 2.31-5.5 5.477c0 2.38 1.326 4.495 2.55 5.954a17.426 17.426 0 0 0 1.777 1.819Zm1.173-11.75c-2.35 0-4 1.646-4 3.977 0 1.846 1.049 3.618 2.2 4.99a15.919 15.919 0 0 0 1.8 1.816 15.92 15.92 0 0 0 1.8-1.817c1.151-1.371 2.2-3.143 2.2-4.99 0-2.33-1.65-3.976-4-3.976Z"/></svg></s-icon>
+                  <span class="switch-label">Edit shipping address</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Edit Products -->
+              <s-switch checked data-action="editProduct" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M15.655 4.344a2.695 2.695 0 0 0-3.81 0l-.599.599-.009-.009-1.06 1.06.008.01-5.88 5.88a2.75 2.75 0 0 0-.805 1.944v1.922a.75.75 0 0 0 .75.75h1.922a2.75 2.75 0 0 0 1.944-.806l7.54-7.539a2.695 2.695 0 0 0 0-3.81Zm-4.409 2.72-5.88 5.88a1.25 1.25 0 0 0-.366.884v1.172h1.172c.331 0 .65-.132.883-.366l5.88-5.88-1.689-1.69Zm2.75.629.599-.599a1.195 1.195 0 1 0-1.69-1.689l-.598.599 1.69 1.689Z"/></svg></s-icon>
+                  <span class="switch-label">Edit Products</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Add Product -->
+              <s-switch checked data-action="addProduct" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M11.276 3.5a3.75 3.75 0 0 0-2.701 1.149l-4.254 4.417a2.75 2.75 0 0 0 .036 3.852l2.898 2.898a2.5 2.5 0 0 0 3.502.033l.45-.434a.75.75 0 1 0-1.04-1.08l-.45.434a1 1 0 0 1-1.401-.014l-2.898-2.898a1.25 1.25 0 0 1-.016-1.75l4.253-4.418a2.25 2.25 0 0 1 1.62-.689h1.975c.966 0 1.75.784 1.75 1.75v2.371c0 .358-.146.7-.403.948a.75.75 0 1 0 1.04 1.08 2.81 2.81 0 0 0 .863-2.028v-2.371a3.25 3.25 0 0 0-3.25-3.25h-1.974Z"/><path d="M13 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path d="M14.75 12a.75.75 0 0 1 .75.75v1.25h1.25a.75.75 0 0 1 0 1.5h-1.25v1.25a.75.75 0 0 1-1.5 0v-1.25h-1.25a.75.75 0 0 1 0-1.5h1.25v-1.25a.75.75 0 0 1 .75-.75Z"/></svg></s-icon>
+                  <span class="switch-label">Add Product</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Edit contact info (off) -->
+              <s-switch data-action="contact" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 3a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-2 3.5a2 2 0 1 1 4 0 2 2 0 0 1-4 0Z"/><path fill-rule="evenodd" d="M15.484 14.227a6.274 6.274 0 0 0-10.968 0l-.437.786a1.338 1.338 0 0 0 1.17 1.987h9.502a1.338 1.338 0 0 0 1.17-1.987l-.437-.786Zm-9.657.728a4.773 4.773 0 0 1 8.346 0l.302.545h-8.95l.302-.545Z"/></svg></s-icon>
+                  <span class="switch-label">Edit contact info</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Add discount code (off) -->
+              <s-switch data-action="discount" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M12.78 8.28a.75.75 0 0 0-1.06-1.06l-4.5 4.5a.75.75 0 1 0 1.06 1.06l4.5-4.5Z"/><path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/><path fill-rule="evenodd" d="M12.094 3.514c-.822-1.79-3.366-1.79-4.188 0a.804.804 0 0 1-1.011.42c-1.848-.686-3.647 1.113-2.962 2.96a.804.804 0 0 1-.419 1.012c-1.79.822-1.79 3.366 0 4.188a.805.805 0 0 1 .42 1.011c-.686 1.848 1.113 3.647 2.96 2.962a.805.805 0 0 1 1.012.419c.822 1.79 3.366 1.79 4.188 0a.805.805 0 0 1 1.011-.42c1.848.686 3.647-1.113 2.962-2.96a.805.805 0 0 1 .419-1.012c1.79-.822 1.79-3.366 0-4.188a.805.805 0 0 1-.42-1.011c.686-1.848-1.113-3.647-2.96-2.962a.805.805 0 0 1-1.012-.419Zm-2.825.626a.804.804 0 0 1 1.462 0 2.304 2.304 0 0 0 2.896 1.2.804.804 0 0 1 1.034 1.034 2.304 2.304 0 0 0 1.199 2.895.804.804 0 0 1 0 1.462 2.304 2.304 0 0 0-1.2 2.896.805.805 0 0 1-1.034 1.034 2.304 2.304 0 0 0-2.895 1.199.804.804 0 0 1-1.462 0 2.304 2.304 0 0 0-2.896-1.2.804.804 0 0 1-1.033-1.034 2.305 2.305 0 0 0-1.2-2.895.804.804 0 0 1 0-1.462 2.304 2.304 0 0 0 1.2-2.896.804.804 0 0 1 1.033-1.033 2.304 2.304 0 0 0 2.896-1.2Z"/></svg></s-icon>
+                  <span class="switch-label">Add discount code</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Cancel order -->
+              <s-switch data-action="cancel" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M13.03 6.97a.75.75 0 0 1 0 1.06l-1.97 1.97 1.97 1.97a.75.75 0 1 1-1.06 1.06l-1.97-1.97-1.97 1.97a.75.75 0 0 1-1.06-1.06l1.97-1.97-1.97-1.97a.75.75 0 0 1 1.06-1.06l1.97 1.97 1.97-1.97a.75.75 0 0 1 1.06 0Z"/><path fill-rule="evenodd" d="M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm0-1.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg></s-icon>
+                  <span class="switch-label">Cancel order</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+              <!-- Upsell -->
+              <s-switch checked data-action="upsell" draggable="true">
+                <div class="switch-left">
+                  <span class="drag-handle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5.5" cy="3" r="1.5"/><circle cx="10.5" cy="3" r="1.5"/><circle cx="5.5" cy="8" r="1.5"/><circle cx="10.5" cy="8" r="1.5"/><circle cx="5.5" cy="13" r="1.5"/><circle cx="10.5" cy="13" r="1.5"/></svg></span>
+                  <s-icon><svg viewBox="0 0 20 20"><path d="M3.25 3a.75.75 0 0 0 0 1.5h1.612a.25.25 0 0 1 .248.22l1.04 8.737a1.75 1.75 0 0 0 1.738 1.543h6.362a.75.75 0 0 0 0-1.5h-6.362a.25.25 0 0 1-.248-.22l-.093-.78h6.35a2.75 2.75 0 0 0 2.743-2.54l.358-4.652a.75.75 0 0 0-1.496-.116l-.358 4.654a1.25 1.25 0 0 1-1.246 1.154h-6.53l-.768-6.457a1.75 1.75 0 0 0-1.738-1.543h-1.612Z"/><path d="M12 9.25a.75.75 0 0 1-1.5 0v-3.69l-1.22 1.22a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0l2.5 2.5a.75.75 0 0 1-1.06 1.06l-1.22-1.22v3.69Z"/><path d="M10 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/><path d="M15 17a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg></s-icon>
+                  <span class="switch-label">Upsell</span>
+                </div>
+                <div class="switch-right">
+                  <div class="track" onclick="adminToggleTrack(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
+                </div>
+              </s-switch>
+            </div>
+          </s-section>
+
+          <div style="text-align:right; margin-top:24px;">
+            <s-button variant="primary" onclick="adminConfirmConfig()">Confirm</s-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Live Preview (identical to Shopify) -->
+        <div class="config-right">
+          <div class="preview-container">
+            <div class="preview-toggle-bar">
+              <s-button class="preview-toggle-btn active" icon-only title="Desktop" onclick="adminSwitchPreviewDevice('desktop')"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.5 6.25a2.75 2.75 0 0 1 2.75-2.75h7.5a2.75 2.75 0 0 1 2.75 2.75v4.5a2.75 2.75 0 0 1-2.75 2.75h-1.25v1.5h.75a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5h.75v-1.5h-1.25a2.75 2.75 0 0 1-2.75-2.75v-4.5Zm5.5 7.25h2v1.5h-2v-1.5Zm-2.75-8.5c-.69 0-1.25.56-1.25 1.25v3.25h10v-3.25c0-.69-.56-1.25-1.25-1.25h-7.5Zm8.725 6c-.116.57-.62 1-1.225 1h-7.5a1.25 1.25 0 0 1-1.225-1h9.95Z"/></svg></s-button>
+              <s-button class="preview-toggle-btn" icon-only title="Mobile" onclick="adminSwitchPreviewDevice('mobile')"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M7.75 13.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/><path fill-rule="evenodd" d="M4.75 5.75a2.75 2.75 0 0 1 2.75-2.75h5a2.75 2.75 0 0 1 2.75 2.75v8.5a2.75 2.75 0 0 1-2.75 2.75h-5a2.75 2.75 0 0 1-2.75-2.75v-8.5Zm2.75-1.25c-.69 0-1.25.56-1.25 1.25v8.5c0 .69.56 1.25 1.25 1.25h5c.69 0 1.25-.56 1.25-1.25v-8.5c0-.69-.56-1.25-1.25-1.25h-.531a1 1 0 0 1-.969.75h-2a1 1 0 0 1-.969-.75h-.531Z"/></svg></s-button>
+            </div>
+            <div class="preview-frame" id="adminPreviewFrame">
+              <div class="preview-mac-bar" id="adminPreviewMacBar">
+                <span class="mac-dot r"></span>
+                <span class="mac-dot y"></span>
+                <span class="mac-dot g"></span>
+              </div>
+              <div class="preview-phone-bar" id="adminPreviewPhoneBar" style="display:none;">
+                <span class="phone-time">9:41</span>
+                <span class="phone-icons">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 8h1.5v3H1zM3.5 6h1.5v5H3.5zM6 4h1.5v7H6zM8.5 1.5h1.5V11H8.5z" fill="#fff"/></svg>
+                  <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M6.5 3c1.5 0 2.8.6 3.8 1.5L9.1 5.7c-.7-.6-1.6-1-2.6-1s-1.9.4-2.6 1L2.7 4.5C3.7 3.6 5 3 6.5 3zM6.5.5c2.3 0 4.4.9 5.9 2.4L11.2 4C10 2.8 8.3 2 6.5 2S3 2.8 1.8 4L.6 2.9C2.1 1.4 4.2.5 6.5.5zM6.5 5.5c.8 0 1.6.3 2.1.9L6.5 9 4.4 6.4c.5-.6 1.3-.9 2.1-.9z" fill="#fff"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2" stroke="#fff" stroke-opacity=".4"/><rect x="1.5" y="1.5" width="14" height="8" rx="1" fill="#fff"/><path d="M20 4v3a1.5 1.5 0 0 0 0-3z" fill="#fff" opacity=".4"/></svg>
+                </span>
+              </div>
+              <div class="preview-inner">
+                <h4>Need to make a change?</h4>
+                <div class="timer">There is still time to make updates <span id="adminCountdown" style="font-weight:600; color:var(--text);">29:59</span></div>
+
+                <div id="adminPreviewActions">
+                  <!-- Edit shipping address -->
+                  <div class="preview-action" data-preview="address">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit shipping address</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                          <span style="font-size:11px; font-weight:600; color:var(--text);">Address details</span>
+                          <span class="mini-link">Select from address book ›</span>
+                        </div>
+                        <div class="mini-form-group"><label>Country</label><input class="mini-input" value="United States"></div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>First name</label><input class="mini-input" value="Yuka"></div>
+                          <div class="mini-form-group"><label>Last name</label><input class="mini-input" value="Kara"></div>
+                        </div>
+                        <div class="mini-form-group"><label>Phone</label><input class="mini-input" value="+1 (555) 000-0000"></div>
+                        <div class="mini-form-group"><label>Address</label><input class="mini-input" value="123 Main Street"></div>
+                        <div class="mini-form-group"><label>Apartment, suite, etc. (optional)</label><input class="mini-input" value="Apt 4B"></div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>State</label><input class="mini-input" value="California"></div>
+                        </div>
+                        <div class="mini-row">
+                          <div class="mini-form-group"><label>City</label><input class="mini-input" value="San Francisco"></div>
+                          <div class="mini-form-group"><label>ZIP code</label><input class="mini-input" value="94102"></div>
+                        </div>
+                        <div class="mini-btn-row">
+                          <s-button variant="plain" size="micro">Clear</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Save</s-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Edit Products -->
+                  <div class="preview-action" data-preview="editProduct">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit Products</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Cedar &amp; Moss Candle</div>
+                            <div class="mini-product-variant">Large ›</div>
+                          </div>
+                          <div class="mini-product-qty">
+                            <span class="mini-qty-btn trash" title="Remove"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3.994c0-.55.446-.994.996-.994h2.008c.55 0 .996.445.996.994v1.006h3.25a.75.75 0 0 1 0 1.5h-.295l-.707 9.193a2 2 0 0 1-1.995 1.807h-4.506a2 2 0 0 1-1.995-1.807l-.707-9.193h-.295a.75.75 0 0 1 0-1.5h3.25v-1.006Zm1.5.006v1h1v-1h-1Zm-3.247 2.5.69 8.953a.5.5 0 0 0 .498.547h4.506a.5.5 0 0 0 .499-.452l.69-9.048h-6.883Z"/></svg></span>
+                            <span class="mini-qty-num">1</span>
+                            <span class="mini-qty-btn plus" title="Add">+</span>
+                          </div>
+                          <div class="mini-product-price">$12.00</div>
+                        </div>
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Leather Care Kit</div>
+                            <div class="mini-product-variant">Classic / Standard Size ›</div>
+                          </div>
+                          <div class="mini-product-qty">
+                            <span class="mini-qty-btn minus" title="Decrease">&minus;</span>
+                            <span class="mini-qty-num">2</span>
+                            <span class="mini-qty-btn plus" title="Add">+</span>
+                          </div>
+                          <div class="mini-product-price">$12.00</div>
+                        </div>
+                        <div class="mini-product">
+                          <div class="mini-product-img" style="background-image:url('https://images.unsplash.com/photo-1586105251261-72a756497a31?w=80&h=80&fit=crop');"></div>
+                          <div class="mini-product-info">
+                            <div class="mini-product-name">Artisan Stoneware Vase</div>
+                            <div class="mini-product-variant">Small ›</div>
+                          </div>
+                          <div class="mini-product-qty">
+                            <span class="mini-qty-btn trash" title="Remove"><svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M8 3.994c0-.55.446-.994.996-.994h2.008c.55 0 .996.445.996.994v1.006h3.25a.75.75 0 0 1 0 1.5h-.295l-.707 9.193a2 2 0 0 1-1.995 1.807h-4.506a2 2 0 0 1-1.995-1.807l-.707-9.193h-.295a.75.75 0 0 1 0-1.5h3.25v-1.006Zm1.5.006v1h1v-1h-1Zm-3.247 2.5.69 8.953a.5.5 0 0 0 .498.547h4.506a.5.5 0 0 0 .499-.452l.69-9.048h-6.883Z"/></svg></span>
+                            <span class="mini-qty-num">1</span>
+                            <span class="mini-qty-btn plus" title="Add">+</span>
+                          </div>
+                          <div class="mini-product-price">$37.00</div>
+                        </div>
+                        <div class="mini-summary">
+                          <div style="display:flex; justify-content:space-between; font-weight:500; color:var(--text); margin-bottom:4px;">
+                            <span>Payment details</span><span>Remaining $50.00</span>
+                          </div>
+                          <div class="mini-summary-row"><span>Subtotal · 4 items</span><span>$61.00</span></div>
+                          <div class="mini-summary-row"><span>Shipping</span><span>$10.00</span></div>
+                          <div class="mini-summary-row"><span>Tax</span><span>$10.00</span></div>
+                          <div class="mini-summary-row"><span>Order total</span><span>$200.00</span></div>
+                          <div class="mini-summary-row"><span>Paid</span><span>-$200.00</span></div>
+                          <div class="mini-summary-row total"><span>Remaining</span><span>USD $50.00</span></div>
+                        </div>
+                        <div class="mini-btn-row" style="margin-top:10px;">
+                          <s-button variant="plain" size="micro">Reset</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Continue to pay</s-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Add Product -->
+                  <div class="preview-action" data-preview="addProduct">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Add Product</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div class="mini-add-search">
+                          <svg width="14" height="14" viewBox="0 0 20 20" fill="#8c9196"><path d="M8 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM2 8a6 6 0 1 1 10.69 3.76l3.525 3.53a.75.75 0 1 1-1.06 1.06l-3.53-3.525A6 6 0 0 1 2 8Z"/></svg>
+                          <span>Search products</span>
+                        </div>
+                        <div class="mini-add-grid">
+                          <div class="mini-add-item">
+                            <div class="mini-add-img"></div>
+                            <div class="mini-add-name">Cedar &amp; Moss</div>
+                            <div class="mini-add-meta">6 colors · 4 sizes</div>
+                            <div class="mini-add-price">$12.00</div>
+                            <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                          </div>
+                          <div class="mini-add-item">
+                            <div class="mini-add-img"></div>
+                            <div class="mini-add-name">Brew Brew Kit</div>
+                            <div class="mini-add-meta">6 colors · 4 sizes</div>
+                            <div class="mini-add-price">$24.00</div>
+                            <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                          </div>
+                          <div class="mini-add-item">
+                            <div class="mini-add-img"></div>
+                            <div class="mini-add-name">Concrete Valet</div>
+                            <div class="mini-add-meta">6 colors · 4 sizes</div>
+                            <div class="mini-add-price">$48.00</div>
+                            <s-button size="micro" variant="plain" style="font-size:10px; margin-top:4px;">+ Add</s-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Edit contact info -->
+                  <div class="preview-action" data-preview="contact" style="display:none;">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Edit contact info</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <div class="mini-form-group"><label>Name</label><input class="mini-input" value="Katherine"></div>
+                        <div class="mini-form-group"><label>Email</label><input class="mini-input" value="342342342@gmail.com"></div>
+                        <div class="mini-btn-row">
+                          <s-button variant="plain" size="micro">Clear</s-button>
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Save</s-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Add discount code -->
+                  <div class="preview-action" data-preview="discount" style="display:none;">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Add discount code</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <p style="margin-bottom:8px; color:var(--text-sub); font-size:11px;">Enter a valid discount code to apply to your order.</p>
+                        <div class="mini-form-group"><input class="mini-input" placeholder="Discount code"></div>
+                        <div class="mini-btn-row">
+                          <s-button size="micro">Discard</s-button>
+                          <s-button variant="primary" size="micro">Apply</s-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Cancel order -->
+                  <div class="preview-action" data-preview="cancel">
+                    <div class="preview-action-header" onclick="togglePanel(this)">
+                      <span>Cancel order</span>
+                      <span class="chevron">&#9662;</span>
+                    </div>
+                    <div class="preview-action-panel">
+                      <div class="preview-action-panel-inner">
+                        <p style="margin-bottom:8px; color:var(--text); font-size:11px;">Wait, before you cancel, could you choose the reason for cancellation (optional)</p>
+                        <select class="mini-select"><option>Select reason</option><option>Changed my mind</option><option>Found a better price</option><option>Ordered by mistake</option></select>
+                        <div class="mini-btn-row" style="margin-top:10px;">
+                          <s-button size="micro">Keep order</s-button>
+                          <s-button variant="primary" tone="critical" size="micro">Cancel order</s-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Upsell section -->
+                <div class="preview-upsell" data-preview-upsell>
+                  <h5>Grab one to this order</h5>
+                  <div class="preview-upsell-grid">
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Cedar &amp; Moss</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £56</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Brew Brew Kit</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £56</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Concrete Valet</div><div class="meta">6 colors · 4 sizes</div></div>
+                      <div class="add-link">+ Add £48</div>
+                    </div>
+                    <div class="preview-upsell-item">
+                      <div class="img" style="background:url('https://images.unsplash.com/photo-1543512214-318c7553f230?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="info"><div class="name">Amber Glass</div><div class="meta">3 colors · 2 sizes</div></div>
+                      <div class="add-link">+ Add £32</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Homepage Screen ===== -->
+    <div class="admin-screen" id="admin-page-homepage">
+      <div class="admin-main-inner" style="max-width:1100px;">
+        <div style="font-size:16px; font-weight:700; color:#303030; margin-bottom:12px;">Order Edits</div>
+
+        <!-- Tabs -->
+        <div id="adminHomeTabs" style="display:flex; gap:4px; margin-bottom:20px;">
+          <div class="admin-home-tab active" onclick="adminSwitchTab('appblock')">App block</div>
+          <div class="admin-home-tab" onclick="adminSwitchTab('analytics')">Analytics</div>
+          <div class="admin-home-tab" onclick="adminSwitchTab('rules')">Rules</div>
+        </div>
+
+        <!-- Tab: App Block -->
+        <div id="adminTabAppBlock">
+          <div class="admin-hp-block-card">
+            <div class="admin-hp-preview-section">
+              <!-- Desktop browser frame -->
+              <div class="desktop-frame">
+                <div class="mac-bar">
+                  <span class="mac-dot r"></span><span class="mac-dot y"></span><span class="mac-dot g"></span>
+                </div>
+                <div class="frame-body">
+                  <h4>Need to make a change?</h4>
+                  <div class="timer-text">There is still time to make updates 29:59</div>
+                  <div class="action-row"><span>Edit shipping address</span><span class="chevron">&#8250;</span></div>
+                  <div class="action-row"><span>Edit contact info</span><span class="chevron">&#8250;</span></div>
+                  <div class="action-row"><span>Edit Products</span><span class="chevron">&#8250;</span></div>
+                  <div class="action-row"><span>Add Product</span><span class="chevron">&#8250;</span></div>
+                  <div class="action-row"><span>Add discount code</span><span class="chevron">&#8250;</span></div>
+                  <div class="action-row"><span>Cancel order</span><span class="chevron">&#8250;</span></div>
+                  <div class="upsell-title">Grab one to this order</div>
+                  <div class="upsell-grid">
+                    <div class="upsell-item">
+                      <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="ui-name">Cedar &amp; Moss Candle</div>
+                      <div class="ui-meta">6 colors &middot; 4 sizes</div>
+                    </div>
+                    <div class="upsell-item">
+                      <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="ui-name">Brew Brew Kit</div>
+                      <div class="ui-meta">6 colors &middot; 4 sizes</div>
+                    </div>
+                    <div class="upsell-item">
+                      <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="ui-name">Concrete Valet Tray</div>
+                      <div class="ui-meta">6 colors &middot; 4 sizes</div>
+                    </div>
+                    <div class="upsell-item">
+                      <div class="ui-img" style="background:url('https://images.unsplash.com/photo-1543512214-318c7553f230?w=200&h=200&fit=crop') center/cover;"></div>
+                      <div class="ui-name">Amber Glass</div>
+                      <div class="ui-meta">3 colors &middot; 2 sizes</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Mobile phone frame -->
+              <div class="mobile-frame-wrap">
+                <div class="mobile-phone">
+                  <div class="mobile-statusbar">
+                    <span>9:41</span>
+                    <span class="icons">
+                      <svg width="16" height="11" viewBox="0 0 16 11" fill="white"><rect x="0" y="4" width="3" height="7" rx="0.5"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="11" rx="0.5" fill-opacity="0.3"/></svg>
+                      <svg width="14" height="10" viewBox="0 0 14 10" fill="white"><path d="M7 3.5c1.6 0 3 .6 4.1 1.6l1.2-1.2C10.8 2.4 9 1.5 7 1.5S3.2 2.4 1.7 3.9l1.2 1.2C4 4.1 5.4 3.5 7 3.5zm0 3c.8 0 1.6.3 2.1.9l-2.1 2.6-2.1-2.6c.5-.6 1.3-.9 2.1-.9z"/></svg>
+                      <svg width="22" height="11" viewBox="0 0 22 11" fill="white"><rect x="0" y="1" width="19" height="9" rx="2" stroke="white" stroke-width="1" fill="none"/><rect x="19.5" y="3.5" width="2" height="4" rx="0.5"/><rect x="1.5" y="2.5" width="14" height="6" rx="1"/></svg>
+                    </span>
+                  </div>
+                  <div class="mobile-screen">
+                    <h4>Need to make a change?</h4>
+                    <div class="timer-text">There is still time to make updates 29:59</div>
+                    <div class="m-action"><span>Edit shipping address</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-action"><span>Edit contact info</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-action"><span>Edit products</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-action"><span>Add products</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-action"><span>Add discount code</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-action"><span>Cancel order</span><span class="chevron">&#8744;</span></div>
+                    <div class="m-upsell-title">Grab one to this order</div>
+                    <div class="m-upsell-grid">
+                      <div class="m-upsell-item">
+                        <div class="mi-img" style="background:url('https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=120&h=120&fit=crop') center/cover;"></div>
+                        <div class="mi-name">Cedar &amp; Moss</div>
+                        <div class="mi-meta">6 colors &middot; 4 sizes</div>
+                      </div>
+                      <div class="m-upsell-item">
+                        <div class="mi-img" style="background:url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=120&h=120&fit=crop') center/cover;"></div>
+                        <div class="mi-name">Brew Brew Kit</div>
+                        <div class="mi-meta">6 colors</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Block info -->
+            <div class="admin-hp-block-info">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+                    <span style="font-size:14px; font-weight:600;">Order edits block</span>
+                    <span id="adminBlockLiveStatus" style="display:none; align-items:center; gap:4px; font-size:11px; color:#616161;"><span id="adminBlockLiveDot" style="width:6px; height:6px; border-radius:50%; background:#8a8a8a; display:inline-block;"></span> <span id="adminBlockLiveText">Not live</span></span>
+                  </div>
+                  <div style="font-size:13px; color:var(--text-sub); margin-bottom:10px;">Customize actions and preview the responsive layout across desktop and mobile.</div>
+                </div>
+                <!-- Buttons: not-live state -->
+                <div id="adminBlockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
+                  <button class="admin-btn-secondary" onclick="adminShowOnboarding()">Customize</button>
+                  <button class="admin-btn-primary" id="adminBlockActionBtn" onclick="adminShowOnboarding()">Go live</button>
+                </div>
+                <!-- Buttons: live state -->
+                <div id="adminBlockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
+                  <button class="admin-btn-secondary" style="padding:6px 8px; min-width:auto;" onclick="adminToggleMoreMenu(event)"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><circle cx="5" cy="10" r="2"/><circle cx="10" cy="10" r="2"/><circle cx="15" cy="10" r="2"/></svg></button>
+                  <button class="admin-btn-secondary" onclick="adminShowOnboarding()">Customize</button>
+                  <!-- More dropdown -->
+                  <div id="adminMoreMenuDropdown" style="display:none; position:absolute; bottom:42px; left:0; background:#fff; border:1px solid #e1e3e5; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.12); min-width:160px; z-index:10; overflow:hidden;">
+                    <div onclick="adminUnpublish()" style="padding:10px 16px; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:8px;">Unpublish</div>
+                    <div onclick="adminToggleMoreMenu(event)" style="padding:10px 16px; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:8px;">Test order</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Want more control? -->
+          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; overflow:hidden; margin-top:16px;">
+            <div style="display:flex; align-items:stretch;">
+              <div style="flex:1; padding:20px;">
+                <div style="font-size:14px; font-weight:600; color:#303030;">Want more control?</div>
+                <div style="font-size:13px; color:var(--text-sub); margin-top:4px; margin-bottom:14px;">Configure advanced rules like Tax Recalculation, Auto-refund, and Upsell strategies.</div>
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <button class="admin-btn-secondary">Advanced Settings</button>
+                  <a href="#" style="font-size:13px; color:#005bd3; font-weight:500; text-decoration:none;">Learn more</a>
+                </div>
+              </div>
+              <div style="width:180px; flex-shrink:0; background:#f0f0f0; display:flex; align-items:center; justify-content:center; border-radius:0 12px 12px 0;">
+                <div style="width:40px; height:22px; background:#fff; border-radius:11px; position:relative;">
+                  <div style="width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; right:2px; top:2px; box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- end adminTabAppBlock -->
+
+        <!-- Tab: Analytics (simplified) -->
+        <div id="adminTabAnalytics" style="display:none;">
+          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:24px;">
+            <div style="font-size:14px; font-weight:600; color:#303030; margin-bottom:8px;">Analytics</div>
+            <p style="font-size:13px; color:#616161; margin:0 0 20px;">Track how customers interact with order editing -- monitor edit volume, rescued revenue, and upsell performance over time.</p>
+            <!-- KPI Cards -->
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:20px;">
+              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Total edited orders</div>
+                <div style="font-size:22px; font-weight:700; color:#303030;">2,123</div>
+                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 12.5%</div>
+              </div>
+              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Rescue revenue</div>
+                <div style="font-size:22px; font-weight:700; color:#303030;">$18,432</div>
+                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 5.7%</div>
+              </div>
+              <div style="background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="font-size:12px; color:#616161; margin-bottom:4px;">Upsell revenue</div>
+                <div style="font-size:22px; font-weight:700; color:#303030;">$6,280</div>
+                <div style="font-size:11px; color:#008060; margin-top:2px;">&#9650; 18.3%</div>
+              </div>
+            </div>
+            <!-- Chart placeholder -->
+            <div style="height:200px; background:#f8f6f4; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#8c9196; font-size:13px;">
+              Order edits over time chart
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Rules (simplified) -->
+        <div id="adminTabRules" style="display:none;">
+          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:24px;">
+            <div style="font-size:14px; font-weight:600; color:#303030; margin-bottom:16px;">Rules</div>
+            <!-- Tax recalculation -->
+            <div style="display:flex; gap:40px; padding:16px 0; border-bottom:1px solid #e3e3e3;">
+              <div style="width:240px; flex-shrink:0;">
+                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Tax recalculation</div>
+                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Automatically recalculate taxes when the customer edits their shipping address.</p>
+              </div>
+              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:13px; font-weight:600; color:#303030;">Auto-recalculate tax</span>
+                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
+                    <div style="position:absolute; inset:0; border-radius:12px; background:#303030;"></div>
+                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; right:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Auto-refund -->
+            <div style="display:flex; gap:40px; padding:16px 0; border-bottom:1px solid #e3e3e3;">
+              <div style="width:240px; flex-shrink:0;">
+                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Auto-refund</div>
+                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Automatically refund price differences when products are swapped or removed.</p>
+              </div>
+              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:13px; font-weight:600; color:#303030;">Auto-refund difference</span>
+                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
+                    <div style="position:absolute; inset:0; border-radius:12px; background:#babec3;"></div>
+                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; left:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Upsell strategy -->
+            <div style="display:flex; gap:40px; padding:16px 0;">
+              <div style="width:240px; flex-shrink:0;">
+                <div style="font-size:13px; font-weight:600; color:#303030; margin-bottom:4px;">Upsell strategy</div>
+                <p style="font-size:12.5px; color:#616161; margin:0; line-height:1.45;">Configure product recommendations shown during the order edit flow.</p>
+              </div>
+              <div style="flex:1; background:#f6f6f7; border-radius:10px; padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:13px; font-weight:600; color:#303030;">Show upsell recommendations</span>
+                  <div style="position:relative; width:36px; height:20px; cursor:pointer;">
+                    <div style="position:absolute; inset:0; border-radius:12px; background:#303030;"></div>
+                    <div style="position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; right:2px; top:2px; box-shadow:0 1px 2px rgba(0,0,0,.15);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- end admin-page-homepage -->
+
+  </div><!-- end admin-main -->
+
+  <!-- ===== Onboarding Modal ===== -->
+  <div class="admin-install-modal-overlay" id="adminInstallModal" onclick="adminCloseOnboarding(event)">
+    <div class="admin-install-modal" onclick="event.stopPropagation()">
+      <!-- Title bar -->
+      <div class="admin-install-modal-header">
+        <h2>How to install and go live</h2>
+        <button class="admin-install-modal-close" onclick="adminCloseOnboarding()" aria-label="Close">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.414 10l4.293-4.293a.999.999 0 10-1.414-1.414L10 8.586 5.707 4.293a.999.999 0 10-1.414 1.414L8.586 10l-4.293 4.293a.999.999 0 101.414 1.414L10 11.414l4.293 4.293a.999.999 0 101.414-1.414L11.414 10z"/></svg>
+        </button>
+      </div>
+      <!-- Content -->
+      <div class="admin-install-modal-body">
+        <!-- Stepper -->
+        <div class="admin-stepper-bar" id="adminStepperBar">
+          <div class="admin-stepper-step active" data-admin-step="1" onclick="adminGoToStep(1)">
+            <div class="admin-stepper-circle">01</div>
+            <div class="admin-stepper-label">Install</div>
+          </div>
+          <div class="admin-stepper-line" data-admin-line="1"></div>
+          <div class="admin-stepper-step" data-admin-step="2" onclick="adminGoToStep(2)">
+            <div class="admin-stepper-circle">02</div>
+            <div class="admin-stepper-label">Test order</div>
+          </div>
+          <div class="admin-stepper-line" data-admin-line="2"></div>
+          <div class="admin-stepper-step" data-admin-step="3" onclick="adminGoToStep(3)">
+            <div class="admin-stepper-circle">03</div>
+            <div class="admin-stepper-label">Go live</div>
+          </div>
+        </div>
+        <!-- Step panels -->
+        <div class="admin-stepper-content">
+          <!-- Step 1 -->
+          <div class="admin-stepper-panel active" id="adminStepPanel1">
+            <div class="admin-stepper-panel-title">Step 1: Install AfterShip Order Edits block and confirm</div>
+            <div class="admin-stepper-panel-desc">Click "Go to editor" below to configure the block, then save your changes.</div>
+            <div class="admin-stepper-panel-gif">
+              <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Editor screenshot" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.textContent='GIF / Screenshot area';">
+            </div>
+            <div class="admin-stepper-panel-actions" style="margin-top:12px;">
+              <button class="admin-btn-secondary" onclick="">Go to editor</button>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="admin-stepper-panel" id="adminStepPanel2">
+            <div class="admin-stepper-panel-title">Step 2: Test the block with a test order</div>
+            <div class="admin-stepper-panel-desc">Test order edits via a test order to make sure everything works as expected.</div>
+            <div class="admin-stepper-banner" id="adminTestOrderBanner">
+              <div class="admin-banner-title">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#008060"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+                Test order created successfully.
+              </div>
+              Order no.: #TEST-7336<br>
+              Order tag: AS.OrderEdits.Test<br>
+              Email: test@aftership.com
+            </div>
+            <div class="admin-stepper-panel-actions" id="adminStep2Actions">
+              <button class="admin-btn-primary" onclick="adminCreateTestOrder()">Create a test order</button>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="admin-stepper-panel" id="adminStepPanel3">
+            <div class="admin-stepper-panel-title">Step 3: Go live</div>
+            <div class="admin-stepper-panel-desc">Go live now, your customers will see.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="admin-stepper-footer" id="adminStepperFooter">
+        <button class="admin-btn-secondary" id="adminStepperBackBtn" onclick="adminStepperBack()">Cancel</button>
+        <button class="admin-btn-primary" id="adminStepperNextBtn" onclick="adminStepperNext()">Go to editor</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end adminShell -->
+
 <script>
+// ---- Demo mode switcher ----
+function switchDemoMode(mode) {
+  document.body.className = 'mode-' + mode;
+  document.querySelectorAll('.demo-mode-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  event.currentTarget.classList.add('active');
+  try { sessionStorage.setItem('demoMode', mode); } catch(e) {}
+}
+// Restore demo mode
+(function() {
+  try {
+    var mode = sessionStorage.getItem('demoMode');
+    if (mode === 'admin') {
+      document.body.className = 'mode-admin';
+      document.querySelectorAll('.demo-mode-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.textContent.trim().indexOf('AfterShip') >= 0);
+      });
+    }
+  } catch(e) {}
+})();
+
 // ---- Show/hide "Not live" status based on install state ----
 function updateLiveStatusVisibility() {
   var badgeTY = document.getElementById('badgeThankYou');
@@ -3248,6 +4377,12 @@ function createTestOrder() {
     var btn = actions.querySelector('s-button');
     if (btn) btn.textContent = 'Create another';
   }
+  // Mark step 2 circle as completed (checkmark)
+  completedSteps[2] = true;
+  var stepEl = document.querySelector('.stepper-step[data-stepper="2"]');
+  if (stepEl) { stepEl.classList.remove('active'); stepEl.classList.add('completed'); }
+  var line = document.querySelector('.stepper-line[data-line="2"]');
+  if (line) line.classList.add('completed');
   saveSetupState();
 }
 
@@ -4403,6 +5538,479 @@ function renderDetailTable() {
   });
 
   countEl.textContent = 'Showing ' + rows.length + ' of ' + rows.length + ' results';
+}
+
+// ========================================================
+// ADMIN SHELL LOGIC
+// ========================================================
+
+var adminCurrentStep = 1;
+var adminCompletedSteps = {};
+var adminTestOrderCreated = false;
+var adminIsLive = false;
+var _adminRestoringState = false; // flag to suppress onboarding on restore
+
+// Save full admin state to sessionStorage
+function adminSaveState() {
+  try {
+    sessionStorage.setItem('adminState', JSON.stringify({
+      currentPage: document.querySelector('.admin-screen.active') ? document.querySelector('.admin-screen.active').id.replace('admin-page-','') : 'landing',
+      currentStep: adminCurrentStep,
+      completedSteps: adminCompletedSteps,
+      testOrderCreated: adminTestOrderCreated,
+      isLive: adminIsLive
+    }));
+  } catch(e) {}
+}
+
+// Admin screen navigation
+function adminGoTo(page) {
+  document.querySelectorAll('.admin-screen').forEach(function(s) { s.classList.remove('active'); });
+  var target = document.getElementById('admin-page-' + page);
+  if (target) target.classList.add('active');
+  var main = document.querySelector('.admin-main');
+  if (main) main.scrollTop = 0;
+
+  // Persist state
+  adminSaveState();
+
+  // Show onboarding when entering homepage — but NOT on restore from refresh
+  if (page === 'homepage' && !_adminRestoringState) {
+    setTimeout(adminShowOnboarding, 500);
+  }
+}
+
+// Restore full admin state on load
+(function() {
+  try {
+    var raw = sessionStorage.getItem('adminState');
+    if (!raw) return;
+    var state = JSON.parse(raw);
+    if (!state || state.currentPage === 'landing') return;
+
+    _adminRestoringState = true;
+
+    // Restore variables
+    adminCurrentStep = state.currentStep || 1;
+    adminCompletedSteps = state.completedSteps || {};
+    adminTestOrderCreated = state.testOrderCreated || false;
+    adminIsLive = state.isLive || false;
+
+    // Restore page
+    adminGoTo(state.currentPage);
+
+    // Restore live UI if needed
+    if (adminIsLive) {
+      var dot = document.getElementById('adminBlockLiveDot');
+      if (dot) dot.style.background = '#008060';
+      var txt = document.getElementById('adminBlockLiveText');
+      if (txt) txt.textContent = 'Live';
+      var status = document.getElementById('adminBlockLiveStatus');
+      if (status) { status.style.color = '#008060'; status.style.display = 'inline-flex'; }
+      var notLive = document.getElementById('adminBlockBtnsNotLive');
+      var live = document.getElementById('adminBlockBtnsLive');
+      if (notLive) notLive.style.display = 'none';
+      if (live) live.style.display = 'flex';
+    }
+
+    // Restore test order banner if needed
+    if (adminTestOrderCreated) {
+      var banner = document.getElementById('adminTestOrderBanner');
+      if (banner) banner.classList.add('show');
+    }
+
+    _adminRestoringState = false;
+  } catch(e) { _adminRestoringState = false; }
+})();
+
+// ---- Admin Config: Preview Device Toggle ----
+function adminSwitchPreviewDevice(mode) {
+  var container = document.getElementById('admin-page-config');
+  if (!container) return;
+  var btns = container.querySelectorAll('.preview-toggle-btn');
+  btns.forEach(function(btn, i) {
+    if ((mode === 'desktop' && i === 0) || (mode === 'mobile' && i === 1)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  var frame = document.getElementById('adminPreviewFrame');
+  var macBar = document.getElementById('adminPreviewMacBar');
+  var phoneBar = document.getElementById('adminPreviewPhoneBar');
+  if (mode === 'mobile') {
+    frame.classList.add('mobile-mode');
+    macBar.style.display = 'none';
+    phoneBar.style.display = 'flex';
+  } else {
+    frame.classList.remove('mobile-mode');
+    macBar.style.display = 'flex';
+    phoneBar.style.display = 'none';
+  }
+}
+
+// ---- Admin Config: Toggle Track (scoped to admin) ----
+function adminToggleTrack(trackEl) {
+  const sw = trackEl.closest('s-switch');
+  if (!sw || sw.hasAttribute('disabled')) return;
+  const action = sw.getAttribute('data-action');
+  if (sw.hasAttribute('checked')) {
+    sw.removeAttribute('checked');
+    adminUpdatePreview(null);
+  } else {
+    sw.setAttribute('checked', '');
+    adminUpdatePreview(action);
+  }
+}
+
+// ---- Admin Config: Preview Sync (scoped to admin) ----
+function adminUpdatePreview(justToggledAction) {
+  var container = document.getElementById('admin-page-config');
+  if (!container) return;
+  var allActions = ['address', 'editProduct', 'addProduct', 'contact', 'discount', 'cancel'];
+  allActions.forEach(function(key) {
+    var sw = container.querySelector('s-switch[data-action="' + key + '"]');
+    var previewEl = container.querySelector('.preview-action[data-preview="' + key + '"]');
+    if (!previewEl) return;
+    var isOn = sw && sw.hasAttribute('checked');
+    previewEl.style.display = isOn ? 'block' : 'none';
+    if (!isOn) previewEl.classList.remove('open');
+  });
+  // Upsell section
+  var upsellSwitch = container.querySelector('s-switch[data-action="upsell"]');
+  var upsellSection = container.querySelector('[data-preview-upsell]');
+  if (upsellSection) {
+    upsellSection.style.display = (upsellSwitch && upsellSwitch.hasAttribute('checked')) ? 'block' : 'none';
+  }
+}
+
+// ---- Admin Config: Drag & Drop Reorder ----
+(function() {
+  var dragEl = null;
+  var list = document.getElementById('adminActionsList');
+  if (!list) return;
+
+  list.addEventListener('dragstart', function(e) {
+    dragEl = e.target.closest('s-switch');
+    if (!dragEl) return;
+    dragEl.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
+  });
+  list.addEventListener('dragend', function(e) {
+    if (dragEl) dragEl.classList.remove('dragging');
+    list.querySelectorAll('s-switch').forEach(function(s) { s.classList.remove('drag-over'); });
+    dragEl = null;
+  });
+  list.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    var target = e.target.closest('s-switch');
+    if (!target || target === dragEl) return;
+    list.querySelectorAll('s-switch').forEach(function(s) { s.classList.remove('drag-over'); });
+    target.classList.add('drag-over');
+  });
+  list.addEventListener('dragleave', function(e) {
+    var target = e.target.closest('s-switch');
+    if (target) target.classList.remove('drag-over');
+  });
+  list.addEventListener('drop', function(e) {
+    e.preventDefault();
+    var target = e.target.closest('s-switch');
+    if (!target || target === dragEl || !dragEl) return;
+    target.classList.remove('drag-over');
+    var allItems = Array.from(list.querySelectorAll('s-switch'));
+    var dragIdx = allItems.indexOf(dragEl);
+    var targetIdx = allItems.indexOf(target);
+    if (dragIdx < targetIdx) { target.after(dragEl); } else { target.before(dragEl); }
+    adminSyncPreviewOrder();
+  });
+})();
+
+function adminSyncPreviewOrder() {
+  var previewContainer = document.getElementById('adminPreviewActions');
+  var container = document.getElementById('admin-page-config');
+  if (!previewContainer || !container) return;
+  var switches = container.querySelectorAll('#adminActionsList s-switch');
+  switches.forEach(function(sw) {
+    var action = sw.getAttribute('data-action');
+    var previewEl = previewContainer.querySelector('[data-preview="' + action + '"]');
+    if (previewEl) previewContainer.appendChild(previewEl);
+  });
+  adminUpdatePreview(null);
+}
+
+// ---- Admin Config: Countdown Timer ----
+(function() {
+  var el = document.getElementById('adminCountdown');
+  var timeInput = document.getElementById('adminTimeValue');
+  var unitSelect = document.getElementById('adminTimeUnit');
+  if (!el || !timeInput || !unitSelect) return;
+
+  var total = 0;
+  var ticker = null;
+
+  function getSeconds() {
+    var val = parseInt(timeInput.value) || 0;
+    var unit = unitSelect.value;
+    if (unit === 'hours') return val * 3600;
+    if (unit === 'days') return val * 86400;
+    return val * 60;
+  }
+
+  function fmt(s) {
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function start() {
+    if (ticker) clearInterval(ticker);
+    total = getSeconds();
+    el.textContent = fmt(total);
+    ticker = setInterval(function() {
+      if (total <= 0) { clearInterval(ticker); return; }
+      total--;
+      el.textContent = fmt(total);
+    }, 1000);
+  }
+
+  timeInput.addEventListener('change', start);
+  unitSelect.addEventListener('change', start);
+  start();
+})();
+
+// Sync admin preview with initial switch states on load
+adminUpdatePreview(null);
+
+// Config confirm -> go to homepage + show onboarding
+function adminConfirmConfig() {
+  adminGoTo('homepage');
+}
+
+// Admin tab switching
+function adminSwitchTab(tab) {
+  // Update tab buttons
+  document.querySelectorAll('#adminHomeTabs .admin-home-tab').forEach(function(t) { t.classList.remove('active'); });
+  event.currentTarget.classList.add('active');
+  // Show/hide tab content
+  document.getElementById('adminTabAppBlock').style.display = (tab === 'appblock') ? '' : 'none';
+  document.getElementById('adminTabAnalytics').style.display = (tab === 'analytics') ? '' : 'none';
+  document.getElementById('adminTabRules').style.display = (tab === 'rules') ? '' : 'none';
+}
+
+// Admin onboarding modal
+function adminShowOnboarding() {
+  document.getElementById('adminInstallModal').classList.add('open');
+  adminGoToStep(adminCurrentStep);
+}
+
+function adminCloseOnboarding(evt) {
+  if (evt && evt.target !== document.getElementById('adminInstallModal')) return;
+  document.getElementById('adminInstallModal').classList.remove('open');
+}
+
+// Freely navigate to any step (no unlock required)
+function adminGoToStep(n) {
+  adminCurrentStep = n;
+
+  // Update stepper visual
+  document.querySelectorAll('.admin-stepper-step').forEach(function(el) {
+    var sn = parseInt(el.getAttribute('data-admin-step'));
+    el.classList.remove('active', 'completed');
+    if (adminCompletedSteps[sn]) {
+      el.classList.add('completed');
+    }
+    if (sn === n && !adminCompletedSteps[sn]) {
+      el.classList.add('active');
+    }
+  });
+
+  // Update lines
+  document.querySelectorAll('.admin-stepper-line').forEach(function(line) {
+    var ln = parseInt(line.getAttribute('data-admin-line'));
+    var maxCompleted = 0;
+    for (var k in adminCompletedSteps) { if (adminCompletedSteps[k] && parseInt(k) > maxCompleted) maxCompleted = parseInt(k); }
+    if (ln <= maxCompleted) line.classList.add('completed');
+    else line.classList.remove('completed');
+  });
+
+  // Show panel
+  document.querySelectorAll('.admin-stepper-panel').forEach(function(p) { p.classList.remove('active'); });
+  var panel = document.getElementById('adminStepPanel' + n);
+  if (panel) panel.classList.add('active');
+
+  // Update footer
+  adminUpdateFooter(n);
+}
+
+function adminUpdateFooter(n) {
+  var backBtn = document.getElementById('adminStepperBackBtn');
+  var nextBtn = document.getElementById('adminStepperNextBtn');
+  if (n === 1) {
+    backBtn.textContent = 'Cancel';
+    nextBtn.textContent = 'Next';
+  } else if (n === 2) {
+    backBtn.textContent = 'Back';
+    nextBtn.textContent = 'Next';
+  } else if (n === 3) {
+    backBtn.textContent = 'Back';
+    nextBtn.textContent = 'Go live';
+  }
+}
+
+function adminStepperNext() {
+  if (adminCurrentStep === 1) {
+    // Mark step 1 as completed and go to step 2
+    adminCompletedSteps[1] = true;
+    adminGoToStep(2);
+  } else if (adminCurrentStep === 2) {
+    adminGoToStep(3);
+  } else if (adminCurrentStep === 3) {
+    adminGoLive();
+  }
+}
+
+function adminStepperBack() {
+  if (adminCurrentStep === 1) {
+    adminCloseOnboarding();
+  } else {
+    adminGoToStep(adminCurrentStep - 1);
+  }
+}
+
+function adminCreateTestOrder() {
+  adminTestOrderCreated = true;
+  // Show success banner
+  var banner = document.getElementById('adminTestOrderBanner');
+  if (banner) banner.classList.add('show');
+  // Change button text
+  var actions = document.getElementById('adminStep2Actions');
+  if (actions) {
+    var btn = actions.querySelector('button');
+    if (btn) btn.textContent = 'Create another';
+  }
+  // Mark step 2 completed
+  adminCompletedSteps[2] = true;
+  var stepEl = document.querySelector('.admin-stepper-step[data-admin-step="2"]');
+  if (stepEl) { stepEl.classList.remove('active'); stepEl.classList.add('completed'); }
+  var line = document.querySelector('.admin-stepper-line[data-admin-line="2"]');
+  if (line) line.classList.add('completed');
+  adminSaveState();
+}
+
+function adminGoLive() {
+  adminIsLive = true;
+  adminCompletedSteps[3] = true;
+  adminCloseOnboarding();
+
+  // Update block status to live
+  var dot = document.getElementById('adminBlockLiveDot');
+  if (dot) dot.style.background = '#008060';
+  var txt = document.getElementById('adminBlockLiveText');
+  if (txt) txt.textContent = 'Live';
+  var status = document.getElementById('adminBlockLiveStatus');
+  if (status) { status.style.color = '#008060'; status.style.display = 'inline-flex'; }
+
+  // Switch to live button group
+  var notLive = document.getElementById('adminBlockBtnsNotLive');
+  var live = document.getElementById('adminBlockBtnsLive');
+  if (notLive) notLive.style.display = 'none';
+  if (live) live.style.display = 'flex';
+  adminSaveState();
+}
+
+function adminToggleMoreMenu(event) {
+  if (event) event.stopPropagation();
+  var dd = document.getElementById('adminMoreMenuDropdown');
+  if (!dd) return;
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+
+function adminUnpublish() {
+  adminIsLive = false;
+  adminToggleMoreMenu();
+
+  // Update block status
+  var dot = document.getElementById('adminBlockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var txt = document.getElementById('adminBlockLiveText');
+  if (txt) txt.textContent = 'Not live';
+  var status = document.getElementById('adminBlockLiveStatus');
+  if (status) { status.style.color = '#616161'; }
+
+  // Switch back to not-live button group
+  var notLive = document.getElementById('adminBlockBtnsNotLive');
+  var live = document.getElementById('adminBlockBtnsLive');
+  if (notLive) notLive.style.display = 'flex';
+  if (live) live.style.display = 'none';
+
+  var actionBtn = document.getElementById('adminBlockActionBtn');
+  if (actionBtn) actionBtn.textContent = 'Go live';
+  adminSaveState();
+}
+
+// Close admin more menu on outside click
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('adminMoreMenuDropdown');
+  if (dd && dd.style.display !== 'none') {
+    if (!e.target.closest('#adminBlockBtnsLive')) dd.style.display = 'none';
+  }
+});
+
+function adminNavClick(item) {
+  if (item === 'order-edits') {
+    var hp = document.getElementById('admin-page-homepage');
+    if (hp && !hp.classList.contains('active')) {
+      adminGoTo('homepage');
+    }
+  }
+}
+
+function adminResetToLanding() {
+  // Reset all admin state
+  adminCurrentStep = 1;
+  adminCompletedSteps = {};
+  adminTestOrderCreated = false;
+  adminIsLive = false;
+
+  // Reset block status
+  var dot = document.getElementById('adminBlockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var txt = document.getElementById('adminBlockLiveText');
+  if (txt) txt.textContent = 'Not live';
+  var status = document.getElementById('adminBlockLiveStatus');
+  if (status) { status.style.color = '#8a8a8a'; }
+  var actionBtn = document.getElementById('adminBlockActionBtn');
+  if (actionBtn) actionBtn.textContent = 'Go live';
+
+  // Reset button groups
+  var notLive = document.getElementById('adminBlockBtnsNotLive');
+  var live = document.getElementById('adminBlockBtnsLive');
+  if (notLive) notLive.style.display = 'flex';
+  if (live) live.style.display = 'none';
+
+  // Reset stepper visuals
+  document.querySelectorAll('.admin-stepper-step').forEach(function(el) {
+    el.classList.remove('active','completed');
+  });
+  var firstStep = document.querySelector('.admin-stepper-step[data-admin-step="1"]');
+  if (firstStep) firstStep.classList.add('active');
+  document.querySelectorAll('.admin-stepper-line').forEach(function(l) { l.classList.remove('completed'); });
+
+  // Reset test order banner
+  var banner = document.getElementById('adminTestOrderBanner');
+  if (banner) banner.classList.remove('show');
+
+  // Close modal if open
+  var modal = document.getElementById('adminInstallModal');
+  if (modal) modal.classList.remove('open');
+
+  // Go to landing
+  adminGoTo('landing');
+
+  // Clear admin session state
+  try { sessionStorage.removeItem('adminSetupState'); sessionStorage.removeItem('adminCurrentPage'); sessionStorage.removeItem('adminState'); } catch(e) {}
 }
 </script>
 
