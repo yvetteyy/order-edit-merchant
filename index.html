@@ -551,11 +551,11 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 /* --- Horizontal stepper bar --- */
 .stepper-bar {
   display:flex; align-items:flex-start; justify-content:center;
-  padding-top:20px; padding-bottom:8px; gap:0;
+  padding:20px 16px 8px; gap:0; flex-shrink:0; background:#fff;
 }
 .stepper-step {
   display:flex; flex-direction:column; align-items:center; position:relative;
-  z-index:1; cursor:pointer;
+  z-index:2; cursor:pointer; padding:0 8px;
 }
 .stepper-step.completed:hover .stepper-circle, .stepper-step.active:hover .stepper-circle { opacity:.8; }
 .stepper-circle {
@@ -604,12 +604,12 @@ s-button.preview-toggle-btn.active { background:var(--dark); color:#fff; box-sha
 }
 .stepper-panel-desc a { color:#005bd3; text-decoration:underline; }
 .stepper-panel-gif {
-  width:100%; height:340px; background:#e8e8e8; border-radius:10px;
+  width:100%; min-height:200px; background:#e8e8e8; border-radius:10px;
   display:flex; align-items:center; justify-content:center;
   color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px;
   overflow:hidden;
 }
-.stepper-panel-gif img { width:100%; height:100%; object-fit:cover; }
+.stepper-panel-gif img { width:100%; height:auto; object-fit:contain; border-radius:10px; }
 /* Success banner */
 .stepper-banner {
   background:#cdfee1; border-radius:10px; padding:14px 16px;
@@ -1373,7 +1373,7 @@ s-button.af-btn { font-weight:500; position:relative; }
 /* Admin stepper (reuse visual styles, scoped) */
 .admin-stepper-bar {
   display:flex; align-items:flex-start; justify-content:center;
-  padding-top:20px; padding-bottom:8px; gap:0;
+  padding:20px 16px 8px; gap:0; flex-shrink:0; background:#fff;
 }
 .admin-stepper-step {
   display:flex; flex-direction:column; align-items:center; position:relative;
@@ -1409,10 +1409,11 @@ s-button.af-btn { font-weight:500; position:relative; }
 .admin-stepper-panel-title { font-size:14px; font-weight:600; color:#303030; margin:0 0 8px; }
 .admin-stepper-panel-desc { font-size:13px; color:#616161; line-height:1.5; margin-bottom:12px; }
 .admin-stepper-panel-gif {
-  width:100%; height:340px; background:#e8e8e8; border-radius:10px;
+  width:100%; min-height:200px; background:#e8e8e8; border-radius:10px;
   display:flex; align-items:center; justify-content:center;
   color:#8c9196; font-size:14px; font-weight:500; margin-bottom:12px; overflow:hidden;
 }
+.admin-stepper-panel-gif img { width:100%; height:auto; object-fit:contain; border-radius:10px; }
 .admin-stepper-banner {
   background:#cdfee1; border-radius:10px; padding:14px 16px;
   margin-bottom:12px; display:none; font-size:13px; line-height:1.7; color:#303030;
@@ -2043,20 +2044,40 @@ s-button.af-btn { font-weight:500; position:relative; }
       </div>
       </div>
 
-      <!-- Advanced settings -->
-      <s-section style="padding:0; overflow:hidden;">
-        <div style="display:flex; align-items:stretch;">
-          <div style="flex:1; padding:20px;">
-            <s-text variant="headingMd">Want more control?</s-text>
-            <div style="font-size:13px; color:var(--text-sub); margin-top:4px; margin-bottom:14px;">Configure advanced rules like Tax Recalculation, Auto-refund, and Upsell strategies.</div>
-            <div style="display:flex; gap:12px; align-items:center;">
-              <s-button>Advanced Settings</s-button>
-              <a href="#" style="font-size:13px; color:#2c6ecb; font-weight:500; text-decoration:none;">Learn more</a>
+      <!-- Explore more features -->
+      <s-section style="padding:20px;">
+        <s-text variant="headingMd" style="margin-bottom:16px;">Explore more features</s-text>
+        <!-- Upsell strategy -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0; border-bottom:1px solid #e1e3e5;">
+          <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+          <div style="flex:1;">
+            <div style="font-weight:600; font-size:14px; color:#303030;">Upsell strategy</div>
+            <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Recommend relevant products to shoppers during the editing window to increase average order value.</div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <s-button onclick="openBlockEditor('shopify');setTimeout(function(){beOpenPanel('upsell',{stopPropagation:function(){}})},100)">Try now</s-button>
+              <a href="#" style="font-size:13px; color:#2c6ecb; text-decoration:none; font-weight:500;">Learn more</a>
             </div>
           </div>
-          <div style="width:180px; flex-shrink:0; background:#d9dff0; display:flex; align-items:center; justify-content:center; border-radius:0 12px 12px 0;">
-            <div style="width:40px; height:22px; background:#fff; border-radius:11px; position:relative;">
-              <div style="width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; right:2px; top:2px; box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+        </div>
+        <!-- Cancel reason -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0; border-bottom:1px solid #e1e3e5;">
+          <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+          <div style="flex:1;">
+            <div style="font-weight:600; font-size:14px; color:#303030;">Cancel reason</div>
+            <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Collect cancellation reasons from shoppers to understand why orders are being canceled and identify improvement opportunities.</div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <s-button onclick="openBlockEditor('shopify');setTimeout(function(){beOpenPanel('cancel',{stopPropagation:function(){}})},100)">Try now</s-button>
+            </div>
+          </div>
+        </div>
+        <!-- Auto refund configuration -->
+        <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0;">
+          <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+          <div style="flex:1;">
+            <div style="font-weight:600; font-size:14px; color:#303030;">Auto refund configuration</div>
+            <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Automatically process refunds when order edits reduce the total amount, saving time on manual refund operations.</div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <s-button onclick="switchHomeTab('rules')">Try now</s-button>
             </div>
           </div>
         </div>
@@ -2503,25 +2524,25 @@ s-button.af-btn { font-weight:500; position:relative; }
         <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.414 10l4.293-4.293a.999.999 0 10-1.414-1.414L10 8.586 5.707 4.293a.999.999 0 10-1.414 1.414L8.586 10l-4.293 4.293a.999.999 0 101.414 1.414L10 11.414l4.293 4.293a.999.999 0 101.414-1.414L11.414 10z"/></svg>
       </button>
     </div>
-    <!-- Content area -->
-    <div class="install-modal-body">
-      <!-- Horizontal stepper -->
-      <div class="stepper-bar" id="stepperBar">
-        <div class="stepper-step active" data-stepper="1" onclick="clickStep(1)">
-          <div class="stepper-circle">01</div>
-          <div class="stepper-label">Add block</div>
-        </div>
-        <div class="stepper-line" data-line="1"></div>
-        <div class="stepper-step" data-stepper="2" onclick="clickStep(2)">
-          <div class="stepper-circle">02</div>
-          <div class="stepper-label">Test order</div>
-        </div>
-        <div class="stepper-line" data-line="2"></div>
-        <div class="stepper-step" data-stepper="3" onclick="clickStep(3)">
-          <div class="stepper-circle">03</div>
-          <div class="stepper-label">Block visibility</div>
-        </div>
+    <!-- Stepper bar (outside scroll area so always clickable) -->
+    <div class="stepper-bar" id="stepperBar">
+      <div class="stepper-step active" data-stepper="1" onclick="clickStep(1)">
+        <div class="stepper-circle">01</div>
+        <div class="stepper-label">Add block</div>
       </div>
+      <div class="stepper-line" data-line="1"></div>
+      <div class="stepper-step" data-stepper="2" onclick="clickStep(2)">
+        <div class="stepper-circle">02</div>
+        <div class="stepper-label">Test order</div>
+      </div>
+      <div class="stepper-line" data-line="2"></div>
+      <div class="stepper-step" data-stepper="3" onclick="clickStep(3)">
+        <div class="stepper-circle">03</div>
+        <div class="stepper-label">Block visibility</div>
+      </div>
+    </div>
+    <!-- Scrollable content area -->
+    <div class="install-modal-body">
       <!-- Step content panels -->
       <div class="stepper-content">
         <!-- Step 1 -->
@@ -2701,8 +2722,66 @@ s-button.af-btn { font-weight:500; position:relative; }
             <span class="be-panel-back" onclick="beBackToMain()"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l4.293 4.293a1 1 0 010 1.414z"/></svg></span>
             Cancel order
           </div>
-          <div style="font-size:13px; color:#616161; padding-top:4px;">
-            No additional configuration required for cancel order.
+          <div style="font-weight:600; font-size:13px; margin-top:16px; margin-bottom:12px;">Cancel reasons settings</div>
+          <!-- Reason list -->
+          <div id="cancelReasonList" style="display:flex; flex-direction:column; gap:0;">
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#303030;">Changed my mind</span>
+              <div class="rules-toggle"><div class="track checked" onclick="rulesToggle(this)" style="transform:scale(0.85);"><div class="track-bg"></div><div class="track-knob"></div></div></div>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#303030;">Found a better price</span>
+              <div class="rules-toggle"><div class="track" onclick="rulesToggle(this)" style="transform:scale(0.85);"><div class="track-bg"></div><div class="track-knob"></div></div></div>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#303030;">High shipping cost</span>
+              <div class="rules-toggle"><div class="track checked" onclick="rulesToggle(this)" style="transform:scale(0.85);"><div class="track-bg"></div><div class="track-knob"></div></div></div>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#303030;">Others</span>
+              <div class="rules-toggle"><div class="track checked" onclick="rulesToggle(this)" style="transform:scale(0.85);"><div class="track-bg"></div><div class="track-knob"></div></div></div>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#616161;">Order promise date is too late</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <span style="flex:1; font-size:13px; color:#616161; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Estimated delivery date is too la...</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#8a8a8a" style="flex-shrink:0;"><path d="M13.217 2.783a2.607 2.607 0 013.684 3.684L6.293 17.075l-4.218.936.936-4.218L13.217 2.783z"/></svg>
+              <span style="flex:1; font-size:13px; color:#616161; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Need to change shipping ad...</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#8a8a8a" style="flex-shrink:0;"><path d="M13.217 2.783a2.607 2.607 0 013.684 3.684L6.293 17.075l-4.218.936.936-4.218L13.217 2.783z"/></svg>
+              <span style="flex:1; font-size:13px; color:#616161;">Need to change product</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid #f1f1f1;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#8a8a8a" style="flex-shrink:0;"><path d="M13.217 2.783a2.607 2.607 0 013.684 3.684L6.293 17.075l-4.218.936.936-4.218L13.217 2.783z"/></svg>
+              <span style="flex:1; font-size:13px; color:#616161;">Forget to buy product</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+            <div class="cancel-reason-item" style="display:flex; align-items:center; gap:8px; padding:8px 0;">
+              <span style="cursor:grab; color:#b5b5b5; font-size:14px;">⠿</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="#8a8a8a" style="flex-shrink:0;"><path d="M13.217 2.783a2.607 2.607 0 013.684 3.684L6.293 17.075l-4.218.936.936-4.218L13.217 2.783z"/></svg>
+              <span style="flex:1; font-size:13px; color:#616161;">Forget to add discount code</span>
+              <span style="width:8px; height:8px; border-radius:50%; background:#b5b5b5; flex-shrink:0;"></span>
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <a href="#" style="font-size:13px; color:#2c6ecb; text-decoration:none; font-weight:500;">+ Add Reason</a>
           </div>
         </s-section>
       </div>
@@ -3880,20 +3959,40 @@ s-button.af-btn { font-weight:500; position:relative; }
             </div>
           </div>
 
-          <!-- Want more control? -->
-          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; overflow:hidden; margin-top:16px;">
-            <div style="display:flex; align-items:stretch;">
-              <div style="flex:1; padding:20px;">
-                <div style="font-size:14px; font-weight:600; color:#303030;">Want more control?</div>
-                <div style="font-size:13px; color:var(--text-sub); margin-top:4px; margin-bottom:14px;">Configure advanced rules like Tax Recalculation, Auto-refund, and Upsell strategies.</div>
-                <div style="display:flex; gap:12px; align-items:center;">
-                  <button class="admin-btn-secondary">Advanced Settings</button>
-                  <a href="#" style="font-size:13px; color:#005bd3; font-weight:500; text-decoration:none;">Learn more</a>
+          <!-- Explore more features -->
+          <div style="background:#fff; border:1px solid #e3e3e3; border-radius:12px; padding:20px; margin-top:16px;">
+            <div style="font-size:14px; font-weight:600; color:#303030; margin-bottom:16px;">Explore more features</div>
+            <!-- Upsell strategy -->
+            <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0; border-bottom:1px solid #e1e3e5;">
+              <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+              <div style="flex:1;">
+                <div style="font-weight:600; font-size:14px; color:#303030;">Upsell strategy</div>
+                <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Recommend relevant products to shoppers during the editing window to increase average order value.</div>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <button class="admin-btn-secondary" onclick="openBlockEditor('admin');setTimeout(function(){beOpenPanel('upsell',{stopPropagation:function(){}})},100)">Try now</button>
+                  <a href="#" style="font-size:13px; color:#005bd3; text-decoration:none; font-weight:500;">Learn more</a>
                 </div>
               </div>
-              <div style="width:180px; flex-shrink:0; background:#f0f0f0; display:flex; align-items:center; justify-content:center; border-radius:0 12px 12px 0;">
-                <div style="width:40px; height:22px; background:#fff; border-radius:11px; position:relative;">
-                  <div style="width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; right:2px; top:2px; box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+            </div>
+            <!-- Cancel reason -->
+            <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0; border-bottom:1px solid #e1e3e5;">
+              <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+              <div style="flex:1;">
+                <div style="font-weight:600; font-size:14px; color:#303030;">Cancel reason</div>
+                <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Collect cancellation reasons from shoppers to understand why orders are being canceled and identify improvement opportunities.</div>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <button class="admin-btn-secondary" onclick="openBlockEditor('admin');setTimeout(function(){beOpenPanel('cancel',{stopPropagation:function(){}})},100)">Try now</button>
+                </div>
+              </div>
+            </div>
+            <!-- Auto refund configuration -->
+            <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 0;">
+              <div style="width:80px; height:80px; flex-shrink:0; background:#f6f6f7; border-radius:10px;"></div>
+              <div style="flex:1;">
+                <div style="font-weight:600; font-size:14px; color:#303030;">Auto refund configuration</div>
+                <div style="font-size:13px; color:#616161; margin:4px 0 10px;">Automatically process refunds when order edits reduce the total amount, saving time on manual refund operations.</div>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <button class="admin-btn-secondary" onclick="adminSwitchTab('rules')">Try now</button>
                 </div>
               </div>
             </div>
@@ -4276,25 +4375,25 @@ s-button.af-btn { font-weight:500; position:relative; }
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11.414 10l4.293-4.293a.999.999 0 10-1.414-1.414L10 8.586 5.707 4.293a.999.999 0 10-1.414 1.414L8.586 10l-4.293 4.293a.999.999 0 101.414 1.414L10 11.414l4.293 4.293a.999.999 0 101.414-1.414L11.414 10z"/></svg>
         </button>
       </div>
-      <!-- Content -->
-      <div class="admin-install-modal-body">
-        <!-- Stepper -->
-        <div class="admin-stepper-bar" id="adminStepperBar">
-          <div class="admin-stepper-step active" data-admin-step="1" onclick="adminGoToStep(1)">
-            <div class="admin-stepper-circle">01</div>
-            <div class="admin-stepper-label">Add block</div>
-          </div>
-          <div class="admin-stepper-line" data-admin-line="1"></div>
-          <div class="admin-stepper-step" data-admin-step="2" onclick="adminGoToStep(2)">
-            <div class="admin-stepper-circle">02</div>
-            <div class="admin-stepper-label">Test order</div>
-          </div>
-          <div class="admin-stepper-line" data-admin-line="2"></div>
-          <div class="admin-stepper-step" data-admin-step="3" onclick="adminGoToStep(3)">
-            <div class="admin-stepper-circle">03</div>
-            <div class="admin-stepper-label">Block visibility</div>
-          </div>
+      <!-- Stepper bar (outside scroll area) -->
+      <div class="admin-stepper-bar" id="adminStepperBar">
+        <div class="admin-stepper-step active" data-admin-step="1" onclick="adminGoToStep(1)">
+          <div class="admin-stepper-circle">01</div>
+          <div class="admin-stepper-label">Add block</div>
         </div>
+        <div class="admin-stepper-line" data-admin-line="1"></div>
+        <div class="admin-stepper-step" data-admin-step="2" onclick="adminGoToStep(2)">
+          <div class="admin-stepper-circle">02</div>
+          <div class="admin-stepper-label">Test order</div>
+        </div>
+        <div class="admin-stepper-line" data-admin-line="2"></div>
+        <div class="admin-stepper-step" data-admin-step="3" onclick="adminGoToStep(3)">
+          <div class="admin-stepper-circle">03</div>
+          <div class="admin-stepper-label">Block visibility</div>
+        </div>
+      </div>
+      <!-- Scrollable content -->
+      <div class="admin-install-modal-body">
         <!-- Step panels -->
         <div class="admin-stepper-content">
           <!-- Step 1 -->
@@ -6459,15 +6558,13 @@ function adminUpdateFooter(n) {
   var backBtn = document.getElementById('adminStepperBackBtn');
   var nextBtn = document.getElementById('adminStepperNextBtn');
   var draftBtn = document.getElementById('adminStepperDraftBtn');
+  // Back button — hidden on all steps
+  backBtn.style.display = 'none';
   if (n === 1) {
-    backBtn.style.display = 'none';
     nextBtn.textContent = 'Go to editor';
   } else if (n === 2) {
-    backBtn.style.display = '';
-    backBtn.textContent = 'Back';
     nextBtn.textContent = 'Next';
   } else if (n === 3) {
-    backBtn.textContent = 'Back';
     nextBtn.textContent = 'Go live';
   }
   // Draft button — only show on step 3
