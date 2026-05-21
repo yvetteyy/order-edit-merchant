@@ -1105,9 +1105,9 @@ s-button.af-btn { font-weight:500; position:relative; }
 .rules-tag-section { margin-top:14px; }
 .rules-tag-label { font-size:13px; font-weight:500; color:#303030; margin-bottom:6px; }
 .rules-tag-input { width:100%; height:36px; border:1px solid #c9cccf; border-radius:8px; padding:0 12px; font-size:13px; color:#8c9196; background:#fff; box-sizing:border-box; }
-.rules-check-group { margin-top:14px; display:flex; flex-direction:column; gap:10px; }
-.rules-check { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; color:#303030; }
-.rules-check input[type="checkbox"] { width:16px; height:16px; accent-color:#303030; margin:0; }
+.rules-check-group { margin-top:14px; display:flex; flex-direction:column; gap:14px; }
+.rules-check { display:flex; align-items:flex-start; gap:8px; cursor:pointer; font-size:13px; color:#303030; }
+.rules-check input[type="checkbox"] { width:16px; height:16px; accent-color:#303030; margin:2px 0 0 0; flex-shrink:0; }
 /* Rules standalone toggle */
 .rules-toggle .track { position:relative; width:36px; height:20px; flex-shrink:0; cursor:pointer; }
 .rules-toggle .track-bg { position:absolute; inset:0; border-radius:12px; background:#babec3; transition:background .2s; }
@@ -1552,7 +1552,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           <s-section>
             <s-stack gap="small">
               <s-text variant="headingMd">Editing time window</s-text>
-              <s-text variant="bodySm" tone="subdued">Many sellers start with 30 minutes. It depends on your fulfillment speed and when downstream systems pick up orders.</s-text>
+              <s-text variant="bodySm" tone="subdued">Shoppers can edit their order within this window after checkout. Once it ends, the order can't be edited.</s-text>
               <div class="time-row">
                 <input type="number" class="time-input" id="timeValue" value="30">
                 <select class="time-select" id="timeUnit"><option value="minutes" selected>minutes</option><option value="hours">hours</option><option value="days">days</option></select>
@@ -2027,7 +2027,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           <!-- Buttons: not-live state -->
           <div id="blockBtnsNotLive" style="display:flex; gap:8px; flex-shrink:0; align-items:center;">
             <s-button onclick="openBlockEditor('shopify')">Customize</s-button>
-            <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Get started</s-button>
+            <s-button id="blockActionBtn" variant="primary" onclick="openInstallModal()">Add block</s-button>
           </div>
           <!-- Buttons: live state -->
           <div id="blockBtnsLive" style="display:none; gap:8px; flex-shrink:0; align-items:center; position:relative;">
@@ -2305,9 +2305,9 @@ s-button.af-btn { font-weight:500; position:relative; }
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-title">Editing time window</div>
-              <div class="rules-card-sub">Set how long after placing an order shoppers can make changes.</div>
+              <div class="rules-card-sub">Shoppers can edit their order within this window after checkout. Once it ends, the order can't be edited.</div>
               <div class="rules-input-row">
-                <input class="rules-input" type="number" value="30" />
+                <input class="rules-input" type="number" value="50" />
                 <select class="rules-select">
                   <option>minutes</option>
                   <option>hours</option>
@@ -2322,29 +2322,39 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Order hold</h3>
-            <p>Block orders from flowing into downstream systems while the editing window is open</p>
+            <p>Block orders from flowing into downstream systems while the editing window is open.<br><a href="#" style="color:#2c6ecb;">Learn more</a></p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-row">
                 <div>
-                  <div class="rules-card-title">Fulfillment hold</div>
-                  <div class="rules-card-sub">For downstream systems that pull orders by fulfillment status. AfterShip holds fulfillment until the editing window closes</div>
+                  <div class="rules-card-title">Shopify fulfillment hold</div>
+                  <div class="rules-card-sub">Turn on if your downstream system imports orders by Shopify fulfillment status.</div>
                 </div>
                 <div class="rules-toggle">
                   <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
+              </div>
+              <div class="rules-info-banner" style="background:#f0f6fe;border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#1a1a1a;">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#2c6ecb" style="flex-shrink:0;margin-top:1px;"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
+                <span style="flex:1;">Sets Shopify fulfillment to on hold during the editing window, then releases it when the window closes</span>
+                <span style="cursor:pointer;color:#6d7175;font-size:16px;line-height:1;" onclick="this.parentElement.style.display='none'">&times;</span>
               </div>
             </div>
             <div class="rules-card">
               <div class="rules-card-row">
                 <div>
                   <div class="rules-card-title">Auto payment capture</div>
-                  <div class="rules-card-sub">For downstream systems that pull orders by payment status. AfterShip auto-captures your payment after the editing window closes.</div>
+                  <div class="rules-card-sub">Turn on if your downstream system imports orders by payment status, and your Shopify payment has changed to "Manual"</div>
                 </div>
                 <div class="rules-toggle">
                   <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
+              </div>
+              <div class="rules-info-banner" style="background:#f0f6fe;border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#1a1a1a;">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#2c6ecb" style="flex-shrink:0;margin-top:1px;"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
+                <span style="flex:1;">Keeps payment status as "Authorized" during the editing window, then captures it to paid when window closes.</span>
+                <span style="cursor:pointer;color:#6d7175;font-size:16px;line-height:1;" onclick="this.parentElement.style.display='none'">&times;</span>
               </div>
             </div>
           </div>
@@ -2354,7 +2364,7 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Order recalculation & Refund</h3>
-            <p>Auto-recalculate and refund the order value when some certain edits change</p>
+            <p>Auto-recalculate and refund the order value when some certain edits change.<br><a href="#" style="color:#2c6ecb;">Learn more</a></p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
@@ -2370,20 +2380,19 @@ s-button.af-btn { font-weight:500; position:relative; }
             </div>
             <div class="rules-card">
               <div class="rules-card-title">Tax Recalculation</div>
-              <div class="rules-card-sub">Auto recalculate tax when edits change the shipping address.</div>
+              <div class="rules-card-sub">Choose how tax is handled when the order edit changes the shipping address to a different tax region.</div>
               <div class="rules-radio-group">
                 <label class="rules-radio">
                   <input type="radio" name="taxRecalc" checked />
                   <div>
-                    <div class="rules-radio-label">Shopify default</div>
-                    <div class="rules-radio-help">Help text</div>
+                    <div class="rules-radio-label">Keep original tax (Shopify default)</div>
                   </div>
                 </label>
                 <label class="rules-radio">
                   <input type="radio" name="taxRecalc" />
                   <div>
                     <div class="rules-radio-label">Tax recalculation</div>
-                    <div class="rules-radio-help">Help text</div>
+                    <div class="rules-radio-help">The shopper needs to complete a new checkout at the updated tax rate. Once paid, the original order is canceled and refunded.</div>
                   </div>
                 </label>
               </div>
@@ -2406,18 +2415,18 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Prevent order editing</h3>
-            <p>Control when customers can make changes to their orders</p>
+            <p>Choose which orders or products customers can't edit.</p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-title">Prevent order editing</div>
-              <div class="rules-card-sub">Block specific orders or products from being edited by customers. Orders or products matching these tags will not show editing options.</div>
+              <div class="rules-card-sub">Customers can't edit any order or product that matches the tags below.</div>
               <div class="rules-tag-section">
-                <div class="rules-tag-label">Exclude orders with tags</div>
+                <div class="rules-tag-label">Exclude orders with order tags</div>
                 <input class="rules-tag-input" placeholder="Input value" />
               </div>
               <div class="rules-tag-section">
-                <div class="rules-tag-label">Exclude products with tags</div>
+                <div class="rules-tag-label">Exclude products with product tags</div>
                 <input class="rules-tag-input" placeholder="Input value" />
               </div>
             </div>
@@ -2435,12 +2444,34 @@ s-button.af-btn { font-weight:500; position:relative; }
               <div class="rules-card-title">Email notifications</div>
               <div class="rules-card-sub">Choose which email notifications are sent to customers during order editing.</div>
               <div class="rules-check-group">
-                <label class="rules-check"><input type="checkbox" checked /> Order canceled after edited</label>
-                <label class="rules-check"><input type="checkbox" checked /> Order refunded after edited</label>
-                <label class="rules-check"><input type="checkbox" /> Order edited success</label>
-                <label class="rules-check"><input type="checkbox" /> Order edited reverted</label>
-                <label class="rules-check"><input type="checkbox" /> Order paid after edited</label>
-                <label class="rules-check"><input type="checkbox" /> Order has outstanding balance after edited</label>
+                <label class="rules-check">
+                  <input type="checkbox" checked />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order canceled</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when shopper cancels the order during the editing window. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" checked />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order refund</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when the order edits results in a refund. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order edited</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when the edit completes with no extra payment needed. <a href="#" style="color:#2c6ecb;">View template</a><br>Sent when the edit completes with payment needed including a payment link. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order reverted</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when unpaid added items are removed at window close. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
@@ -2478,7 +2509,7 @@ s-button.af-btn { font-weight:500; position:relative; }
       <div class="stepper-bar" id="stepperBar">
         <div class="stepper-step active" data-stepper="1" onclick="clickStep(1)">
           <div class="stepper-circle">01</div>
-          <div class="stepper-label">Install</div>
+          <div class="stepper-label">Add block</div>
         </div>
         <div class="stepper-line" data-line="1"></div>
         <div class="stepper-step" data-stepper="2" onclick="clickStep(2)">
@@ -2488,7 +2519,7 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="stepper-line" data-line="2"></div>
         <div class="stepper-step" data-stepper="3" onclick="clickStep(3)">
           <div class="stepper-circle">03</div>
-          <div class="stepper-label">Go live</div>
+          <div class="stepper-label">Block visibility</div>
         </div>
       </div>
       <!-- Step content panels -->
@@ -2496,9 +2527,17 @@ s-button.af-btn { font-weight:500; position:relative; }
         <!-- Step 1 -->
         <div class="stepper-panel active" id="stepPanel1">
           <div class="stepper-panel-title">Step 1: Install AfterShip Order Edits block</div>
-          <div class="stepper-panel-desc">Click "Go to editor" below to open the Shopify Checkout Editor, choose which page to add the block to, and save your changes.</div>
+          <!-- Section 1 -->
+          <div class="stepper-panel-subtitle" style="font-weight:600;font-size:13px;margin-top:12px;">Go to editor for adding your app block</div>
+          <div class="stepper-panel-desc">Open the Shopify checkout editor, find AfterShip Order Edits in the block list, and add it to your Thank you page and Order status page.</div>
           <div class="stepper-panel-gif">
-            <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Checkout editor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+            <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Add block in editor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          </div>
+          <!-- Section 2 -->
+          <div class="stepper-panel-subtitle" style="font-weight:600;font-size:13px;margin-top:16px;">Save and come back here</div>
+          <div class="stepper-panel-desc">Click "Save" in the editor, then return here. The block won't go live yet until you set its visibility in the last step.</div>
+          <div class="stepper-panel-gif">
+            <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1-save.jpg" alt="Save and return" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.style.background='#f6f6f7';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.insertAdjacentHTML('beforeend','<span style=color:#8a8a8a;font-size:13px>GIF / Screenshot placeholder</span>');">
           </div>
         </div>
         <!-- Step 2 -->
@@ -2524,13 +2563,14 @@ s-button.af-btn { font-weight:500; position:relative; }
         <!-- Step 3 -->
         <div class="stepper-panel" id="stepPanel3">
           <div class="stepper-panel-title">Step 3: Go live</div>
-          <div class="stepper-panel-desc">Go live now, your customers will see.</div>
+          <div class="stepper-panel-desc">Once you have confirmed all the configurations, you can go live. You can also take it offline at any time after going live.</div>
         </div>
       </div>
     </div>
     <!-- Footer -->
     <div class="stepper-footer" id="stepperFooter">
       <s-button id="stepperBackBtn" onclick="stepperBack()" style="display:none">Cancel</s-button>
+      <s-button id="stepperDraftBtn" onclick="saveAsDraft()" style="display:none">Save as draft</s-button>
       <s-button id="stepperNextBtn" variant="primary" onclick="stepperNext()">Go to editor</s-button>
     </div>
   </div>
@@ -3361,7 +3401,7 @@ s-button.af-btn { font-weight:500; position:relative; }
           <s-section>
             <s-stack gap="small">
               <s-text variant="headingMd">Editing time window</s-text>
-              <s-text variant="bodySm" tone="subdued">Many sellers start with 30 minutes. It depends on your fulfillment speed and when downstream systems pick up orders.</s-text>
+              <s-text variant="bodySm" tone="subdued">Shoppers can edit their order within this window after checkout. Once it ends, the order can't be edited.</s-text>
               <div class="time-row">
                 <input type="number" class="time-input" id="adminTimeValue" value="30">
                 <select class="time-select" id="adminTimeUnit"><option value="minutes" selected>minutes</option><option value="hours">hours</option><option value="days">days</option></select>
@@ -4047,9 +4087,9 @@ s-button.af-btn { font-weight:500; position:relative; }
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-title">Editing time window</div>
-              <div class="rules-card-sub">Set how long after placing an order shoppers can make changes.</div>
+              <div class="rules-card-sub">Shoppers can edit their order within this window after checkout. Once it ends, the order can't be edited.</div>
               <div class="rules-input-row">
-                <input class="rules-input" type="number" value="30" />
+                <input class="rules-input" type="number" value="50" />
                 <select class="rules-select">
                   <option>minutes</option>
                   <option>hours</option>
@@ -4064,29 +4104,39 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Order hold</h3>
-            <p>Block orders from flowing into downstream systems while the editing window is open</p>
+            <p>Block orders from flowing into downstream systems while the editing window is open.<br><a href="#" style="color:#2c6ecb;">Learn more</a></p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-row">
                 <div>
-                  <div class="rules-card-title">Fulfillment hold</div>
-                  <div class="rules-card-sub">For downstream systems that pull orders by fulfillment status. AfterShip holds fulfillment until the editing window closes</div>
+                  <div class="rules-card-title">Shopify fulfillment hold</div>
+                  <div class="rules-card-sub">Turn on if your downstream system imports orders by Shopify fulfillment status.</div>
                 </div>
                 <div class="rules-toggle">
                   <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
+              </div>
+              <div class="rules-info-banner" style="background:#f0f6fe;border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#1a1a1a;">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#2c6ecb" style="flex-shrink:0;margin-top:1px;"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
+                <span style="flex:1;">Sets Shopify fulfillment to on hold during the editing window, then releases it when the window closes</span>
+                <span style="cursor:pointer;color:#6d7175;font-size:16px;line-height:1;" onclick="this.parentElement.style.display='none'">&times;</span>
               </div>
             </div>
             <div class="rules-card">
               <div class="rules-card-row">
                 <div>
                   <div class="rules-card-title">Auto payment capture</div>
-                  <div class="rules-card-sub">For downstream systems that pull orders by payment status. AfterShip auto-captures your payment after the editing window closes.</div>
+                  <div class="rules-card-sub">Turn on if your downstream system imports orders by payment status, and your Shopify payment has changed to "Manual"</div>
                 </div>
                 <div class="rules-toggle">
                   <div class="track" onclick="rulesToggle(this)"><div class="track-bg"></div><div class="track-knob"></div></div>
                 </div>
+              </div>
+              <div class="rules-info-banner" style="background:#f0f6fe;border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#1a1a1a;">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#2c6ecb" style="flex-shrink:0;margin-top:1px;"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V7h2v2z"/></svg>
+                <span style="flex:1;">Keeps payment status as "Authorized" during the editing window, then captures it to paid when window closes.</span>
+                <span style="cursor:pointer;color:#6d7175;font-size:16px;line-height:1;" onclick="this.parentElement.style.display='none'">&times;</span>
               </div>
             </div>
           </div>
@@ -4096,7 +4146,7 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Order recalculation & Refund</h3>
-            <p>Auto-recalculate and refund the order value when some certain edits change</p>
+            <p>Auto-recalculate and refund the order value when some certain edits change.<br><a href="#" style="color:#2c6ecb;">Learn more</a></p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
@@ -4112,20 +4162,19 @@ s-button.af-btn { font-weight:500; position:relative; }
             </div>
             <div class="rules-card">
               <div class="rules-card-title">Tax Recalculation</div>
-              <div class="rules-card-sub">Auto recalculate tax when edits change the shipping address.</div>
+              <div class="rules-card-sub">Choose how tax is handled when the order edit changes the shipping address to a different tax region.</div>
               <div class="rules-radio-group">
                 <label class="rules-radio">
                   <input type="radio" name="adminTaxRecalc" checked />
                   <div>
-                    <div class="rules-radio-label">Shopify default</div>
-                    <div class="rules-radio-help">Help text</div>
+                    <div class="rules-radio-label">Keep original tax (Shopify default)</div>
                   </div>
                 </label>
                 <label class="rules-radio">
                   <input type="radio" name="adminTaxRecalc" />
                   <div>
                     <div class="rules-radio-label">Tax recalculation</div>
-                    <div class="rules-radio-help">Help text</div>
+                    <div class="rules-radio-help">The shopper needs to complete a new checkout at the updated tax rate. Once paid, the original order is canceled and refunded.</div>
                   </div>
                 </label>
               </div>
@@ -4148,18 +4197,18 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="rules-section">
           <div class="rules-desc">
             <h3>Prevent order editing</h3>
-            <p>Control when customers can make changes to their orders</p>
+            <p>Choose which orders or products customers can't edit.</p>
           </div>
           <div class="rules-cards">
             <div class="rules-card">
               <div class="rules-card-title">Prevent order editing</div>
-              <div class="rules-card-sub">Block specific orders or products from being edited by customers. Orders or products matching these tags will not show editing options.</div>
+              <div class="rules-card-sub">Customers can't edit any order or product that matches the tags below.</div>
               <div class="rules-tag-section">
-                <div class="rules-tag-label">Exclude orders with tags</div>
+                <div class="rules-tag-label">Exclude orders with order tags</div>
                 <input class="rules-tag-input" placeholder="Input value" />
               </div>
               <div class="rules-tag-section">
-                <div class="rules-tag-label">Exclude products with tags</div>
+                <div class="rules-tag-label">Exclude products with product tags</div>
                 <input class="rules-tag-input" placeholder="Input value" />
               </div>
             </div>
@@ -4177,12 +4226,34 @@ s-button.af-btn { font-weight:500; position:relative; }
               <div class="rules-card-title">Email notifications</div>
               <div class="rules-card-sub">Choose which email notifications are sent to customers during order editing.</div>
               <div class="rules-check-group">
-                <label class="rules-check"><input type="checkbox" checked /> Order canceled after edited</label>
-                <label class="rules-check"><input type="checkbox" checked /> Order refunded after edited</label>
-                <label class="rules-check"><input type="checkbox" /> Order edited success</label>
-                <label class="rules-check"><input type="checkbox" /> Order edited reverted</label>
-                <label class="rules-check"><input type="checkbox" /> Order paid after edited</label>
-                <label class="rules-check"><input type="checkbox" /> Order has outstanding balance after edited</label>
+                <label class="rules-check">
+                  <input type="checkbox" checked />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order canceled</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when shopper cancels the order during the editing window. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" checked />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order refund</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when the order edits results in a refund. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order edited</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when the edit completes with no extra payment needed. <a href="#" style="color:#2c6ecb;">View template</a><br>Sent when the edit completes with payment needed including a payment link. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
+                <label class="rules-check">
+                  <input type="checkbox" />
+                  <div>
+                    <div class="rules-check-label" style="font-weight:600;">Order reverted</div>
+                    <div class="rules-check-help" style="font-size:12px;color:#6d7175;">Sent when unpaid added items are removed at window close. <a href="#" style="color:#2c6ecb;">View template</a></div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
@@ -4211,7 +4282,7 @@ s-button.af-btn { font-weight:500; position:relative; }
         <div class="admin-stepper-bar" id="adminStepperBar">
           <div class="admin-stepper-step active" data-admin-step="1" onclick="adminGoToStep(1)">
             <div class="admin-stepper-circle">01</div>
-            <div class="admin-stepper-label">Install</div>
+            <div class="admin-stepper-label">Add block</div>
           </div>
           <div class="admin-stepper-line" data-admin-line="1"></div>
           <div class="admin-stepper-step" data-admin-step="2" onclick="adminGoToStep(2)">
@@ -4221,17 +4292,25 @@ s-button.af-btn { font-weight:500; position:relative; }
           <div class="admin-stepper-line" data-admin-line="2"></div>
           <div class="admin-stepper-step" data-admin-step="3" onclick="adminGoToStep(3)">
             <div class="admin-stepper-circle">03</div>
-            <div class="admin-stepper-label">Go live</div>
+            <div class="admin-stepper-label">Block visibility</div>
           </div>
         </div>
         <!-- Step panels -->
         <div class="admin-stepper-content">
           <!-- Step 1 -->
           <div class="admin-stepper-panel active" id="adminStepPanel1">
-            <div class="admin-stepper-panel-title">Step 1: Install AfterShip Order Edits block and confirm</div>
-            <div class="admin-stepper-panel-desc">Click "Go to editor" below to configure the block, then save your changes.</div>
+            <div class="admin-stepper-panel-title">Step 1: Install AfterShip Order Edits block</div>
+            <!-- Section 1 -->
+            <div style="font-weight:600;font-size:13px;margin-top:12px;">Go to editor for adding your app block</div>
+            <div class="admin-stepper-panel-desc">Open the Shopify checkout editor, find AfterShip Order Edits in the block list, and add it to your Thank you page and Order status page.</div>
             <div class="admin-stepper-panel-gif">
-              <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Editor screenshot" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.textContent='GIF / Screenshot area';">
+              <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1.jpg" alt="Add block in editor" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.textContent='GIF / Screenshot area';">
+            </div>
+            <!-- Section 2 -->
+            <div style="font-weight:600;font-size:13px;margin-top:16px;">Save and come back here</div>
+            <div class="admin-stepper-panel-desc">Click "Save" in the editor, then return here. The block won't go live yet until you set its visibility in the last step.</div>
+            <div class="admin-stepper-panel-gif">
+              <img src="https://raw.githubusercontent.com/yvetteyy/order-edit-merchant/main/step1-save.jpg" alt="Save and return" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.style.background='#f6f6f7';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.insertAdjacentHTML('beforeend','<span style=color:#8a8a8a;font-size:13px>GIF / Screenshot area</span>');">
             </div>
             <div class="admin-stepper-panel-actions" style="margin-top:12px;">
               <button class="admin-btn-secondary" onclick="">Go to editor</button>
@@ -4257,13 +4336,14 @@ s-button.af-btn { font-weight:500; position:relative; }
           <!-- Step 3 -->
           <div class="admin-stepper-panel" id="adminStepPanel3">
             <div class="admin-stepper-panel-title">Step 3: Go live</div>
-            <div class="admin-stepper-panel-desc">Go live now, your customers will see.</div>
+            <div class="admin-stepper-panel-desc">Once you have confirmed all the configurations, you can go live. You can also take it offline at any time after going live.</div>
           </div>
         </div>
       </div>
       <!-- Footer -->
       <div class="admin-stepper-footer" id="adminStepperFooter">
         <button class="admin-btn-secondary" id="adminStepperBackBtn" onclick="adminStepperBack()">Cancel</button>
+        <button class="admin-btn-secondary" id="adminStepperDraftBtn" onclick="adminSaveAsDraft()" style="display:none">Save as draft</button>
         <button class="admin-btn-primary" id="adminStepperNextBtn" onclick="adminStepperNext()">Go to editor</button>
       </div>
     </div>
@@ -4460,14 +4540,9 @@ function goToStep(n) {
 function updateStepperFooter(n) {
   var backBtn = document.getElementById('stepperBackBtn');
   var nextBtn = document.getElementById('stepperNextBtn');
-  // Back button
-  if (n === 1) {
-    backBtn.textContent = 'Cancel';
-    backBtn.style.display = '';
-  } else {
-    backBtn.textContent = 'Back';
-    backBtn.style.display = '';
-  }
+  var draftBtn = document.getElementById('stepperDraftBtn');
+  // Back button — hidden on all steps
+  backBtn.style.display = 'none';
   // Next button — if viewing a completed step, show "Next" to advance
   if (n === 1) {
     nextBtn.textContent = completedSteps[1] ? 'Next' : 'Go to editor';
@@ -4475,6 +4550,10 @@ function updateStepperFooter(n) {
     nextBtn.textContent = completedSteps[2] ? 'Next' : 'Next';
   } else if (n === 3) {
     nextBtn.textContent = 'Go live';
+  }
+  // Draft button — only show on step 3
+  if (draftBtn) {
+    draftBtn.style.display = (n === 3) ? '' : 'none';
   }
 }
 
@@ -4558,6 +4637,34 @@ function setBlockLive() {
   if (btnsNotLive) btnsNotLive.style.display = 'none';
   var btnsLive = document.getElementById('blockBtnsLive');
   if (btnsLive) btnsLive.style.display = 'flex';
+}
+
+function saveAsDraft() {
+  completedSteps[3] = true;
+  closeInstallModal();
+  // Set status to Draft (not live)
+  var dot = document.getElementById('blockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var txt = document.getElementById('blockLiveText');
+  if (txt) txt.textContent = 'Draft';
+  var status = document.getElementById('blockLiveStatus');
+  if (status) { status.style.color = '#616161'; status.style.display = 'inline-flex'; }
+  // Both pages installed
+  var badgeTY = document.getElementById('badgeThankYou');
+  if (badgeTY) { badgeTY.textContent = 'Installed'; badgeTY.classList.add('installed'); }
+  var badgeOS = document.getElementById('badgeOrderStatus');
+  if (badgeOS) { badgeOS.textContent = 'Installed'; badgeOS.classList.add('installed'); }
+  // Show the not-live buttons (with Verify and go live)
+  var btnsNotLive = document.getElementById('blockBtnsNotLive');
+  if (btnsNotLive) btnsNotLive.style.display = 'flex';
+  var btnsLive = document.getElementById('blockBtnsLive');
+  if (btnsLive) btnsLive.style.display = 'none';
+  var actionBtn = document.getElementById('blockActionBtn');
+  if (actionBtn) {
+    actionBtn.textContent = 'Go live';
+    actionBtn.setAttribute('variant','primary');
+  }
+  saveSetupState();
 }
 
 function toggleMoreMenu(event) {
@@ -4855,7 +4962,7 @@ function resetToLanding() {
   if (badgeOS) { badgeOS.textContent = 'Not installed'; badgeOS.classList.remove('installed'); }
   // Reset action button
   var actionBtn = document.getElementById('blockActionBtn');
-  if (actionBtn) { actionBtn.textContent = 'Get started'; actionBtn.setAttribute('variant','primary'); actionBtn.removeAttribute('tone'); }
+  if (actionBtn) { actionBtn.textContent = 'Add block'; actionBtn.setAttribute('variant','primary'); actionBtn.removeAttribute('tone'); }
   // Reset live state
   var dot = document.getElementById('blockLiveDot');
   if (dot) dot.style.background = '#8a8a8a';
@@ -6351,15 +6458,21 @@ function adminGoToStep(n) {
 function adminUpdateFooter(n) {
   var backBtn = document.getElementById('adminStepperBackBtn');
   var nextBtn = document.getElementById('adminStepperNextBtn');
+  var draftBtn = document.getElementById('adminStepperDraftBtn');
   if (n === 1) {
-    backBtn.textContent = 'Cancel';
-    nextBtn.textContent = 'Next';
+    backBtn.style.display = 'none';
+    nextBtn.textContent = 'Go to editor';
   } else if (n === 2) {
+    backBtn.style.display = '';
     backBtn.textContent = 'Back';
     nextBtn.textContent = 'Next';
   } else if (n === 3) {
     backBtn.textContent = 'Back';
     nextBtn.textContent = 'Go live';
+  }
+  // Draft button — only show on step 3
+  if (draftBtn) {
+    draftBtn.style.display = (n === 3) ? '' : 'none';
   }
 }
 
@@ -6421,6 +6534,28 @@ function adminGoLive() {
   var live = document.getElementById('adminBlockBtnsLive');
   if (notLive) notLive.style.display = 'none';
   if (live) live.style.display = 'flex';
+  adminSaveState();
+}
+
+function adminSaveAsDraft() {
+  adminCompletedSteps[3] = true;
+  adminCloseOnboarding();
+
+  // Set status to Draft
+  var dot = document.getElementById('adminBlockLiveDot');
+  if (dot) dot.style.background = '#8a8a8a';
+  var txt = document.getElementById('adminBlockLiveText');
+  if (txt) txt.textContent = 'Draft';
+  var status = document.getElementById('adminBlockLiveStatus');
+  if (status) { status.style.color = '#616161'; status.style.display = 'inline-flex'; }
+
+  // Show the not-live buttons with Go live
+  var notLive = document.getElementById('adminBlockBtnsNotLive');
+  var live = document.getElementById('adminBlockBtnsLive');
+  if (notLive) notLive.style.display = 'flex';
+  if (live) live.style.display = 'none';
+  var actionBtn = document.getElementById('adminBlockActionBtn');
+  if (actionBtn) actionBtn.textContent = 'Go live';
   adminSaveState();
 }
 
